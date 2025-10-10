@@ -64,7 +64,8 @@ export function Navigation() {
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-xl font-bold"
+            className="text-xl font-bold cursor-pointer hover:text-primary transition-colors"
+            onClick={() => handleNavClick("#home")}
           >
             Kimetz Loroño
           </motion.div>

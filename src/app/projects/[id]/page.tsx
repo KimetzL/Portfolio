@@ -65,59 +65,43 @@ const projectData = {
   },
   2: {
     title: "Chatbot administrativo",
-    description: "Desarrollé un chatbot administrativo capaz de analizar las consultas de los usuarios y determinar si se refieren a un ayuntamiento, un departamento o un trámite administrativo. El proyecto está implementado en Python, usando librerías como pandas, faiss, rapidfuzz y transformers, con una interfaz interactiva en Gradio. Incluye un instalador que prepara el entorno y descarga los modelos necesarios para ejecutarlo localmente.",
+    description: "Desarrollé un chatbot administrativo para la Diputación Foral de Bizkaia capaz de analizar las consultas de los usuarios y determinar si se refieren a un ayuntamiento, un departamento o un trámite administrativo. El proyecto utiliza procesamiento de lenguaje natural e incluye una interfaz interactiva para facilitar la comunicación ciudadana.",
     longDescription: `
-      Este proyecto consiste en el desarrollo de un chatbot administrativo avanzado diseñado para analizar y clasificar automáticamente las consultas de los usuarios. El sistema utiliza procesamiento de lenguaje natural e inteligencia artificial para determinar si las preguntas se refieren a ayuntamientos específicos, departamentos administrativos, o trámites particulares.
+      Este proyecto consiste en el desarrollo de un chatbot administrativo avanzado diseñado para analizar y clasificar automáticamente las consultas de los usuarios en el contexto de la Diputación Foral de Bizkaia. El sistema utiliza procesamiento de lenguaje natural e inteligencia artificial para determinar si las preguntas se refieren a ayuntamientos específicos, departamentos administrativos, o trámites particulares.
 
-      La implementación técnica se basa en Python y combina múltiples librerías especializadas: pandas para el manejo de datos, faiss para búsqueda semántica eficiente, rapidfuzz para coincidencias aproximadas, y transformers para modelos de lenguaje pre-entrenados. La interfaz de usuario se desarrolló con Gradio, proporcionando una experiencia interactiva y amigable.
+      La implementación técnica se basa en Python y combina múltiples librerías especializadas para proporcionar respuestas precisas y contextuales. El chatbot está diseñado para mejorar la eficiencia en la atención ciudadana, ofreciendo respuestas inmediatas y clasificando correctamente las consultas para su derivación adecuada.
 
-      Una de las características más destacadas del proyecto es su instalador automático, que prepara el entorno completo y descarga los modelos necesarios para ejecutar el chatbot localmente. Esto facilita su despliegue en diferentes entornos sin requerir configuración manual compleja.
+      Una de las características más destacadas del proyecto es su capacidad para procesar el lenguaje administrativo específico de la Diputación, proporcionando una herramienta útil tanto para los ciudadanos como para el personal administrativo.
     `,
     image: "/images/Chatbot.jpg",
-    technologies: ["Python", "Pandas", "Faiss", "Rapidfuzz", "Transformers", "Gradio"],
+    technologies: ["Python", "NLP", "Gradio", "Transformers", "Pandas"],
     githubUrl: "https://github.com/KimetzL/ChatbotDFB",
     demoUrl: "",
-    startDate: "2024",
-    endDate: "2024",
-    client: "Proyecto Personal",
-    category: "Inteligencia Artificial",
-    features: [
-      "Análisis automático de consultas administrativas",
-      "Clasificación de preguntas por categorías",
-      "Interfaz interactiva con Gradio",
-      "Procesamiento de lenguaje natural",
-      "Instalador automático del entorno",
-      "Ejecución local sin dependencias externas"
-    ],
-    challenges: [
-      "Entrenamiento de modelos para lenguaje administrativo específico",
-      "Implementación de búsqueda semántica eficiente",
-      "Creación de interfaz intuitiva para usuarios no técnicos",
-      "Automatización completa del proceso de instalación"
-    ],
-    outcomes: [
-      "Alta precisión en clasificación de consultas",
-      "Reducción del tiempo de respuesta administrativa",
-      "Herramienta reutilizable para diferentes contextos",
-      "Código abierto disponible para la comunidad"
-    ]
+    startDate: "Mayo 2025",
+    endDate: "Junio 2025",
+    client: "Diputación Foral de Bizkaia",
+    category: "Inteligencia Artificial"
   },
   3: {
     title: "Informe de Ciberseguridad: Proyecto Bootcamp",
-    description: "Como parte del Bootcamp de Ciberseguridad de The Bridge, participé en un proyecto colaborativo de dos semanas para la startup Deiviator. Mi labor incluyó auditorías de seguridad (OSINT, Pentesting y análisis de vulnerabilidades), implementación de un entorno self-hosted con Ubuntu, VPN, Suricata, Firewall UFW y Docker, y automatización de auditorías mediante GitHub Actions integrando Semgrep, ESLint, Gitleaks y SBOMs.",
+    description: "Como parte del Bootcamp de Ciberseguridad de The Bridge, participé en un proyecto colaborativo de dos semanas para la startup Deiviator. Mi labor incluyó auditorías de seguridad (OSINT, pentesting y análisis de vulnerabilidades), además de la implementación de un entorno self-hosted híbrido que combinaba infraestructura local y nube.",
     longDescription: `
-      Durante el Bootcamp de Ciberseguridad de The Bridge, participé en un proyecto intensivo de dos semanas desarrollado para la startup Deiviator. Esta experiencia práctica me permitió aplicar conocimientos teóricos en un entorno real, abordando múltiples aspectos de la ciberseguridad moderna.
+      Como parte del Bootcamp de Ciberseguridad de The Bridge, participé en un proyecto colaborativo de dos semanas para la startup Deiviator. Mi labor incluyó auditorías de seguridad (OSINT, pentesting y análisis de vulnerabilidades), además de la implementación de un entorno self-hosted híbrido que combinaba infraestructura local y nube.
 
-      Mis responsabilidades principales incluyeron la realización de auditorías de seguridad completas, comenzando con técnicas de OSINT (Open Source Intelligence) para recopilar información pública, seguido de pruebas de pentesting para identificar vulnerabilidades explotables, y análisis detallado de debilidades en sistemas y aplicaciones.
+      En la parte on-premise, desplegamos un servidor Linux cifrado con UFW como firewall, VPN para el acceso seguro y múltiples servicios aislados mediante Docker. La parte en la nube estaba conectada a este entorno para permitir, mediante GitHub Actions, la ejecución automática de auditorías sobre los repositorios de las verticales de Full Stack y Data Science.
 
-      Paralelamente, implementé un entorno completo self-hosted utilizando Ubuntu como sistema base. Configuré una infraestructura segura que incluía VPN para acceso remoto seguro, Suricata para detección de intrusiones, Firewall UFW para protección de red, y Docker para contenerización de servicios. Además, desarrollé pipelines de automatización usando GitHub Actions que integraban herramientas como Semgrep para análisis estático de código, ESLint para calidad de código, Gitleaks para detección de filtraciones de información, y generación de SBOMs (Software Bill of Materials).
+      El sistema realizaba análisis automatizados de código con herramientas como ESLint (calidad y estilo), Semgrep (seguridad y vulnerabilidades) y Gitleaks (detección de secretos como tokens o API keys). Además, se generaban SBOMs (Software Bill of Materials) para mantener la trazabilidad de dependencias, que eran analizados con Dependency-Track para detectar vulnerabilidades conocidas.
+
+      Todos los resultados se almacenaban en formato JSON, enviados mediante Loki y visualizados en Grafana, dentro de un panel central de seguridad que también integraba métricas de red provenientes de Suricata. Este ecosistema proporcionaba una monitorización continua, trazabilidad completa y una visión global del estado de seguridad de los proyectos.
+
+      📄 Se adjunta un informe en PDF con la documentación técnica completa, configuraciones, resultados y recomendaciones de mitigación desarrolladas durante el proyecto.
     `,
     image: "/images/Ciberseguridad.jpg",
     technologies: ["OSINT", "Pentesting", "Ubuntu", "VPN", "Suricata", "Docker", "GitHub Actions"],
     githubUrl: "",
     demoUrl: "",
-    startDate: "2024",
-    endDate: "2024",
+    startDate: "Septiembre 2025",
+    endDate: "Octubre 2025",
     client: "The Bridge Bootcamp / Deiviator",
     category: "Ciberseguridad",
     features: [
@@ -294,58 +278,143 @@ export default function ProjectPage() {
               </Card>
             </div>
 
-            {/* Features */}
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Características Clave</h2>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {project.features.map((feature, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                        <span className="text-muted-foreground">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Challenges */}
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Desafíos y Soluciones</h2>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    {project.challenges.map((challenge, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="w-6 h-6 bg-orange-500/10 text-orange-500 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold">
-                          !
+            {/* Video Demo Section - Only for Project 2 */}
+            {projectId === "2" && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Demostración del Chatbot</h2>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground">
+                        Explora las capacidades del chatbot administrativo desarrollado para la Diputación Foral de Bizkaia.
+                      </p>
+                      
+                      {/* YouTube Video Player */}
+                      <div className="relative w-full overflow-hidden rounded-lg shadow-xl bg-black">
+                        <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                          <iframe
+                            className="absolute top-0 left-0 w-full h-full"
+                            src="https://www.youtube.com/embed/v2g-4adlr4k?si=opA0p6OGpMATycP5"
+                            title="Demostración del Chatbot Administrativo"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                          />
                         </div>
-                        <span className="text-muted-foreground">{challenge}</span>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                      
+                      {/* Key Features Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-blue-100 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-800">Interacción Natural</h4>
+                            <p className="text-sm text-gray-600">Conversación fluida e intuitiva con los usuarios</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-green-100 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-800">Respuestas Precisas</h4>
+                            <p className="text-sm text-gray-600">Información municipal y departamental actualizada</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-purple-100 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-800">Configuración Flexible</h4>
+                            <p className="text-sm text-gray-600">Adaptable a diferentes consultas y formatos</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-orange-100 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-800">Rápido y Eficiente</h4>
+                            <p className="text-sm text-gray-600">Respuestas inmediatas 24/7</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
 
-            {/* Outcomes */}
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Resultados y Logros</h2>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {project.outcomes.map((outcome, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0" />
-                        <span className="text-muted-foreground">{outcome}</span>
+            {/* PDF Report Section - Only for Project 3 */}
+            {projectId === "3" && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Informe Técnico Completo</h2>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground">
+                        Explora el informe técnico completo con toda la documentación, configuraciones, resultados y recomendaciones desarrolladas durante el proyecto.
+                      </p>
+                      
+                      {/* PDF Carousel Simulation */}
+                      <div className="relative bg-muted/50 rounded-lg p-8 min-h-[600px] flex items-center justify-center">
+                        <div className="text-center space-y-4">
+                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                            <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <h3 className="text-xl font-semibold">Informe de Ciberseguridad</h3>
+                          <p className="text-muted-foreground max-w-md">
+                            Documentación técnica completa del proyecto bootcamp para Deiviator
+                          </p>
+                          <div className="flex gap-2 justify-center">
+                            <Button size="sm" variant="outline">
+                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              Vista Previa
+                            </Button>
+                            <Button size="sm">
+                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              Descargar PDF
+                            </Button>
+                          </div>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                      
+                      {/* Page indicators */}
+                      <div className="flex justify-center gap-2">
+                        {[1, 2, 3, 4, 5].map((page) => (
+                          <div
+                            key={page}
+                            className={`w-2 h-2 rounded-full ${
+                              page === 1 ? 'bg-primary' : 'bg-muted-foreground/30'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
           </motion.div>
         </div>
       </section>
