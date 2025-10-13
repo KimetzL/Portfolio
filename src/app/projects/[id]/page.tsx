@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
-import { useState } from "react";
 import { 
   ArrowLeft, 
   Github, 
@@ -23,49 +22,6 @@ import {
   Lock,
   Terminal
 } from "lucide-react";
-
-// Component for handling image errors
-const SafeImage = ({ src, alt, className, fallbackText }: { 
-  src: string; 
-  alt: string; 
-  className?: string; 
-  fallbackText?: string;
-}) => {
-  const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  if (hasError) {
-    return (
-      <div className={`flex items-center justify-center bg-muted/50 ${className}`}>
-        <div className="text-center p-4">
-          <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-2">
-            <Database className="w-6 h-6 text-muted-foreground" />
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {fallbackText || "Imagen no disponible"}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative">
-      {isLoading && (
-        <div className={`absolute inset-0 flex items-center justify-center bg-muted/50 ${className}`}>
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
-      <img 
-        src={src} 
-        alt={alt}
-        className={className}
-        onError={() => setHasError(true)}
-        onLoad={() => setIsLoading(false)}
-      />
-    </div>
-  );
-};
 
 const projectData = {
   1: {
@@ -206,62 +162,23 @@ export default function ProjectPage() {
   
   const project = projectData[projectId as keyof typeof projectData];
 
-  // Función para manejar la vista previa del PDF de PowerBI
-  const handlePreviewPowerBIPDF = () => {
-    try {
-      // URL del PDF en la carpeta documents
-      const pdfUrl = "/documents/Renove PowerBI.pdf";
-      window.open(pdfUrl, '_blank');
-    } catch (error) {
-      console.error('Error al abrir el PDF:', error);
-      alert('No se pudo abrir el PDF. Por favor, inténtelo más tarde.');
-    }
-  };
-
-  // Función para manejar la descarga del PDF de PowerBI
-  const handleDownloadPowerBIPDF = () => {
-    try {
-      // URL del PDF en la carpeta documents
-      const pdfUrl = "/documents/Renove PowerBI.pdf";
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.download = 'Renove PowerBI.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Error al descargar el PDF:', error);
-      alert('No se pudo descargar el PDF. Por favor, inténtelo más tarde.');
-    }
-  };
-
-  // Función para manejar la vista previa del PDF de Ciberseguridad
+  // Función para manejar la vista previa del PDF
   const handlePreviewPDF = () => {
-    try {
-      // URL del PDF en la carpeta documents
-      const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
-      window.open(pdfUrl, '_blank');
-    } catch (error) {
-      console.error('Error al abrir el PDF:', error);
-      alert('No se pudo abrir el PDF. Por favor, inténtelo más tarde.');
-    }
+    // URL del PDF en la carpeta documents
+    const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
+    window.open(pdfUrl, '_blank');
   };
 
-  // Función para manejar la descarga del PDF de Ciberseguridad
+  // Función para manejar la descarga del PDF
   const handleDownloadPDF = () => {
-    try {
-      // URL del PDF en la carpeta documents
-      const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.download = 'Informe Ciberseguridad DeiviGo.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Error al descargar el PDF:', error);
-      alert('No se pudo descargar el PDF. Por favor, inténtelo más tarde.');
-    }
+    // URL del PDF en la carpeta documents
+    const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = 'Informe Ciberseguridad DeiviGo.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   if (!project) {
@@ -289,11 +206,10 @@ export default function ProjectPage() {
             transition={{ duration: 0.8 }}
           >
             <div className="aspect-video bg-muted rounded-lg overflow-hidden mb-8">
-              <SafeImage 
+              <img 
                 src={project.image} 
                 alt={project.title}
                 className="w-full h-full object-cover"
-                fallbackText="Imagen del proyecto no disponible"
               />
             </div>
             
@@ -380,149 +296,6 @@ export default function ProjectPage() {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Renove PowerBI Section - Only for Project 1 */}
-            {projectId === "1" && (
-              <div>
-                <h2 className="text-3xl font-bold mb-6">Renove PowerBI: Design System</h2>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="space-y-6">
-                      <p className="text-muted-foreground">
-                        Como parte de la mejora continua de los dashboards, desarrollé un "Design System" unificado para todos los PowerBIs de la Diputación Foral de Bizkaia. Esta iniciativa permitió estandarizar el diseño visual, mejorar la experiencia de usuario y facilitar el mantenimiento de los paneles.
-                      </p>
-                      
-                      {/* GIFs Grid */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div className="space-y-3">
-                          <h4 className="font-semibold text-center">Presupuestos</h4>
-                          <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <SafeImage 
-                              src="/images/Presupuestos.gif" 
-                              alt="Presupuestos - Antes y Después del Design System"
-                              className="w-full h-auto object-cover"
-                              fallbackText="Presupuestos"
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <h4 className="font-semibold text-center">Distribución</h4>
-                          <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <SafeImage 
-                              src="/images/Distribución.gif" 
-                              alt="Distribución - Antes y Después del Design System"
-                              className="w-full h-auto object-cover"
-                              fallbackText="Distribución"
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <h4 className="font-semibold text-center">Temas</h4>
-                          <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <SafeImage 
-                              src="/images/Temas.gif" 
-                              alt="Temas - Antes y Después del Design System"
-                              className="w-full h-auto object-cover"
-                              fallbackText="Temas"
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <h4 className="font-semibold text-center">Visitas</h4>
-                          <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <SafeImage 
-                              src="/images/Visitas.gif" 
-                              alt="Visitas - Antes y Después del Design System"
-                              className="w-full h-auto object-cover"
-                              fallbackText="Visitas"
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <h4 className="font-semibold text-center">Solicitudes</h4>
-                          <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <SafeImage 
-                              src="/images/Solicitudes.gif" 
-                              alt="Solicitudes - Antes y Después del Design System"
-                              className="w-full h-auto object-cover"
-                              fallbackText="Solicitudes"
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <h4 className="font-semibold text-center">Puestos</h4>
-                          <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <SafeImage 
-                              src="/images/Puestos.gif" 
-                              alt="Puestos - Antes y Después del Design System"
-                              className="w-full h-auto object-cover"
-                              fallbackText="Puestos"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* PDF Download Section */}
-                      <div className="bg-muted/30 rounded-lg p-6">
-                        <div className="text-center space-y-4">
-                          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                            <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                          </div>
-                          <h3 className="text-xl font-semibold">Renove PowerBI Completo</h3>
-                          <p className="text-muted-foreground max-w-md mx-auto">
-                            Documentación completa del proceso de renovación y aplicación del Design System a todos los dashboards
-                          </p>
-                          <div className="flex gap-2 justify-center">
-                            <Button size="sm" variant="outline" onClick={handlePreviewPowerBIPDF}>
-                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                              </svg>
-                              Vista Previa
-                            </Button>
-                            <Button size="sm" onClick={handleDownloadPowerBIPDF}>
-                              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                              </svg>
-                              Descargar PDF
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-
-            {/* Future PowerBI Section - Placeholder for Project 1 */}
-            {projectId === "1" && (
-              <div>
-                <h2 className="text-3xl font-bold mb-6">PowerBI Interactivos</h2>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="text-center space-y-4">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                        <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                      </div>
-                      <h3 className="text-xl font-semibold">Próximamente: Dashboards Interactivos</h3>
-                      <p className="text-muted-foreground max-w-md mx-auto">
-                        Espacio reservado para la integración de los dashboards interactivos de PowerBI desarrollados para la Diputación Foral de Bizkaia.
-                      </p>
-                      <div className="bg-muted/50 rounded-lg p-8 border-2 border-dashed border-muted-foreground/20">
-                        <p className="text-sm text-muted-foreground">
-                          Área de integración de PowerBI en desarrollo
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
 
             {/* Video Demo Section - Only for Project 2 */}
             {projectId === "2" && (
