@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
+import { useState } from "react";
 import { 
   ArrowLeft, 
   Github, 
@@ -22,6 +23,49 @@ import {
   Lock,
   Terminal
 } from "lucide-react";
+
+// Component for handling image errors
+const SafeImage = ({ src, alt, className, fallbackText }: { 
+  src: string; 
+  alt: string; 
+  className?: string; 
+  fallbackText?: string;
+}) => {
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (hasError) {
+    return (
+      <div className={`flex items-center justify-center bg-muted/50 ${className}`}>
+        <div className="text-center p-4">
+          <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-2">
+            <Database className="w-6 h-6 text-muted-foreground" />
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {fallbackText || "Imagen no disponible"}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative">
+      {isLoading && (
+        <div className={`absolute inset-0 flex items-center justify-center bg-muted/50 ${className}`}>
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      <img 
+        src={src} 
+        alt={alt}
+        className={className}
+        onError={() => setHasError(true)}
+        onLoad={() => setIsLoading(false)}
+      />
+    </div>
+  );
+};
 
 const projectData = {
   1: {
@@ -164,40 +208,60 @@ export default function ProjectPage() {
 
   // Función para manejar la vista previa del PDF de PowerBI
   const handlePreviewPowerBIPDF = () => {
-    // URL del PDF en la carpeta documents
-    const pdfUrl = "/documents/Renove PowerBI.pdf";
-    window.open(pdfUrl, '_blank');
+    try {
+      // URL del PDF en la carpeta documents
+      const pdfUrl = "/documents/Renove PowerBI.pdf";
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      console.error('Error al abrir el PDF:', error);
+      alert('No se pudo abrir el PDF. Por favor, inténtelo más tarde.');
+    }
   };
 
   // Función para manejar la descarga del PDF de PowerBI
   const handleDownloadPowerBIPDF = () => {
-    // URL del PDF en la carpeta documents
-    const pdfUrl = "/documents/Renove PowerBI.pdf";
-    const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = 'Renove PowerBI.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      // URL del PDF en la carpeta documents
+      const pdfUrl = "/documents/Renove PowerBI.pdf";
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = 'Renove PowerBI.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error al descargar el PDF:', error);
+      alert('No se pudo descargar el PDF. Por favor, inténtelo más tarde.');
+    }
   };
 
   // Función para manejar la vista previa del PDF de Ciberseguridad
   const handlePreviewPDF = () => {
-    // URL del PDF en la carpeta documents
-    const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
-    window.open(pdfUrl, '_blank');
+    try {
+      // URL del PDF en la carpeta documents
+      const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      console.error('Error al abrir el PDF:', error);
+      alert('No se pudo abrir el PDF. Por favor, inténtelo más tarde.');
+    }
   };
 
   // Función para manejar la descarga del PDF de Ciberseguridad
   const handleDownloadPDF = () => {
-    // URL del PDF en la carpeta documents
-    const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
-    const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = 'Informe Ciberseguridad DeiviGo.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      // URL del PDF en la carpeta documents
+      const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = 'Informe Ciberseguridad DeiviGo.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error al descargar el PDF:', error);
+      alert('No se pudo descargar el PDF. Por favor, inténtelo más tarde.');
+    }
   };
 
   if (!project) {
@@ -225,10 +289,11 @@ export default function ProjectPage() {
             transition={{ duration: 0.8 }}
           >
             <div className="aspect-video bg-muted rounded-lg overflow-hidden mb-8">
-              <img 
+              <SafeImage 
                 src={project.image} 
                 alt={project.title}
                 className="w-full h-full object-cover"
+                fallbackText="Imagen del proyecto no disponible"
               />
             </div>
             
@@ -332,60 +397,66 @@ export default function ProjectPage() {
                         <div className="space-y-3">
                           <h4 className="font-semibold text-center">Presupuestos</h4>
                           <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <img 
+                            <SafeImage 
                               src="/images/Presupuestos.gif" 
                               alt="Presupuestos - Antes y Después del Design System"
                               className="w-full h-auto object-cover"
+                              fallbackText="Presupuestos"
                             />
                           </div>
                         </div>
                         <div className="space-y-3">
                           <h4 className="font-semibold text-center">Distribución</h4>
                           <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <img 
+                            <SafeImage 
                               src="/images/Distribución.gif" 
                               alt="Distribución - Antes y Después del Design System"
                               className="w-full h-auto object-cover"
+                              fallbackText="Distribución"
                             />
                           </div>
                         </div>
                         <div className="space-y-3">
                           <h4 className="font-semibold text-center">Temas</h4>
                           <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <img 
+                            <SafeImage 
                               src="/images/Temas.gif" 
                               alt="Temas - Antes y Después del Design System"
                               className="w-full h-auto object-cover"
+                              fallbackText="Temas"
                             />
                           </div>
                         </div>
                         <div className="space-y-3">
                           <h4 className="font-semibold text-center">Visitas</h4>
                           <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <img 
+                            <SafeImage 
                               src="/images/Visitas.gif" 
                               alt="Visitas - Antes y Después del Design System"
                               className="w-full h-auto object-cover"
+                              fallbackText="Visitas"
                             />
                           </div>
                         </div>
                         <div className="space-y-3">
                           <h4 className="font-semibold text-center">Solicitudes</h4>
                           <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <img 
+                            <SafeImage 
                               src="/images/Solicitudes.gif" 
                               alt="Solicitudes - Antes y Después del Design System"
                               className="w-full h-auto object-cover"
+                              fallbackText="Solicitudes"
                             />
                           </div>
                         </div>
                         <div className="space-y-3">
                           <h4 className="font-semibold text-center">Puestos</h4>
                           <div className="rounded-lg overflow-hidden shadow-lg bg-muted/50">
-                            <img 
+                            <SafeImage 
                               src="/images/Puestos.gif" 
                               alt="Puestos - Antes y Después del Design System"
                               className="w-full h-auto object-cover"
+                              fallbackText="Puestos"
                             />
                           </div>
                         </div>
