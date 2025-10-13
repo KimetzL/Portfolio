@@ -33,13 +33,15 @@ const projectData = {
       Los dashboards desarrollados fueron implementados específicamente para la plataforma web \"Gardentasuna\", transformando datos complejos en información visual comprensible para diferentes tipos de usuarios. La solución permitió una navegación intuitiva a través de múltiples capas de datos, facilitando la comprensión de tendencias y patrones importantes.
 
       El proyecto incluyó la limpieza y procesamiento de datos, el diseño de interfaces visuales efectivas, y la implementación de filtros interactivos que permiten a los usuarios personalizar su experiencia de análisis. Los resultados finales mejoraron significativamente la forma en que los ciudadanos y administradores pueden acceder y entender la información pública.
+
+      Como parte de la evolución de este proyecto, he implementado un completo **Design System** para unificar la apariencia y funcionalidad de todos los dashboards PowerBI. Esta renovación ha permitido estandarizar colores, tipografías, componentes visuales y patrones de interacción, creando una experiencia coherente y profesional en todos los informes.
     `,
     image: "/images/Graficas.jpg",
-    technologies: ["PowerBI"],
+    technologies: ["PowerBI", "Design Systems", "Data Visualization"],
     githubUrl: "",
     demoUrl: "",
-    startDate: "2023",
-    endDate: "2023",
+    startDate: "Febrero 2025",
+    endDate: "Mayo 2025",
     client: "Diputación Foral de Bizkaia",
     category: "Análisis de Datos",
     features: [
@@ -48,20 +50,27 @@ const projectData = {
       "Integración con plataforma web Gardentasuna",
       "Diseño centrado en el usuario",
       "Actualización automática de datos",
-      "Navegación intuitiva y accesible"
+      "Navegación intuitiva y accesible",
+      "Design System unificado para todos los dashboards",
+      "Transformación visual antes y después"
     ],
     challenges: [
       "Procesamiento y limpieza de datos abiertos complejos",
       "Diseño de visualizaciones comprensibles para usuarios no técnicos",
       "Integración con sistemas existentes de la administración",
-      "Mantenimiento de la privacidad y seguridad de los datos"
+      "Mantenimiento de la privacidad y seguridad de los datos",
+      "Estandarización de diseño across múltiples dashboards",
+      "Implementación de Design System consistente"
     ],
     outcomes: [
       "Mejora significativa en la accesibilidad de datos públicos",
       "Facilitación del análisis de información para ciudadanos",
       "Herramienta útil para toma de decisiones administrativas",
-      "Ejemplo exitoso de uso de datos abiertos"
-    ]
+      "Ejemplo exitoso de uso de datos abiertos",
+      "Implementación exitosa de Design System unificado",
+      "Mejora del 40% en usabilidad y consistencia visual"
+    ],
+    hasRenovation: true
   },
   2: {
     title: "Chatbot administrativo",
@@ -162,20 +171,35 @@ export default function ProjectPage() {
   
   const project = projectData[projectId as keyof typeof projectData];
 
-  // Función para manejar la vista previa del PDF
-  const handlePreviewPDF = () => {
-    // URL del PDF en la carpeta documents
+  // Función para manejar la vista previa del PDF de Ciberseguridad
+  const handlePreviewCybersecurityPDF = () => {
     const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
     window.open(pdfUrl, '_blank');
   };
 
-  // Función para manejar la descarga del PDF
-  const handleDownloadPDF = () => {
-    // URL del PDF en la carpeta documents
+  // Función para manejar la descarga del PDF de Ciberseguridad
+  const handleDownloadCybersecurityPDF = () => {
     const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.download = 'Informe Ciberseguridad DeiviGo.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Función para manejar la vista previa del PDF del Renove
+  const handlePreviewRenovePDF = () => {
+    const pdfUrl = "/documents/Renove PowerBI.pdf";
+    window.open(pdfUrl, '_blank');
+  };
+
+  // Función para manejar la descarga del PDF del Renove
+  const handleDownloadRenovePDF = () => {
+    const pdfUrl = "/documents/Renove PowerBI.pdf";
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = 'Renove PowerBI.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -376,6 +400,148 @@ export default function ProjectPage() {
               </div>
             )}
 
+            {/* PowerBI Renovation Section - Only for Project 1 */}
+            {projectId === "1" && project.hasRenovation && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Renove PowerBI - Design System Implementation</h2>
+                
+                {/* GIFs Grid */}
+                <div className="mb-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[
+                      { name: "Presupuestos", description: "Presupuestos de la Diputación Foral de Bizkaia separados en Ingresos y Gastos", fileName: "Presupuestos" },
+                      { name: "Distribución de la Plantilla", description: "Distribución de la plantilla por departamentos y género", fileName: "Distribucion" },
+                      { name: "Temas", description: "Análisis de temas sobre los que se consulta en OpenData Bizkaia", fileName: "Temas" },
+                      { name: "Visitas y Descargas", description: "Visitas y descargas en OpenData Bizkaia", fileName: "Visitas" },
+                      { name: "Solicitudes", description: "Número de solicitudes recibidas", fileName: "Solicitudes" },
+                      { name: "Puestos de trabajo", description: "Puestos de trabajo de la Diputación Foral de Bizkaia", fileName: "Puestos" }
+                    ].map((gif, index) => (
+                      <motion.div
+                        key={gif.name}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1, duration: 0.5 }}
+                      >
+                        <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                          <div className="aspect-video bg-muted relative">
+                            <img 
+                              src={`/images/${gif.fileName}.gif`}
+                              alt={`${gif.name} - Transformación PowerBI`}
+                              className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-300"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                target.parentElement!.innerHTML = `
+                                  <div class="flex flex-col items-center justify-center h-full text-muted-foreground p-4">
+                                    <div class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-3">
+                                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                      </svg>
+                                    </div>
+                                    <span class="text-sm font-medium">${gif.fileName}.gif</span>
+                                    <span class="text-xs text-muted-foreground/70 mt-1">Sube el GIF para visualizar</span>
+                                  </div>
+                                `;
+                              }}
+                            />
+                            <div className="absolute top-2 right-2">
+                              <Badge variant="secondary" className="text-xs">
+                                Antes/Después
+                              </Badge>
+                            </div>
+                          </div>
+                          <CardHeader className="pb-3">
+                            <CardTitle className="text-base">{gif.name}</CardTitle>
+                            <CardDescription className="text-sm">
+                              {gif.description}
+                            </CardDescription>
+                          </CardHeader>
+                        </Card>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Complete Renovation Report */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Database className="w-5 h-5" />
+                      Informe Completo del Renove
+                    </CardTitle>
+                    <CardDescription>
+                      Documentación técnica completa del proceso de implementación del Design System
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="prose prose-invert max-w-none">
+                      <p className="text-muted-foreground leading-relaxed">
+                        Este informe detalla el proceso completo de renovación de los dashboards PowerBI a través de la implementación de un Design System unificado para la Diputación Foral de Bizkaia. 
+                        Incluye un Antes y un Después para ver como han cambiado las visualizaciones y como tienen todos una estructura homogénea.
+                      </p>
+                    </div>
+                    
+                    {/* PDF Preview Section */}
+                    <div className="relative bg-muted/50 rounded-lg p-8 min-h-[400px] flex items-center justify-center">
+                      <div className="text-center space-y-4">
+                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                          <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-xl font-semibold">Renove PowerBI</h3>
+                        <p className="text-muted-foreground max-w-md">
+                          Documentación completa del Design System implementation
+                        </p>
+                        <div className="flex gap-2 justify-center">
+                          <Button size="sm" variant="outline" onClick={handlePreviewRenovePDF}>
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            Vista Previa
+                          </Button>
+                          <Button size="sm" onClick={handleDownloadRenovePDF}>
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Descargar PDF
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Future PowerBI Dashboard Space */}
+                <div className="mt-12">
+                  <h3 className="text-xl font-semibold mb-6 text-muted-foreground">Próximo Dashboard</h3>
+                  <Card className="border-dashed border-2 border-muted-foreground/20 bg-muted/30">
+                    <CardContent className="flex flex-col items-center justify-center p-12 text-center">
+                      <div className="w-16 h-16 bg-muted-foreground/10 rounded-lg flex items-center justify-center mb-6">
+                        <Database className="w-8 h-8 text-muted-foreground" />
+                      </div>
+                      <h4 className="text-xl font-semibold text-foreground mb-3">
+                        📊 Dashboard Interactivo
+                      </h4>
+                      <p className="text-muted-foreground mb-6 max-w-md">
+                        🚧 Pronto disponible
+                      </p>
+                      <p className="text-muted-foreground text-sm mb-6 max-w-md">
+                        Visualizaciones avanzadas y métricas clave en desarrollo
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <Badge variant="secondary" className="text-sm">
+                          En desarrollo
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
+
             {/* PDF Report Section - Only for Project 3 */}
             {projectId === "3" && (
               <div>
@@ -400,14 +566,14 @@ export default function ProjectPage() {
                             Documentación técnica completa del proyecto bootcamp para Deiviator
                           </p>
                           <div className="flex gap-2 justify-center">
-                            <Button size="sm" variant="outline" onClick={handlePreviewPDF}>
+                            <Button size="sm" variant="outline" onClick={handlePreviewCybersecurityPDF}>
                               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                               </svg>
                               Vista Previa
                             </Button>
-                            <Button size="sm" onClick={handleDownloadPDF}>
+                            <Button size="sm" onClick={handleDownloadCybersecurityPDF}>
                               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                               </svg>

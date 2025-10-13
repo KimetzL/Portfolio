@@ -53,7 +53,7 @@ const projects = [
     title: "Dashboards interactivos en PowerBI",
     description: "Durante mi tiempo en la Diputación Foral de Bizkaia, desarrollé dashboards interactivos utilizando PowerBI gracias a los datos abiertos de Open Data Bizkaia. Estos paneles permitieron visualizar la información de manera más clara e intuitiva para la web \"Gardentasuna\", facilitando la comprensión de los datos.",
     image: "/images/Graficas.jpg",
-    technologies: ["PowerBI"],
+    technologies: ["PowerBI", "Design Systems", "Data Visualization"],
     githubUrl: "",
     demoUrl: "",
     featured: false,
