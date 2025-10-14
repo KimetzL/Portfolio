@@ -33,8 +33,6 @@ const projectData = {
       Los dashboards desarrollados fueron implementados específicamente para la plataforma web \"Gardentasuna\", transformando datos complejos en información visual comprensible para diferentes tipos de usuarios. La solución permitió una navegación intuitiva a través de múltiples capas de datos, facilitando la comprensión de tendencias y patrones importantes.
 
       El proyecto incluyó la limpieza y procesamiento de datos, el diseño de interfaces visuales efectivas, y la implementación de filtros interactivos que permiten a los usuarios personalizar su experiencia de análisis. Los resultados finales mejoraron significativamente la forma en que los ciudadanos y administradores pueden acceder y entender la información pública.
-
-      Como parte de la evolución de este proyecto, he implementado un completo **Design System** para unificar la apariencia y funcionalidad de todos los dashboards PowerBI. Esta renovación ha permitido estandarizar colores, tipografías, componentes visuales y patrones de interacción, creando una experiencia coherente y profesional en todos los informes.
     `,
     image: "/images/Graficas.jpg",
     technologies: ["PowerBI", "Design Systems", "Data Visualization"],
@@ -321,6 +319,83 @@ export default function ProjectPage() {
               </Card>
             </div>
 
+            {/* Interactive Dashboards Section - Only for Project 1 */}
+            {projectId === "1" && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Dashboards Interactivos</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+                  {/* Dashboard 1: Comunicaciones, Consultas, Quejas y Sugerencias */}
+                  <Card className="overflow-hidden">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Comunicaciones, Consultas, Quejas y Sugerencias</CardTitle>
+                      <CardDescription>
+                        Sistema de seguimiento de comunicaciones ciudadanas y gestión de solicitudes
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <div className="aspect-video bg-muted flex items-center justify-center">
+                        <iframe 
+                          title="Comunicaciones, Consultas, Quejas y Sugerencias"
+                          width="100%" 
+                          height="100%" 
+                          src="https://app.powerbi.com/view?r=eyJrIjoiNGIwNWM4MjEtMjJmZi00ZDJlLTg2N2EtNjQzMjhhYmIwNmZiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
+                          frameBorder="0" 
+                          allowFullScreen={true}
+                          className="w-full h-full"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Dashboard 2: Estadísticas del portal de transparencia */}
+                  <Card className="overflow-hidden">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Estadísticas del portal de transparencia</CardTitle>
+                      <CardDescription>
+                        Análisis de tráfico y métricas de rendimiento del sitio web
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <div className="aspect-video bg-muted flex items-center justify-center">
+                        <iframe 
+                          title="Estadisticas WEB"
+                          width="100%" 
+                          height="100%" 
+                          src="https://app.powerbi.com/view?r=eyJrIjoiODlkYzBhZjctMjZjOC00ZGI0LTkzYTQtZTRhZmM4NjU2YzRkIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
+                          frameBorder="0" 
+                          allowFullScreen={true}
+                          className="w-full h-full"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Dashboard 3: Mapa de Oficinas */}
+                  <Card className="overflow-hidden">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Mapa de Oficinas</CardTitle>
+                      <CardDescription>
+                        Visualización geográfica de las oficinas y puntos de atención ciudadana
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <div className="aspect-video bg-muted flex items-center justify-center">
+                        <iframe 
+                          title="Mapa oficinas"
+                          width="100%" 
+                          height="100%" 
+                          src="https://app.powerbi.com/view?r=eyJrIjoiNzA5MTZkYjgtY2JhYS00MWQ4LWFiMTctNGFmMGNmMDMxNWRiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=5c18373603eff3c5e8c7"
+                          frameBorder="0" 
+                          allowFullScreen={true}
+                          className="w-full h-full"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
+
             {/* Video Demo Section - Only for Project 2 */}
             {projectId === "2" && (
               <div>
@@ -404,6 +479,16 @@ export default function ProjectPage() {
             {projectId === "1" && project.hasRenovation && (
               <div>
                 <h2 className="text-3xl font-bold mb-6">Renove PowerBI - Design System Implementation</h2>
+                
+                <Card className="mb-8">
+                  <CardContent className="p-6">
+                    <p className="text-muted-foreground leading-relaxed">
+                      Como parte de la evolución de este proyecto, he implementado un completo "Design System" para unificar la apariencia y funcionalidad 
+                      de todos los dashboards PowerBI. Esta renovación ha permitido estandarizar colores, tipografías, componentes visuales y patrones de interacción, 
+                      creando una experiencia coherente y profesional en todos los informes.
+                    </p>
+                  </CardContent>
+                </Card>
                 
                 {/* GIFs Grid */}
                 <div className="mb-12">
@@ -512,33 +597,6 @@ export default function ProjectPage() {
                     </div>
                   </CardContent>
                 </Card>
-
-                {/* Future PowerBI Dashboard Space */}
-                <div className="mt-12">
-                  <h3 className="text-xl font-semibold mb-6 text-muted-foreground">Próximo Dashboard</h3>
-                  <Card className="border-dashed border-2 border-muted-foreground/20 bg-muted/30">
-                    <CardContent className="flex flex-col items-center justify-center p-12 text-center">
-                      <div className="w-16 h-16 bg-muted-foreground/10 rounded-lg flex items-center justify-center mb-6">
-                        <Database className="w-8 h-8 text-muted-foreground" />
-                      </div>
-                      <h4 className="text-xl font-semibold text-foreground mb-3">
-                        📊 Dashboard Interactivo
-                      </h4>
-                      <p className="text-muted-foreground mb-6 max-w-md">
-                        🚧 Pronto disponible
-                      </p>
-                      <p className="text-muted-foreground text-sm mb-6 max-w-md">
-                        Visualizaciones avanzadas y métricas clave en desarrollo
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <Badge variant="secondary" className="text-sm">
-                          En desarrollo
-                        </Badge>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
               </div>
             )}
 

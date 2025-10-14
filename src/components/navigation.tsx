@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { name: "Inicio", href: "#home" },
@@ -18,22 +19,28 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const pathname = usePathname();
+
+  // Check if we're on a project page
+  const isProjectPage = pathname?.startsWith('/projects/');
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
       
-      // Update active section based on scroll position
-      const sections = navItems.map(item => item.href.substring(1));
-      const scrollPosition = window.scrollY + 100;
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
+      // Only update active section if we're not on a project page
+      if (!isProjectPage) {
+        const sections = navItems.map(item => item.href.substring(1));
+        const scrollPosition = window.scrollY + 100;
+        
+        for (const section of sections) {
+          const element = document.getElementById(section);
+          if (element) {
+            const { offsetTop, offsetHeight } = element;
+            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+              setActiveSection(section);
+              break;
+            }
           }
         }
       }
@@ -41,10 +48,18 @@ export function Navigation() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isProjectPage]);
 
   const handleNavClick = (href: string) => {
     setIsOpen(false);
+    
+    // If we're on a project page, navigate to home
+    if (isProjectPage) {
+      window.location.href = '/';
+      return;
+    }
+    
+    // Normal navigation for home page
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -80,13 +95,13 @@ export function Navigation() {
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleNavClick(item.href)}
                 className={`relative text-sm font-medium transition-colors hover:text-primary ${
-                  activeSection === item.href.substring(1) 
+                  !isProjectPage && activeSection === item.href.substring(1) 
                     ? "text-primary" 
                     : "text-muted-foreground"
                 }`}
               >
                 {item.name}
-                {activeSection === item.href.substring(1) && (
+                {!isProjectPage && activeSection === item.href.substring(1) && (
                   <motion.div
                     layoutId="activeSection"
                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
@@ -120,7 +135,7 @@ export function Navigation() {
                     transition={{ delay: index * 0.1 }}
                     onClick={() => handleNavClick(item.href)}
                     className={`text-left text-lg font-medium transition-colors hover:text-primary p-2 rounded-md ${
-                      activeSection === item.href.substring(1) 
+                      !isProjectPage && activeSection === item.href.substring(1) 
                         ? "text-primary bg-primary/10" 
                         : "text-muted-foreground"
                     }`}
