@@ -32,10 +32,11 @@ async function createCustomServer() {
     });
 
     // Setup Socket.IO
+    const allowedOrigin = process.env.ALLOWED_ORIGIN || process.env.NEXTAUTH_URL || 'http://localhost:3000';
     const io = new Server(server, {
       path: '/api/socketio',
       cors: {
-        origin: "*",
+        origin: dev ? true : allowedOrigin,
         methods: ["GET", "POST"]
       }
     });

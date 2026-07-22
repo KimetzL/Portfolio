@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
+import { ContactForm } from "@/components/contact-form";
 import { 
   Github, 
   Linkedin, 
@@ -304,35 +305,29 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-12">Contacto</h2>
-            <Card className="p-8">
-              <p className="text-lg text-muted-foreground mb-8">
-                Siempre estoy interesado en conocer nuevas oportunidades y proyectos emocionantes. 
-                ¡No dudes en contactarme si te gustaría colaborar o simplemente charlar!
-              </p>
-              <div className="flex justify-center gap-4">
-                <Button size="lg" variant="outline" asChild>
-                  <a href="https://www.linkedin.com/in/kimetz-loroño" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="w-5 h-5 mr-2" />
-                    LinkedIn
-                  </a>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <a href="https://github.com/KimetzL" target="_blank" rel="noopener noreferrer">
-                    <Github className="w-5 h-5 mr-2" />
-                    GitHub
-                  </a>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <a href="mailto:kimetz.l@hotmail.com">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Email
-                  </a>
-                </Button>
-              </div>
-            </Card>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">Contacto</h2>
+            <p className="text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-10">
+              ¿Tienes algún proyecto en mente, una consulta o te gustaría colaborar? 
+              Envíame un mensaje a través del formulario o conéctate a través de mis redes profesionales.
+            </p>
+
+            <ContactForm />
+
+            <div className="flex justify-center gap-4 mt-10">
+              <Button size="lg" variant="outline" asChild>
+                <a href="https://www.linkedin.com/in/kimetz-loroño" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="w-5 h-5 mr-2" />
+                  LinkedIn
+                </a>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <a href="https://github.com/KimetzL" target="_blank" rel="noopener noreferrer">
+                  <Github className="w-5 h-5 mr-2" />
+                  GitHub
+                </a>
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
