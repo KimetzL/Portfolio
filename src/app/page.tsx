@@ -276,10 +276,6 @@ export default function Home() {
                         alt={project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <Badge className="absolute top-3 right-3 shadow-md bg-primary text-primary-foreground font-semibold px-3 py-1">
-                        <Sparkles className="w-3.5 h-3.5 mr-1 inline" />
-                        Destacado
-                      </Badge>
                     </div>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-2xl font-bold">{project.title}</CardTitle>
