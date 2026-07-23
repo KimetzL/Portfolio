@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kimetz Loroño - Portfolio | Sistemas | Analista de Datos | Ciberseguridad",
-  description: "Portfolio personal de Kimetz Loroño - Especialista en Sistemas, Analista de Datos y Profesional de Ciberseguridad",
-  keywords: ["Kimetz Loroño", "portfolio", "sistemas", "analista de datos", "ciberseguridad", "desarrollo web"],
+  title: "Kimetz Loroño - Portfolio | Data Scientist | Data Analyst | IT & Systems",
+  description: "Portfolio personal de Kimetz Loroño - Data Scientist, Data Analyst e IT & Systems",
+  keywords: ["Kimetz Loroño", "portfolio", "data scientist", "data analyst", "IT", "systems", "desarrollo web"],
   authors: [{ name: "Kimetz Loroño" }],
   icons: {
     icon: "/favicon.png",
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Kimetz Loroño - Portfolio",
-    description: "Especialista en Sistemas, Analista de Datos y Profesional de Ciberseguridad",
+    description: "Data Scientist, Data Analyst e IT & Systems",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Kimetz Loroño - Portfolio",
-    description: "Especialista en Sistemas, Analista de Datos y Profesional de Ciberseguridad",
+    description: "Data Scientist, Data Analyst e IT & Systems",
   },
 };
 

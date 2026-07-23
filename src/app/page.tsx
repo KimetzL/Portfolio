@@ -7,14 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
 import { ContactForm } from "@/components/contact-form";
-import { 
-  Github, 
-  Linkedin, 
-  Mail, 
-  ExternalLink, 
-  Code, 
-  Database, 
-  Shield, 
+import {
+  Github,
+  Linkedin,
+  Mail,
+  ExternalLink,
+  Code,
+  Database,
+  Shield,
   Globe,
   Server,
   Brain,
@@ -91,19 +91,19 @@ export default function Home() {
       <section id="home" className="min-h-screen flex items-center justify-center px-4 pt-16 relative overflow-hidden">
         {/* Background image with overlay */}
         <div className="absolute inset-0">
-          <img 
-            src="/hero-bg.jpg" 
-            alt="Background" 
+          <img
+            src="/hero-bg.jpg"
+            alt="Background"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/80 to-background/90" />
         </div>
-        
+
         {/* Background decoration */}
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        
-        <motion.div 
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -120,8 +120,8 @@ export default function Home() {
               <span className="text-sm text-primary">Disponible para Proyectos</span>
             </div>
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -129,17 +129,17 @@ export default function Home() {
           >
             Kimetz Loroño
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-xl md:text-2xl text-muted-foreground mb-8"
           >
-            Sistemas | Analista de Datos | Ciberseguridad
+            Data Scientist | Data Analyst | IT & Systems
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -250,8 +250,8 @@ export default function Home() {
                 >
                   <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow">
                     <div className="aspect-video bg-muted relative">
-                      <img 
-                        src={project.image} 
+                      <img
+                        src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover"
                       />
@@ -308,7 +308,7 @@ export default function Home() {
           >
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">Contacto</h2>
             <p className="text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-10">
-              ¿Tienes algún proyecto en mente, una consulta o te gustaría colaborar? 
+              ¿Tienes algún proyecto en mente, una consulta o te gustaría colaborar?
               Envíame un mensaje a través del formulario o conéctate a través de mis redes profesionales.
             </p>
 
