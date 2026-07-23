@@ -131,6 +131,78 @@ const projectData = {
       "Automatización efectiva de procesos de auditoría",
       "Experiencia práctica integral en ciberseguridad"
     ]
+  },
+  4: {
+    title: "Sistema de gestión de Iniciativas",
+    description: "Plataforma centralizada para la gestión, procesamiento y seguimiento en tiempo real de iniciativas y trámites administrativos. Optimiza los flujos de trabajo internos, facilita la toma de decisiones basada en datos y mejora la trazabilidad de solicitudes.",
+    longDescription: `
+      Este proyecto consiste en una solución integral para el procesamiento, control y análisis de iniciativas administrativas y solicitudes ciudadanas.
+
+      Desarrollada con un enfoque moderno centrado en datos, la plataforma permite catalogar cada iniciativa, realizar seguimiento de su estado en tiempo real, asignar responsables y generar métricas clave sobre el tiempo de respuesta y la eficiencia de los flujos de trabajo.
+
+      Integrando bases de datos optimizadas y APIs de comunicación, el sistema simplifica la gestión diaria, reduciendo la carga operativa y mejorando la transparencia operativa.
+    `,
+    image: "/images/iniciativas.png",
+    technologies: ["Python", "SQL", "Data Analytics", "API Rest"],
+    githubUrl: "",
+    demoUrl: "",
+    startDate: "Junio 2025",
+    endDate: "Julio 2025",
+    client: "Proyecto de Gestión IT",
+    category: "Gestión de Sistemas & Datos",
+    features: [
+      "Plataforma centralizada de registro de iniciativas",
+      "Panel de seguimiento de estados en tiempo real",
+      "Métricas de rendimiento e indicadores de eficiencia",
+      "Arquitectura de datos estructurada y escalable",
+      "Exportación de informes y análisis para toma de decisiones"
+    ],
+    challenges: [
+      "Estructuración de datos heterogéneos de solicitudes",
+      "Diseño de flujos de trabajo intuitivos para los administradores",
+      "Garantía de rendimiento y actualización inmediata en el panel"
+    ],
+    outcomes: [
+      "Centralización efectiva de la información de iniciativas",
+      "Reducción en tiempos de consulta y trazabilidad de solicitudes",
+      "Visibilidad global del estado del sistema"
+    ]
+  },
+  5: {
+    title: "Scraping de ofertas laborales",
+    description: "Sistema automatizado de web scraping para la extracción, unificación y análisis de ofertas de empleo de múltiples portales en tiempo real, ofreciendo visualizaciones claras y contadores de progreso del mercado laboral.",
+    longDescription: `
+      Un ecosistema completo de scraping y análisis de datos orientado al mercado laboral tecnológico y de desarrollo.
+
+      El sistema automatiza la recolección diaria de ofertas de trabajo desde múltiples portales web de empleo, procesando y limpiando los datos de forma estructurada. Incluye un sistema de logging unificado con contadores X/Y de portales y ofertas procesadas, así como indicadores visuales de estado.
+
+      Permite extraer información relevante como tecnologías demandadas, rangos salariales, modalidades de trabajo y ubicaciones, facilitando el análisis de tendencias laborales mediante métricas y visualizaciones en tiempo real.
+    `,
+    image: "/images/scraping.png",
+    technologies: ["Python", "Web Scraping", "Data Analysis", "Automation"],
+    githubUrl: "",
+    demoUrl: "",
+    startDate: "Julio 2025",
+    endDate: "Presente",
+    client: "Proyecto Personal / Data Pipeline",
+    category: "Data Science & Scraping",
+    features: [
+      "Extracción automatizada de múltiples portales de empleo",
+      "Limpieza y estructuración automática de texto y campos",
+      "Consola de logs unificada con métricas de progreso X/Y",
+      "Análisis de palabras clave y tecnologías más demandadas",
+      "Almacenamiento estructurado para consultas y gráficos"
+    ],
+    challenges: [
+      "Manejo de estructuras HTML cambiantes y anti-botting",
+      "Estandarización de logs y estado en tiempo real",
+      "Normalización de títulos de trabajo y requisitos tecnológicos"
+    ],
+    outcomes: [
+      "Pipeline de datos 100% automatizado y confiable",
+      "Base de datos actualizada del mercado de contratación",
+      "Monitoreo transparente mediante consola con formato enriquecido"
+    ]
   }
 };
 

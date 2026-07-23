@@ -57,7 +57,7 @@ const projects = [
     technologies: ["PowerBI", "Design Systems", "Data Visualization"],
     githubUrl: "",
     demoUrl: "",
-    featured: false,
+    featured: true,
   },
   {
     id: 2,
@@ -67,7 +67,7 @@ const projects = [
     technologies: ["Python", "Pandas", "Faiss", "Rapidfuzz", "Transformers", "Gradio"],
     githubUrl: "https://github.com/KimetzL/ChatbotDFB",
     demoUrl: "",
-    featured: true,
+    featured: false,
   },
   {
     id: 3,
@@ -75,6 +75,26 @@ const projects = [
     description: "Como parte del Bootcamp de Ciberseguridad de The Bridge, participé en un proyecto colaborativo de dos semanas para la startup Deiviator. Mi labor incluyó auditorías de seguridad (OSINT, Pentesting y análisis de vulnerabilidades), implementación de un entorno self-hosted con Ubuntu, VPN, Suricata, Firewall UFW y Docker, y automatización de auditorías mediante GitHub Actions integrando Semgrep, ESLint, Gitleaks y SBOMs.",
     image: "/images/Ciberseguridad.jpg",
     technologies: ["OSINT", "Pentesting", "Ubuntu", "VPN", "Suricata", "Docker", "GitHub Actions"],
+    githubUrl: "",
+    demoUrl: "",
+    featured: false,
+  },
+  {
+    id: 4,
+    title: "Sistema de gestión de Iniciativas",
+    description: "Plataforma centralizada para la gestión, procesamiento y seguimiento en tiempo real de iniciativas y trámites administrativos. Optimiza los flujos de trabajo internos, facilita la toma de decisiones basada en datos y mejora la trazabilidad de solicitudes.",
+    image: "/images/iniciativas.png",
+    technologies: ["Python", "SQL", "Data Analytics", "API Rest"],
+    githubUrl: "",
+    demoUrl: "",
+    featured: true,
+  },
+  {
+    id: 5,
+    title: "Scraping de ofertas laborales",
+    description: "Sistema automatizado de web scraping para la extracción, unificación y análisis de ofertas de empleo de múltiples portales en tiempo real, ofreciendo visualizaciones claras y contadores de progreso del mercado laboral.",
+    image: "/images/scraping.png",
+    technologies: ["Python", "Web Scraping", "Data Analysis", "Automation"],
     githubUrl: "",
     demoUrl: "",
     featured: false,
@@ -239,8 +259,64 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Proyectos</h2>
+            {/* Featured Projects Grid (Top Row - 2 Columns) */}
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              {projects.filter(p => p.featured).map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.8 }}
+                >
+                  <Card className="h-full overflow-hidden hover:shadow-xl transition-all duration-300 border-primary/30 bg-card/80 backdrop-blur">
+                    <div className="aspect-video bg-muted relative overflow-hidden group">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <Badge className="absolute top-3 right-3 shadow-md bg-primary text-primary-foreground font-semibold px-3 py-1">
+                        <Sparkles className="w-3.5 h-3.5 mr-1 inline" />
+                        Destacado
+                      </Badge>
+                    </div>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-2xl font-bold">{project.title}</CardTitle>
+                      <CardDescription className="text-muted-foreground text-sm line-clamp-3">{project.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.technologies.map((tech) => (
+                          <Badge key={tech} variant="secondary" className="text-xs">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="flex gap-3">
+                        <Button size="sm" asChild className="group">
+                          <a href={`/projects/${project.id}`}>
+                            Saber Más
+                            <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
+                          </a>
+                        </Button>
+                        {project.githubUrl && (
+                          <Button size="sm" variant="outline" asChild>
+                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                              <Github className="w-4 h-4" />
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Other Projects Grid (Bottom Row - 3 Columns) */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((project, index) => (
+              {projects.filter(p => !p.featured).map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -249,21 +325,16 @@ export default function Home() {
                   transition={{ delay: index * 0.1, duration: 0.8 }}
                 >
                   <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow">
-                    <div className="aspect-video bg-muted relative">
+                    <div className="aspect-video bg-muted relative overflow-hidden group">
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      {project.featured && (
-                        <Badge className="absolute top-2 right-2" variant="default">
-                          Destacado
-                        </Badge>
-                      )}
                     </div>
                     <CardHeader>
                       <CardTitle className="text-xl">{project.title}</CardTitle>
-                      <CardDescription>{project.description}</CardDescription>
+                      <CardDescription className="line-clamp-3">{project.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-wrap gap-2 mb-4">
