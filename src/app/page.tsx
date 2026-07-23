@@ -57,7 +57,7 @@ const projects = [
     technologies: ["PowerBI", "Design Systems", "Data Visualization"],
     githubUrl: "",
     demoUrl: "",
-    featured: true,
+    featured: false,
   },
   {
     id: 2,
@@ -97,7 +97,7 @@ const projects = [
     technologies: ["Python", "Web Scraping", "Data Analysis", "Automation"],
     githubUrl: "",
     demoUrl: "",
-    featured: false,
+    featured: true,
   },
 ];
 
