@@ -274,7 +274,7 @@ export default function Home() {
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${project.image.includes('chatbot') ? 'object-top' : 'object-center'}`}
                       />
                     </div>
                     <CardHeader className="pb-3">
@@ -325,7 +325,7 @@ export default function Home() {
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${project.image.includes('chatbot') ? 'object-top' : 'object-center'}`}
                       />
                     </div>
                     <CardHeader>

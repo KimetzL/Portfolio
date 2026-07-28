@@ -686,8 +686,17 @@ export default function ProjectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Title & Info Section First */}
-            <div className="grid md:grid-cols-3 gap-8 mb-8">
+            {/* Compact Banner Image First */}
+            <div className="w-full max-h-[260px] md:max-h-[300px] bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-8 flex items-center justify-center">
+              <img 
+                src={project.image} 
+                alt={project.title}
+                className={`w-full h-full max-h-[260px] md:max-h-[300px] object-cover transition-transform duration-500 group-hover:scale-105 ${project.image.includes('chatbot') ? 'object-top' : 'object-center'}`}
+              />
+            </div>
+
+            {/* Title & Info Section Below Image */}
+            <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">{project.title}</h1>
                 <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed">{project.description}</p>
@@ -741,15 +750,6 @@ export default function ProjectPage() {
                   )}
                 </div>
               </div>
-            </div>
-
-            {/* Compact Horizontal Image Banner Below Header Info */}
-            <div className="w-full max-h-[280px] md:max-h-[320px] bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-4">
-              <img 
-                src={project.image} 
-                alt={project.title}
-                className="w-full h-full max-h-[280px] md:max-h-[320px] object-cover object-center transition-transform duration-500 group-hover:scale-105"
-              />
             </div>
           </motion.div>
         </div>
