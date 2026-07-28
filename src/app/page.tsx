@@ -91,10 +91,10 @@ const projects = [
   },
   {
     id: 5,
-    title: "Scraping de ofertas laborales",
-    description: "Sistema automatizado de web scraping para la extracción, unificación y análisis de ofertas de empleo de múltiples portales en tiempo real, ofreciendo visualizaciones claras y contadores de progreso del mercado laboral.",
+    title: "Scraping & Analítica de Ofertas Laborales",
+    description: "Plataforma automatizada de recolección de datos, enriquecimiento sintáctico mediante NLP/RegEx y deduplicación inteligente de vacantes laborales de la Región del Maule para el CFT San Agustín.",
     image: "/images/scraping.png",
-    technologies: ["Python", "Web Scraping", "Data Analysis", "Automation"],
+    technologies: ["Python", "Data Science", "Web Scraping", "NLP / RegEx", "Data Analytics"],
     githubUrl: "",
     demoUrl: "",
     featured: true,

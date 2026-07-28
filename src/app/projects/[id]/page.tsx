@@ -169,39 +169,40 @@ const projectData = {
     ]
   },
   5: {
-    title: "Scraping de ofertas laborales",
-    description: "Sistema automatizado de web scraping para la extracción, unificación y análisis de ofertas de empleo de múltiples portales en tiempo real, ofreciendo visualizaciones claras y contadores de progreso del mercado laboral.",
+    title: "Scraping & Analítica de Ofertas Laborales",
+    description: "Plataforma automatizada de recolección de datos, enriquecimiento sintáctico mediante NLP/RegEx y deduplicación inteligente de vacantes laborales de la Región del Maule para el CFT San Agustín.",
     longDescription: `
-      Un ecosistema completo de scraping y análisis de datos orientado al mercado laboral tecnológico y de desarrollo.
+      Este proyecto consiste en el desarrollo de un ecosistema completo de ciencia de datos y minería automatizada orientado al monitoreo del mercado laboral en la Región del Maule, diseñado para la orientación profesional del CFT San Agustín.
 
-      El sistema automatiza la recolección diaria de ofertas de trabajo desde múltiples portales web de empleo, procesando y limpiando los datos de forma estructurada. Incluye un sistema de logging unificado con contadores X/Y de portales y ofertas procesadas, así como indicadores visuales de estado.
+      La plataforma ejecuta pipelines de recolección diaria desde 7 fuentes públicas y privadas (APIs REST, motores HTTP y automatización Playwright). Posteriormente, aplica un motor sintáctico basado en Expresiones Regulares (NLP / Feature Extraction) para extraer de forma automática sueldos explícitos, clasificar la modalidad de trabajo (Remoto, Híbrido, Presencial) y categorizar la jornada laboral a partir de texto no estructurado.
 
-      Permite extraer información relevante como tecnologías demandadas, rangos salariales, modalidades de trabajo y ubicaciones, facilitando el análisis de tendencias laborales mediante métricas y visualizaciones en tiempo real.
+      Para garantizar la calidad de los datos, el sistema implementa un algoritmo de deduplicación difusa en memoria capaz de procesar y unificar más de 3.300 vacantes en ~4 segundos, filtrando estrictamente por las 30 comunas de la región y operando bajo un estricto marco de scraping ético y gobernanza transparente.
     `,
     image: "/images/scraping.png",
-    technologies: ["Python", "Web Scraping", "Data Analysis", "Automation"],
+    technologies: ["Python", "Data Science", "Web Scraping", "NLP / RegEx", "Data Analytics", "Automation"],
     githubUrl: "",
     demoUrl: "",
     startDate: "Julio 2025",
     endDate: "Presente",
-    client: "Proyecto Personal / Data Pipeline",
-    category: "Data Science & Scraping",
+    client: "CFT San Agustín / Data Science Pipeline",
+    category: "Data Science & Analytics",
     features: [
-      "Extracción automatizada de múltiples portales de empleo",
-      "Limpieza y estructuración automática de texto y campos",
-      "Consola de logs unificada con métricas de progreso X/Y",
-      "Análisis de palabras clave y tecnologías más demandadas",
-      "Almacenamiento estructurado para consultas y gráficos"
+      "Pipeline ETL automatizado para 7 portales de empleo (públicos y privados)",
+      "Enriquecimiento sintáctico NLP con RegEx (sueldos, modalidades y jornadas)",
+      "Algoritmo de deduplicación difusa en memoria (+3.300 ofertas en ~4 segundos)",
+      "Filtrado geográfico inteligente para las 30 comunas de la Región del Maule",
+      "Scraping ético auditado con User-Agent institucional e inmunidad a fallos O(1)",
+      "Optimizaciones de rendimiento con algoritmo de parada temprana (Early Stopping)"
     ],
     challenges: [
-      "Manejo de estructuras HTML cambiantes y anti-botting",
-      "Estandarización de logs y estado en tiempo real",
-      "Normalización de títulos de trabajo y requisitos tecnológicos"
+      "Extracción y estructuración de datos salariales y requisitos en texto plano",
+      "Deduplicación cruzada entre portales con variaciones en nombres de empresas",
+      "Reducción de tiempos de scraping mediante algoritmos de parada temprana"
     ],
     outcomes: [
-      "Pipeline de datos 100% automatizado y confiable",
-      "Base de datos actualizada del mercado de contratación",
-      "Monitoreo transparente mediante consola con formato enriquecido"
+      "Base de datos unificada activa de +3.300 vacantes regionales en tiempo real",
+      "Pipeline de datos 100% automatizado en producción con trazabilidad completa",
+      "Optimización del tiempo de ejecución incremental de 3 horas a solo 2-4 minutos"
     ]
   }
 };
