@@ -26,9 +26,7 @@ import {
   CheckCircle2,
   Filter,
   Search,
-  RefreshCw,
-  Copy,
-  Check
+  RefreshCw
 } from "lucide-react";
 
 const projectData = {
@@ -190,9 +188,9 @@ const projectData = {
     technologies: ["Python", "Data Science", "Web Scraping", "NLP / RegEx", "Data Analytics", "Automation"],
     githubUrl: "",
     demoUrl: "",
-    startDate: "Julio 2025",
-    endDate: "Presente",
-    client: "CFT San Agustín / Data Science Pipeline",
+    startDate: "Junio 2026",
+    endDate: "Agosto 2026",
+    client: "CFT San Agustín",
     category: "Data Science & Analytics",
     features: [
       "Pipeline ETL automatizado para 7 portales de empleo (públicos y privados)",
@@ -245,8 +243,6 @@ const getIcon = (tech: string) => {
 
 function JobEngineShowcaseSection() {
   const [activeStep, setActiveStep] = useState(1);
-  const [activeCodeTab, setActiveCodeTab] = useState("early-stop");
-  const [copied, setCopied] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [portalFilter, setPortalFilter] = useState("all");
   const [comunaFilter, setComunaFilter] = useState("all");
@@ -313,73 +309,75 @@ function JobEngineShowcaseSection() {
     }
   };
 
-  const codeSnippets: { [key: string]: string } = {
-    "early-stop": `# Módulo: Early Stopping en Scrapers Paginados\n# Ubicación: empleos/portales/bne/bne.py\n\ndef extraer_ofertas_bne(limite_paginas=50):\n    for pagina in range(1, limite_paginas + 1):\n        ofertas_pagina = api_client.obtener_lista(pagina=pagina)\n        nuevas_en_pagina = 0\n        \n        for oferta in ofertas_pagina:\n            if not existe_en_csv_local(oferta["codigo"]):\n                guardar_incremental_append(oferta)\n                nuevas_en_pagina += 1\n        \n        # Si el 100% de ofertas ya existen, aborta paginación\n        if nuevas_en_pagina == 0:\n            logger.info(f"Parada Temprana activada en página {pagina}: 0 ofertas nuevas.")\n            break`,
-    "append-mode": `# Módulo: Escritura Incremental Directa O(1)\n# Ubicación: empleos/config.py\n\ndef registrar_oferta_incremental(filepath, oferta_dict, fieldnames):\n    """\n    Escribe inmediatamente la oferta al final del archivo CSV sin reescribirlo.\n    Garantiza tiempo O(1) e inmunidad a fallos de red o suspensión.\n    """\n    file_exists = os.path.isfile(filepath)\n    with open(filepath, mode="a", encoding="utf-8", newline="") as f:\n        writer = csv.DictWriter(f, fieldnames=fieldnames)\n        if not file_exists:\n            writer.writeheader()\n        writer.writerow(oferta_dict)`,
-    "dedup-hash": `# Módulo: Deduplicación Algorítmica Difusa\n# Ubicación: empleos/clean_existing_csvs.py\n\ndef deduplicar_ofertas(lista_ofertas):\n    vistas = {}\n    duplicados_eliminados = []\n    \n    for oferta in lista_ofertas:\n        # Generar clave canónica limpia\n        titulo_norm = re.sub(r'\\b(de|en|con|para|ltda|s\\.a)\\b', '', oferta['titulo'].lower())\n        empresa_norm = re.sub(r'\\b(chile|ltda|s\\.a|spa)\\b', '', oferta['empresa'].lower())\n        hash_key = f"{titulo_norm.strip()[:20]}|{empresa_norm.strip()[:15]}|{oferta['comuna'].lower()}"\n        \n        if hash_key in vistas:\n            # Conservar versión del portal con mayor prioridad en PRIORITY_ORDER\n            existente = vistas[hash_key]\n            if PRIORITY_ORDER.index(oferta['portal']) < PRIORITY_ORDER.index(existente['portal']):\n                vistas[hash_key] = oferta\n                duplicados_eliminados.append(existente)\n            else:\n                duplicados_eliminados.append(oferta)\n        else:\n            vistas[hash_key] = oferta\n            \n    return list(vistas.values()), duplicados_eliminados`,
-    "regex-enrich": `# Módulo: Motor Sintáctico RegEx (Sueldos y Modalidades)\n# Ubicación: empleos/extractor_helpers.py\n\ndef extraer_sueldo(titulo, descripcion):\n    texto = f"{titulo} {descripcion}".lower()\n    \n    patron_rango = r'\\$\\s*(\\d{1,3}(?:\\.\\d{3})*)\\s*a\\s*\\$\\s*(\\d{1,3}(?:\\.\\d{3})*)'\n    patron_monto = r'\\$\\s*(\\d{1,3}(?:\\.\\d{3})*|\\d+)\\s*(?:mil|k)?'\n    \n    match_rango = re.search(patron_rango, texto)\n    if match_rango:\n        return f"\${match_rango.group(1)} - \${match_rango.group(2)}"\n        \n    match_monto = re.search(patron_monto, texto)\n    if match_monto:\n        val = match_monto.group(1).replace('.', '')\n        if int(val) > 200000:\n            return f"\${int(val):,}".replace(',', '.')\n            \n    return "A convenir"`
-  };
-
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(codeSnippets[activeCodeTab]);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const portalMatrix = [
+    { name: "BNE", motor: "API REST", status: "active", note: "API pública oficial autorizada" },
+    { name: "Empleos Públicos", motor: "HTTP / lxml", status: "active", note: "Portal gubernamental público estatal" },
+    { name: "Trabaja en el Estado", motor: "ElasticSearch POST", status: "active", note: "Endpoint público optimizado sin renderizado JS" },
+    { name: "Trabajando.cl", motor: "Playwright", status: "active", note: "Renderizado headless respetando robots.txt" },
+    { name: "Laborum.cl", motor: "Playwright", status: "active", note: "Navegación responsable con delays éticos de 5-10s" },
+    { name: "ChileTrabajos", motor: "HTTP / BS4", status: "active", note: "Parsing de metadatos JSON-LD estructurados" },
+    { name: "Get on Board", motor: "REST API v0", status: "active", note: "Consumo de API REST pública oficial" },
+    { name: "Computrabajo", motor: "—", status: "excluded", note: "AWS WAF bloquea User-Agent institucional; violaría transparencia suplantar navegador (Reglas 2 y 6)." },
+    { name: "Indeed", motor: "—", status: "excluded", note: "Cloudflare + Captchas exigen bypasses no permitidos (Regla 6). Exclusión voluntaria." },
+    { name: "Buscojobs", motor: "—", status: "disabled", note: "Metabuscador deshabilitado por generar duplicados de portales cubiertos." },
+    { name: "Jooble", motor: "—", status: "disabled", note: "Metabuscador deshabilitado que agrega vacantes de terceros ya existentes." },
+    { name: "Opcionempleo", motor: "—", status: "disabled", note: "API Careerjet deshabilitada por redundancia en resultados." }
+  ];
 
   return (
     <div className="space-y-12 mt-12">
-      {/* KPI Stat Cards Grid */}
+      {/* KPI Stat Cards Grid (Compact Layout) */}
       <div>
         <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores de Rendimiento</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 bg-primary/10 rounded-xl text-primary">
-                <Database className="w-6 h-6" />
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
+                <Database className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-primary">+3.300</div>
+                <div className="text-xl font-bold text-primary">+3.300</div>
                 <div className="text-xs text-muted-foreground font-medium">Vacantes Consolidadas</div>
-                <div className="text-[11px] text-muted-foreground/70">Dataset activo Maule</div>
+                <div className="text-[10px] text-muted-foreground/70">Dataset activo Maule</div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 bg-blue-500/10 rounded-xl text-blue-500">
-                <Globe className="w-6 h-6" />
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
+                <Globe className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-blue-500">7 Fuentes</div>
+                <div className="text-xl font-bold text-blue-500 whitespace-nowrap">7 Fuentes</div>
                 <div className="text-xs text-muted-foreground font-medium">Portales Integrados</div>
-                <div className="text-[11px] text-muted-foreground/70">APIs + HTTP + Playwright</div>
+                <div className="text-[10px] text-muted-foreground/70">APIs + HTTP + Playwright</div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 bg-purple-500/10 rounded-xl text-purple-500">
-                <Zap className="w-6 h-6" />
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
+                <Zap className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-purple-500">~4 seg</div>
+                <div className="text-xl font-bold text-purple-500 whitespace-nowrap">~4 seg</div>
                 <div className="text-xs text-muted-foreground font-medium">Deduplicación Difusa</div>
-                <div className="text-[11px] text-muted-foreground/70">Procesamiento en memoria</div>
+                <div className="text-[10px] text-muted-foreground/70">Procesamiento en memoria</div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 bg-emerald-500/10 rounded-xl text-emerald-500">
-                <Shield className="w-6 h-6" />
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
+                <Shield className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-emerald-500">100%</div>
+                <div className="text-xl font-bold text-emerald-500 whitespace-nowrap">100%</div>
                 <div className="text-xs text-muted-foreground font-medium">Scraping Ético Auditado</div>
-                <div className="text-[11px] text-muted-foreground/70">User-Agent & Robots.txt</div>
+                <div className="text-[10px] text-muted-foreground/70">User-Agent & Robots.txt</div>
               </div>
             </CardContent>
           </Card>
@@ -546,54 +544,17 @@ function JobEngineShowcaseSection() {
         </div>
       </div>
 
-      {/* Code Snippets Viewer Component */}
+      {/* Ethics & Governance Sources Matrix (All 12 Portals) */}
       <div>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-bold">Código Clave en Python</h2>
-          <Button size="sm" variant="outline" onClick={handleCopyCode} className="gap-2">
-            {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-            {copied ? "Copiado!" : "Copiar Código"}
-          </Button>
-        </div>
-
-        <Card className="overflow-hidden">
-          <CardHeader className="bg-muted/30 border-b pb-3">
-            <div className="flex flex-wrap gap-2">
-              {[
-                { id: "early-stop", label: "Early Stopping" },
-                { id: "append-mode", label: "Append O(1)" },
-                { id: "dedup-hash", label: "Deduplicación Difusa" },
-                { id: "regex-enrich", label: "RegEx NLP Sueldos" },
-              ].map((tab) => (
-                <Button
-                  key={tab.id}
-                  size="sm"
-                  variant={activeCodeTab === tab.id ? "default" : "ghost"}
-                  onClick={() => setActiveCodeTab(tab.id)}
-                  className="text-xs"
-                >
-                  {tab.label}
-                </Button>
-              ))}
-            </div>
-          </CardHeader>
-          <CardContent className="p-4 bg-slate-950 font-mono text-xs text-slate-100 overflow-x-auto">
-            <pre><code>{codeSnippets[activeCodeTab]}</code></pre>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Ethics & Governance Sources Matrix */}
-      <div>
-        <h2 className="text-3xl font-bold mb-6">Matriz de Scraping Ético y Fuentes</h2>
+        <h2 className="text-3xl font-bold mb-6">Matriz de Scraping Ético y Fuentes (12 Portales)</h2>
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Shield className="w-5 h-5 text-emerald-500" />
-              Estado y Cumplimiento Normativo de Portales
+              Estado y Cumplimiento Normativo de Fuentes
             </CardTitle>
             <CardDescription>
-              User-Agent Transparente: <code>IES-CareerBot/1.0; (+http://www.cftsanagustin.cl)</code>
+              User-Agent Transparente Obligatorio: <code>IES-CareerBot/1.0; (+http://www.cftsanagustin.cl)</code>
             </CardDescription>
           </CardHeader>
           <CardContent className="p-0 overflow-x-auto">
@@ -601,48 +562,32 @@ function JobEngineShowcaseSection() {
               <thead className="bg-muted/50 text-muted-foreground border-b">
                 <tr>
                   <th className="p-3">Portal</th>
-                  <th className="p-3">Técnica Motor</th>
+                  <th className="p-3">Motor Técnico</th>
                   <th className="p-3">Estado</th>
-                  <th className="p-3">Criterio Ético / Gobernanza</th>
+                  <th className="p-3">Criterio Ético / Gobernanza de Datos</th>
                 </tr>
               </thead>
               <tbody className="divide-y">
-                <tr>
-                  <td className="p-3 font-bold">BNE</td>
-                  <td className="p-3">API REST</td>
-                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
-                  <td className="p-3 text-muted-foreground">API pública oficial autorizada</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-bold">Empleos Públicos</td>
-                  <td className="p-3">HTTP / lxml</td>
-                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
-                  <td className="p-3 text-muted-foreground">Portal gubernamental público estatal</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-bold">Trabajando.cl</td>
-                  <td className="p-3">Playwright</td>
-                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
-                  <td className="p-3 text-muted-foreground">Renderizado headless respetando robots.txt</td>
-                </tr>
-                <tr>
-                  <td className="p-3 font-bold">Laborum.cl</td>
-                  <td className="p-3">Playwright</td>
-                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
-                  <td className="p-3 text-muted-foreground">Navegación responsable con delays éticos 5-10s</td>
-                </tr>
-                <tr className="bg-rose-500/5">
-                  <td className="p-3 font-bold opacity-60">Computrabajo</td>
-                  <td className="p-3 opacity-60">—</td>
-                  <td className="p-3"><Badge variant="destructive">Excluido</Badge></td>
-                  <td className="p-3 text-rose-300">AWS WAF bloquea User-Agent; violaría transparencia suplantar navegador.</td>
-                </tr>
-                <tr className="bg-rose-500/5">
-                  <td className="p-3 font-bold opacity-60">Indeed</td>
-                  <td className="p-3 opacity-60">—</td>
-                  <td className="p-3"><Badge variant="destructive">Excluido</Badge></td>
-                  <td className="p-3 text-rose-300">Cloudflare exige bypasses no autorizados. Exclusión voluntaria.</td>
-                </tr>
+                {portalMatrix.map((item) => (
+                  <tr key={item.name} className={item.status !== "active" ? "bg-rose-500/5" : ""}>
+                    <td className={`p-3 font-bold ${item.status !== "active" ? "opacity-70" : ""}`}>{item.name}</td>
+                    <td className={`p-3 ${item.status !== "active" ? "opacity-70" : ""}`}>{item.motor}</td>
+                    <td className="p-3">
+                      {item.status === "active" && (
+                        <Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge>
+                      )}
+                      {item.status === "excluded" && (
+                        <Badge variant="destructive">Excluido</Badge>
+                      )}
+                      {item.status === "disabled" && (
+                        <Badge variant="outline" className="text-amber-400 border-amber-500/30 bg-amber-500/10">Deshabilitado</Badge>
+                      )}
+                    </td>
+                    <td className={`p-3 ${item.status === "excluded" ? "text-rose-300" : item.status === "disabled" ? "text-amber-200/70" : "text-muted-foreground"}`}>
+                      {item.note}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </CardContent>
