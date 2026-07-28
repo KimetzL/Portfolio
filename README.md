@@ -1,133 +1,122 @@
-# Portfolio - Kimetz L.
+# 🚀 Kimetz Loroño — Portfolio Professional
 
-Portfolio personal desarrollado con Next.js 15, TypeScript y Tailwind CSS.
+Portfolio personal y profesional desarrollado con **Next.js 15 (App Router)**, **TypeScript**, **Tailwind CSS**, **Framer Motion** y **shadcn/ui**.
 
-## Características
+Focalizado en **Data Science**, **Data Analytics**, **IA** e **Infraestructura IT & Sistemas**.
 
-- **Diseño Responsivo**: Adaptable a todos los dispositivos
-- **Interfaz Moderna**: Construida con shadcn/ui components
-- **Navegación por Pestañas**: Organización intuitiva del contenido
-- **Vista Previa de PDFs**: Modal para previsualizar documentos
-- **Galería de Imágenes**: Espacio para GIFs de transformaciones
+---
 
-## Estructura del Proyecto
+## 🌟 Características Destacadas
 
-```
+### 🎨 Frontend & UX de Alto Rendimiento
+- **Imágenes Optimizadas (`next/image`)**: Conversión automática a WebP/AVIF y *lazy loading* para máxima velocidad.
+- **Skeleton Loaders Animados**: Transición fluida (*fade-in*) sin saltos de diseño (*Zero Cumulative Layout Shift - CLS*).
+- **Modo Noche / Claro**: Selector de tema persistente con `next-themes`.
+- **Navegación Dinámica e Interactiva**: Animaciones con `framer-motion` y scroll suave (*smooth scrolling*).
+- **Simulador de Dataset Interactivo**: Explorador en tiempo real del dataset unificado de empleos (+3.300 ofertas) con filtros multi-criterio.
+
+### 🛡️ Seguridad Avanzada & Backend
+- **Sanitización Anti-XSS**: Escape HTML riguroso en envíos de mensajes.
+- **Rate Limiting por IP (`src/lib/rate-limit.ts`)**: Protección contra spam en el formulario de contacto (máx. 3 envíos por IP / 10 min, HTTP 429).
+- **Trampa Honeypot Anti-Bot**: Trampa invisible en cliente/servidor para bloquear bots automatizados.
+- **Cabeceras de Seguridad HTTP**: HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy y Content-Security-Policy (CSP) configuradas en `next.config.ts`.
+
+### 📊 Analítica Web & SEO
+- **Vercel Analytics Integrado**: Medición en tiempo real sin cookies ni banners intrusivos.
+- **SEO & Open Graph**: Estructura semántica HTML5, metadatos dinámicos, `lang="es"` y copyright automatizado (`© {new Date().getFullYear()}`).
+
+---
+
+## 📁 Estructura del Proyecto
+
+```text
+c:\Portfolio\
 ├── public/
-│   ├── images/          # Colocar aquí los GIFs de PowerBI
-│   │   ├── Presupuestos.gif
-│   │   ├── Distribucion.gif
-│   │   ├── Temas.gif
-│   │   ├── Visitas.gif
-│   │   ├── Solicitudes.gif
-│   │   └── Puestos.gif
-│   └── documents/       # Colocar aquí los PDFs
-│       ├── Renove PowerBI.pdf
-│       └── cybersecurity-report.pdf
+│   ├── images/              # Activos visuales (16:9 y cuadrados optimizados)
+│   │   ├── Chatbot.jpg
+│   │   ├── Ciberseguridad.jpg
+│   │   ├── Graficas.jpg
+│   │   ├── iniciativas.png
+│   │   ├── scraping_square.png
+│   │   └── scraping_wide.png
+│   ├── documents/           # Informes y documentación en PDF
+│   │   ├── Informe Ciberseguridad DeiviGo.pdf
+│   │   └── Renove PowerBI.pdf
+│   └── hero-bg.jpg          # Fondo de cabecera principal
+├── scripts/                 # Scripts de utilidad (procesamiento de imágenes)
+│   └── fix_chatbot_image.py
 ├── src/
 │   ├── app/
-│   │   └── page.tsx     # Página principal del portfolio
-│   └── components/ui/   # Componentes de la interfaz
+│   │   ├── api/
+│   │   │   └── contact/    # API de contacto con Zod, XSS y Rate Limit
+│   │   ├── projects/[id]/  # Vista detallada dinámica de proyectos
+│   │   ├── globals.css     # Variables CSS del sistema de diseño
+│   │   ├── layout.tsx      # Layout raíz con Vercel Analytics y ThemeProvider
+│   │   └── page.tsx        # Página principal del portfolio
+│   ├── components/
+│   │   ├── project-image.tsx# Componente de imagen con Next.js Image + Skeleton
+│   │   ├── contact-form.tsx # Formulario de contacto con validación y Honeypot
+│   │   ├── navigation.tsx   # Navegación fija con indicador activo y modo noche
+│   │   └── ui/             # Componentes Shadcn (Card, Badge, Button, Skeleton)
+│   ├── data/
+│   │   └── projects.ts     # Fuente Única de Verdad (Single Source of Truth)
+│   └── lib/
+│       ├── rate-limit.ts   # Módulo de Rate Limiting por IP (Sliding Window)
+│       └── utils.ts        # Helper cn para clases de Tailwind
+├── ROADMAP.md               # Hoja de ruta estratégica y propuesta de valor
+└── next.config.ts           # Configuración de Next.js y cabeceras de seguridad
 ```
 
-## Secciones del Portfolio
+---
 
-### 1. Acerca de Mí
-- Perfil profesional
-- Estadísticas destacadas
-- Especialización en Power BI
+## 💼 Proyectos Incluidos
 
-### 2. Experiencia
-- Historial laboral
-- Logros clave
-- Proyectos importantes
+1. **Scraping & Analítica de Ofertas Laborales (CFT San Agustín)**
+   - *Data Science & ETL*: Pipelines multicanal de 7 fuentes, deduplicación difusa en memoria (+3.300 vacantes en ~4s) y motor sintáctico RegEx/NLP.
+2. **Chatbot Administrativo (Diputación Foral de Bizkaia)**
+   - *IA & NLP*: Clasificación inteligente de consultas ciudadanas mediante Python, Pandas, Faiss, Rapidfuzz, Transformers y Gradio.
+3. **Sistema de Gestión de Iniciativas**
+   - *Gestión IT & Datos*: Plataforma centralizada para seguimiento y trazabilidad de trámites administrativos en tiempo real.
+4. **Dashboards Interactivos en PowerBI (Diputación Foral de Bizkaia)**
+   - *Data Analytics*: Paneles interactivos sobre Open Data Bizkaia para la web "Gardentasuna", con Design System unificado e informe técnico.
+5. **Informe de Ciberseguridad (The Bridge Bootcamp / Deiviator)**
+   - *Ciberseguridad*: Auditorías OSINT, Pentesting, entorno self-hosted (Ubuntu, UFW, VPN, Suricata, Docker) y CI/CD con GitHub Actions (Semgrep, Gitleaks, SBOMs).
 
-### 3. Proyectos
+---
 
-#### Cybersecurity Dashboard
-- Dashboard de monitoreo de seguridad
-- Vista previa y descarga de informes PDF
+## 🛠️ Tecnologías
 
-#### Dashboards Interactivos - PowerBI Design System
-- **Transformaciones con GIFs**: Antes y después de la implementación del Design System
-  - Presupuestos: Gestión de presupuestos
-  - Distribución: Análisis de distribución
-  - Temas: Personalización y consistencia
-  - Visitas: Seguimiento de visitantes
-  - Solicitudes: Gestión de solicitudes
-  - Puestos: Análisis de puestos
-- **Informe Completo**: Documentación del renove con vista previa y descarga
-- **Espacio Futuro**: Áreas reservadas para dashboards PowerBI en vivo
+- **Framework**: Next.js 15.5 (App Router)
+- **Lenguaje**: TypeScript 5
+- **Estilos**: Tailwind CSS v4, tw-animate-css
+- **Animaciones**: Framer Motion
+- **Componentes**: shadcn/ui & Radix UI
+- **Validación**: Zod
+- **Analítica**: Vercel Analytics
 
-### 4. Habilidades
-- Power BI (DAX, Data Modeling, etc.)
-- Data Analysis (SQL, Python, etc.)
-- Frontend (React, TypeScript, etc.)
-- Tools (Git, Azure DevOps, etc.)
+---
 
-## Instrucciones de Uso
+## 💻 Desarrollo Local
 
-### Para Agregar los GIFs de PowerBI:
-1. Coloca los archivos GIF en la carpeta `public/images/`
-2. Asegúrate de que tengan los nombres exactos:
-   - `Presupuestos.gif`
-   - `Distribucion.gif`
-   - `Temas.gif`
-   - `Visitas.gif`
-   - `Solicitudes.gif`
-   - `Puestos.gif`
+```powershell
+# 1. Clonar el repositorio
+git clone https://github.com/KimetzL/Portfolio.git
+cd Portfolio
 
-### Para Agregar los PDFs:
-1. Coloca los archivos PDF en la carpeta `public/documents/`
-2. Los nombres deben ser:
-   - `Renove PowerBI.pdf` (para el informe del renove)
-   - `cybersecurity-report.pdf` (para el informe de ciberseguridad)
-
-### Para Agregar Dashboards PowerBI Futuros:
-1. Reemplaza las tarjetas "Coming Soon" en la sección "Live PowerBI Dashboards"
-2. Puedes integrar iframes de PowerBI o enlaces a los dashboards
-
-## Personalización
-
-### Cambiar Información Personal:
-- Edita el componente `Portfolio` en `src/app/page.tsx`
-- Modifica nombre, título, descripción y contacto
-
-### Agregar Nuevos Proyectos:
-- Copia y adapta la estructura de las tarjetas existentes
-- Mantén la consistencia en el diseño
-
-### Modificar Colores y Estilos:
-- Edita las clases de Tailwind CSS
-- Usa las variables de diseño definidas en el componente
-
-## Tecnologías Utilizadas
-
-- **Next.js 15**: Framework React con App Router
-- **TypeScript**: Tipado estático
-- **Tailwind CSS**: Framework de CSS
-- **shadcn/ui**: Biblioteca de componentes
-- **Lucide React**: Iconos
-- **Framer Motion**: Animaciones (opcional)
-
-## Desarrollo
-
-```bash
-# Instalar dependencias
+# 2. Instalar dependencias
 npm install
 
-# Ejecutar servidor de desarrollo
+# 3. Iniciar el servidor de desarrollo
 npm run dev
 
-# Verificar código
-npm run lint
+# 4. Compilar para producción
+npm run build
 ```
 
-El servidor se ejecutará en `http://localhost:3000`
+El servidor estará disponible en `http://localhost:3000`.
 
-## Notas Importantes
+---
 
-- Los GIFs y PDFs deben estar en las carpetas correctas para que se muestren
-- La vista previa de PDFs funciona mejor con navegadores modernos
-- El diseño es totalmente responsive y compatible con modo oscuro/claro
-- Los espacios para PowerBIs futuros están preparados para integración fácil
+## 📝 Licencia y Autoría
+
+© {new Date().getFullYear()} **Kimetz Loroño**. Desarrollado con Next.js, TypeScript y Tailwind CSS.

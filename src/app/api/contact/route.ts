@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 // Schema de validación de datos de contacto
 const contactSchema = z.object({
@@ -26,6 +27,17 @@ function escapeHtml(str: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    // 0. Rate Limiting por IP (Máximo 3 envíos por IP cada 10 minutos)
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
+    const rateLimit = checkRateLimit(clientIp, { limit: 3, windowSeconds: 600 });
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { error: `Has excedido el límite de envíos. Por favor, reintenta en ${Math.ceil(rateLimit.resetInSeconds / 60)} minutos.` },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
 
     // 1. Validar el payload con Zod

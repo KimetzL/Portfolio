@@ -942,7 +942,7 @@ export default function ProjectPage() {
       <footer className="py-8 px-4 border-t">
         <div className="container mx-auto text-center">
           <p className="text-muted-foreground mb-4">
-            © 2024 Kimetz Loroño. Desarrollado con Next.js, TypeScript y Tailwind CSS.
+            © {new Date().getFullYear()} Kimetz Loroño. Desarrollado con Next.js, TypeScript y Tailwind CSS.
           </p>
           <Button onClick={() => router.push('/')} variant="outline">
             <ArrowLeft className="w-4 h-4 mr-2" />
