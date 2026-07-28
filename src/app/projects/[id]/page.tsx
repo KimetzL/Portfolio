@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,14 @@ import {
   Server,
   Brain,
   Lock,
-  Terminal
+  Terminal,
+  Zap,
+  CheckCircle2,
+  Filter,
+  Search,
+  RefreshCw,
+  Copy,
+  Check
 } from "lucide-react";
 
 const projectData = {
@@ -235,6 +243,415 @@ const getIcon = (tech: string) => {
   return iconMap[tech] || <Code className="w-4 h-4" />;
 };
 
+function JobEngineShowcaseSection() {
+  const [activeStep, setActiveStep] = useState(1);
+  const [activeCodeTab, setActiveCodeTab] = useState("early-stop");
+  const [copied, setCopied] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [portalFilter, setPortalFilter] = useState("all");
+  const [comunaFilter, setComunaFilter] = useState("all");
+  const [modalidadFilter, setModalidadFilter] = useState("all");
+
+  const sampleOffers = [
+    { id: "EP-98231", titulo: "Analista Programador / Desarrollador Backend", portal: "Empleos Públicos", empresa: "Hospital Regional de Talca", comuna: "Talca", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$1.450.000 Líquido", fecha: "2026-07-27" },
+    { id: "BNE-44120", titulo: "Ingeniero Agroindustrial / Jefe de Planta", portal: "BNE", empresa: "Agroindustrial El Aconcagua S.A.", comuna: "Curicó", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$1.800.000", fecha: "2026-07-26" },
+    { id: "GOB-1092", titulo: "Fullstack Developer Python & React", portal: "Get on Board", empresa: "TechTalent Chile", comuna: "Remoto", modalidad: "Remoto", jornada: "Jornada Completa", sueldo: "$2.200.000 - $2.600.000", fecha: "2026-07-28" },
+    { id: "LAB-77612", titulo: "Enfermero/a Clínico Turno 4T", portal: "Laborum", empresa: "Clínica San Francisco", comuna: "Linares", modalidad: "Presencial", jornada: "Por Turnos", sueldo: "$1.100.000", fecha: "2026-07-25" },
+    { id: "TRAB-5531", titulo: "Contador Auditor Senior", portal: "Trabajando.cl", empresa: "Agrícola Maule Sur Ltda.", comuna: "San Javier", modalidad: "Híbrido", jornada: "Jornada Completa", sueldo: "$1.300.000", fecha: "2026-07-26" },
+    { id: "CT-88912", titulo: "Técnico Mecánico de Mantenimiento", portal: "ChileTrabajos", empresa: "CMPC Celulosa", comuna: "Constitución", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$850.000 Líquido", fecha: "2026-07-27" },
+    { id: "TEE-3011", titulo: "Administrativo de Finanzas y Presupuesto", portal: "Trabaja en el Estado", empresa: "Servicio de Salud Maule", comuna: "Talca", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$950.000", fecha: "2026-07-24" },
+    { id: "BNE-88219", titulo: "Prevencionista de Riesgos (Sernageomin B)", portal: "BNE", empresa: "Constructora del Centro", comuna: "Cauquenes", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$1.250.000", fecha: "2026-07-27" },
+  ];
+
+  const filteredOffers = sampleOffers.filter((o) => {
+    const matchesSearch = !searchQuery || 
+      o.titulo.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      o.empresa.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      o.comuna.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesPortal = portalFilter === "all" || o.portal === portalFilter;
+    const matchesComuna = comunaFilter === "all" || o.comuna === comunaFilter;
+    const matchesModalidad = modalidadFilter === "all" || o.modalidad === modalidadFilter;
+    return matchesSearch && matchesPortal && matchesComuna && matchesModalidad;
+  });
+
+  const pipelineSteps: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
+    1: {
+      title: "01. Extracción Multi-Fuente (APIs, HTTP & Playwright)",
+      desc: "Arquitectura desacoplada que utiliza la técnica óptima según la fuente: REST APIs para BNE y Get on Board, HTTP/lxml de alto rendimiento para Empleos Públicos y ChileTrabajos, y automatización con Playwright para portales con renderizado JS (Trabajando, Laborum).",
+      highlights: [
+        "User-Agent transparente institucional: IES-CareerBot/1.0",
+        "Delays aleatorios éticos de 1s a 10s entre peticiones",
+        "Caché local HTTP (cache_http.py) con TTL configurable (4h / 24h)"
+      ]
+    },
+    2: {
+      title: "02. Persistencia Incremental Append O(1) & Parada Temprana",
+      desc: "Cada oferta extraída se serializa e inserta de forma inmediata al final del CSV individual en disco (mode='a'). Además, si el 100% de las ofertas de una página completa ya existen en la base de datos local, la paginación se aborta inmediatamente.",
+      highlights: [
+        "Cero pérdida de datos ante interrupciones de red o suspensión del SO",
+        "Tiempo de escritura constante O(1) sin reescritura de archivos",
+        "Reducción del tiempo incremental de 3 horas a solo 2-4 minutos"
+      ]
+    },
+    3: {
+      title: "03. Transformación & Motor RegEx NLP (extractor_helpers.py)",
+      desc: "Librería centralizada de expresiones regulares que procesa títulos y descripciones no estructurados para extraer sueldos explícitos, clasificar la modalidad de trabajo (Remoto, Híbrido, Presencial) y filtrar estrictamente por las 30 comunas de la Región del Maule.",
+      highlights: [
+        "Conversión sintáctica automatizada ($1.2M -> $1.200.000)",
+        "Soporte para terminología laboral en inglés (WFH, Remote)",
+        "Filtro geográfico estricto para las 30 comunas del Maule"
+      ]
+    },
+    4: {
+      title: "04. Deduplicación Difusa & Salida Consolidada (clean_existing_csvs.py)",
+      desc: "Proceso que consolida todos los CSVs individuales, normaliza los nombres de empresas (removiendo stop-words y sufijos legales como Ltda/S.A.), agrupa por la tupla (título, empresa, comuna) y conserva la versión del portal de mayor prioridad.",
+      highlights: [
+        "Procesamiento y deduplicación de +3.300 ofertas en ~4 segundos en memoria",
+        "Generación de reportes de auditoría de duplicados y excluidos",
+        "Consolidación en ofertas_unificadas.csv con esquema canónico de 17 columnas"
+      ]
+    }
+  };
+
+  const codeSnippets: { [key: string]: string } = {
+    "early-stop": `# Módulo: Early Stopping en Scrapers Paginados\n# Ubicación: empleos/portales/bne/bne.py\n\ndef extraer_ofertas_bne(limite_paginas=50):\n    for pagina in range(1, limite_paginas + 1):\n        ofertas_pagina = api_client.obtener_lista(pagina=pagina)\n        nuevas_en_pagina = 0\n        \n        for oferta in ofertas_pagina:\n            if not existe_en_csv_local(oferta["codigo"]):\n                guardar_incremental_append(oferta)\n                nuevas_en_pagina += 1\n        \n        # Si el 100% de ofertas ya existen, aborta paginación\n        if nuevas_en_pagina == 0:\n            logger.info(f"Parada Temprana activada en página {pagina}: 0 ofertas nuevas.")\n            break`,
+    "append-mode": `# Módulo: Escritura Incremental Directa O(1)\n# Ubicación: empleos/config.py\n\ndef registrar_oferta_incremental(filepath, oferta_dict, fieldnames):\n    """\n    Escribe inmediatamente la oferta al final del archivo CSV sin reescribirlo.\n    Garantiza tiempo O(1) e inmunidad a fallos de red o suspensión.\n    """\n    file_exists = os.path.isfile(filepath)\n    with open(filepath, mode="a", encoding="utf-8", newline="") as f:\n        writer = csv.DictWriter(f, fieldnames=fieldnames)\n        if not file_exists:\n            writer.writeheader()\n        writer.writerow(oferta_dict)`,
+    "dedup-hash": `# Módulo: Deduplicación Algorítmica Difusa\n# Ubicación: empleos/clean_existing_csvs.py\n\ndef deduplicar_ofertas(lista_ofertas):\n    vistas = {}\n    duplicados_eliminados = []\n    \n    for oferta in lista_ofertas:\n        # Generar clave canónica limpia\n        titulo_norm = re.sub(r'\\b(de|en|con|para|ltda|s\\.a)\\b', '', oferta['titulo'].lower())\n        empresa_norm = re.sub(r'\\b(chile|ltda|s\\.a|spa)\\b', '', oferta['empresa'].lower())\n        hash_key = f"{titulo_norm.strip()[:20]}|{empresa_norm.strip()[:15]}|{oferta['comuna'].lower()}"\n        \n        if hash_key in vistas:\n            # Conservar versión del portal con mayor prioridad en PRIORITY_ORDER\n            existente = vistas[hash_key]\n            if PRIORITY_ORDER.index(oferta['portal']) < PRIORITY_ORDER.index(existente['portal']):\n                vistas[hash_key] = oferta\n                duplicados_eliminados.append(existente)\n            else:\n                duplicados_eliminados.append(oferta)\n        else:\n            vistas[hash_key] = oferta\n            \n    return list(vistas.values()), duplicados_eliminados`,
+    "regex-enrich": `# Módulo: Motor Sintáctico RegEx (Sueldos y Modalidades)\n# Ubicación: empleos/extractor_helpers.py\n\ndef extraer_sueldo(titulo, descripcion):\n    texto = f"{titulo} {descripcion}".lower()\n    \n    patron_rango = r'\\$\\s*(\\d{1,3}(?:\\.\\d{3})*)\\s*a\\s*\\$\\s*(\\d{1,3}(?:\\.\\d{3})*)'\n    patron_monto = r'\\$\\s*(\\d{1,3}(?:\\.\\d{3})*|\\d+)\\s*(?:mil|k)?'\n    \n    match_rango = re.search(patron_rango, texto)\n    if match_rango:\n        return f"\${match_rango.group(1)} - \${match_rango.group(2)}"\n        \n    match_monto = re.search(patron_monto, texto)\n    if match_monto:\n        val = match_monto.group(1).replace('.', '')\n        if int(val) > 200000:\n            return f"\${int(val):,}".replace(',', '.')\n            \n    return "A convenir"`
+  };
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(codeSnippets[activeCodeTab]);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="space-y-12 mt-12">
+      {/* KPI Stat Cards Grid */}
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores de Rendimiento</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 bg-primary/10 rounded-xl text-primary">
+                <Database className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-primary">+3.300</div>
+                <div className="text-xs text-muted-foreground font-medium">Vacantes Consolidadas</div>
+                <div className="text-[11px] text-muted-foreground/70">Dataset activo Maule</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 bg-blue-500/10 rounded-xl text-blue-500">
+                <Globe className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-blue-500">7 Fuentes</div>
+                <div className="text-xs text-muted-foreground font-medium">Portales Integrados</div>
+                <div className="text-[11px] text-muted-foreground/70">APIs + HTTP + Playwright</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 bg-purple-500/10 rounded-xl text-purple-500">
+                <Zap className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-purple-500">~4 seg</div>
+                <div className="text-xs text-muted-foreground font-medium">Deduplicación Difusa</div>
+                <div className="text-[11px] text-muted-foreground/70">Procesamiento en memoria</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 bg-emerald-500/10 rounded-xl text-emerald-500">
+                <Shield className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-emerald-500">100%</div>
+                <div className="text-xs text-muted-foreground font-medium">Scraping Ético Auditado</div>
+                <div className="text-[11px] text-muted-foreground/70">User-Agent & Robots.txt</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Interactive ETL Pipeline Stepper */}
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Canalización ETL Interactiva</h2>
+        <Card className="overflow-hidden">
+          <CardHeader className="bg-muted/30 border-b pb-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {[1, 2, 3, 4].map((stepNum) => (
+                <Button
+                  key={stepNum}
+                  variant={activeStep === stepNum ? "default" : "outline"}
+                  onClick={() => setActiveStep(stepNum)}
+                  className="flex flex-col items-start h-auto py-3 px-4 text-left justify-start"
+                >
+                  <span className="text-xs opacity-70 font-mono">Paso 0{stepNum}</span>
+                  <span className="text-xs font-bold truncate">
+                    {stepNum === 1 && "1. Extracción"}
+                    {stepNum === 2 && "2. Append & Stop"}
+                    {stepNum === 3 && "3. NLP RegEx"}
+                    {stepNum === 4 && "4. Deduplicación"}
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </CardHeader>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center gap-3 text-primary font-semibold text-lg">
+              <Zap className="w-5 h-5" />
+              {pipelineSteps[activeStep].title}
+            </div>
+            <p className="text-muted-foreground leading-relaxed text-sm">
+              {pipelineSteps[activeStep].desc}
+            </p>
+            <div className="space-y-2 pt-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Puntos clave:</span>
+              <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {pipelineSteps[activeStep].highlights.map((h, i) => (
+                  <li key={i} className="flex items-center gap-2 text-xs bg-muted/50 p-2.5 rounded-lg border">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Interactive Live Dataset Explorer */}
+      <div>
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+          <div>
+            <h2 className="text-3xl font-bold">Explorador del Dataset Unificado</h2>
+            <p className="text-muted-foreground text-sm mt-1">
+              Simulador interactivo del dataset consolidado (`ofertas_unificadas.csv`) para la Región del Maule.
+            </p>
+          </div>
+          <Badge variant="outline" className="w-fit">
+            Mostrando {filteredOffers.length} de {sampleOffers.length} ofertas representativas
+          </Badge>
+        </div>
+
+        {/* Filters Box */}
+        <Card className="mb-6">
+          <CardContent className="p-4 space-y-4">
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Buscar por cargo, empresa o comuna (ej: Programador, Hospital, Talca)..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-background border rounded-md pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground font-medium block mb-1">Portal</label>
+                <select
+                  value={portalFilter}
+                  onChange={(e) => setPortalFilter(e.target.value)}
+                  className="w-full bg-background border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="all">Todos los portales</option>
+                  <option value="BNE">BNE (API)</option>
+                  <option value="Empleos Públicos">Empleos Públicos</option>
+                  <option value="Trabajando.cl">Trabajando.cl</option>
+                  <option value="Laborum">Laborum.cl</option>
+                  <option value="ChileTrabajos">ChileTrabajos</option>
+                  <option value="Get on Board">Get on Board</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground font-medium block mb-1">Comuna</label>
+                <select
+                  value={comunaFilter}
+                  onChange={(e) => setComunaFilter(e.target.value)}
+                  className="w-full bg-background border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="all">Todas las comunas</option>
+                  <option value="Talca">Talca</option>
+                  <option value="Curicó">Curicó</option>
+                  <option value="Linares">Linares</option>
+                  <option value="Constitución">Constitución</option>
+                  <option value="Remoto">Remoto</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground font-medium block mb-1">Modalidad</label>
+                <select
+                  value={modalidadFilter}
+                  onChange={(e) => setModalidadFilter(e.target.value)}
+                  className="w-full bg-background border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="all">Todas las modalidades</option>
+                  <option value="Presencial">Presencial</option>
+                  <option value="Remoto">Remoto</option>
+                  <option value="Híbrido">Híbrido</option>
+                </select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Offers Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filteredOffers.length === 0 ? (
+            <div className="col-span-2 text-center py-12 text-muted-foreground border rounded-lg bg-card">
+              No se encontraron vacantes con los filtros seleccionados.
+            </div>
+          ) : (
+            filteredOffers.map((offer) => (
+              <Card key={offer.id} className="hover:border-primary/40 transition-colors">
+                <CardHeader className="pb-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-base font-bold line-clamp-1">{offer.titulo}</CardTitle>
+                    <Badge variant="secondary" className="text-[10px] shrink-0">{offer.portal}</Badge>
+                  </div>
+                  <CardDescription className="text-xs font-semibold text-purple-400">
+                    🏢 {offer.empresa}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3 pt-2">
+                  <div className="flex flex-wrap gap-1.5">
+                    <Badge variant="outline" className="text-[11px] bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+                      💰 {offer.sueldo}
+                    </Badge>
+                    <Badge variant="outline" className="text-[11px] bg-blue-500/10 text-blue-400 border-blue-500/30">
+                      📍 {offer.comuna}
+                    </Badge>
+                    <Badge variant="outline" className="text-[11px] bg-purple-500/10 text-purple-400 border-purple-500/30">
+                      💻 {offer.modalidad}
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Code Snippets Viewer Component */}
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-3xl font-bold">Código Clave en Python</h2>
+          <Button size="sm" variant="outline" onClick={handleCopyCode} className="gap-2">
+            {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+            {copied ? "Copiado!" : "Copiar Código"}
+          </Button>
+        </div>
+
+        <Card className="overflow-hidden">
+          <CardHeader className="bg-muted/30 border-b pb-3">
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: "early-stop", label: "Early Stopping" },
+                { id: "append-mode", label: "Append O(1)" },
+                { id: "dedup-hash", label: "Deduplicación Difusa" },
+                { id: "regex-enrich", label: "RegEx NLP Sueldos" },
+              ].map((tab) => (
+                <Button
+                  key={tab.id}
+                  size="sm"
+                  variant={activeCodeTab === tab.id ? "default" : "ghost"}
+                  onClick={() => setActiveCodeTab(tab.id)}
+                  className="text-xs"
+                >
+                  {tab.label}
+                </Button>
+              ))}
+            </div>
+          </CardHeader>
+          <CardContent className="p-4 bg-slate-950 font-mono text-xs text-slate-100 overflow-x-auto">
+            <pre><code>{codeSnippets[activeCodeTab]}</code></pre>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Ethics & Governance Sources Matrix */}
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Matriz de Scraping Ético y Fuentes</h2>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Shield className="w-5 h-5 text-emerald-500" />
+              Estado y Cumplimiento Normativo de Portales
+            </CardTitle>
+            <CardDescription>
+              User-Agent Transparente: <code>IES-CareerBot/1.0; (+http://www.cftsanagustin.cl)</code>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0 overflow-x-auto">
+            <table className="w-full text-xs text-left">
+              <thead className="bg-muted/50 text-muted-foreground border-b">
+                <tr>
+                  <th className="p-3">Portal</th>
+                  <th className="p-3">Técnica Motor</th>
+                  <th className="p-3">Estado</th>
+                  <th className="p-3">Criterio Ético / Gobernanza</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                <tr>
+                  <td className="p-3 font-bold">BNE</td>
+                  <td className="p-3">API REST</td>
+                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
+                  <td className="p-3 text-muted-foreground">API pública oficial autorizada</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-bold">Empleos Públicos</td>
+                  <td className="p-3">HTTP / lxml</td>
+                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
+                  <td className="p-3 text-muted-foreground">Portal gubernamental público estatal</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-bold">Trabajando.cl</td>
+                  <td className="p-3">Playwright</td>
+                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
+                  <td className="p-3 text-muted-foreground">Renderizado headless respetando robots.txt</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-bold">Laborum.cl</td>
+                  <td className="p-3">Playwright</td>
+                  <td className="p-3"><Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge></td>
+                  <td className="p-3 text-muted-foreground">Navegación responsable con delays éticos 5-10s</td>
+                </tr>
+                <tr className="bg-rose-500/5">
+                  <td className="p-3 font-bold opacity-60">Computrabajo</td>
+                  <td className="p-3 opacity-60">—</td>
+                  <td className="p-3"><Badge variant="destructive">Excluido</Badge></td>
+                  <td className="p-3 text-rose-300">AWS WAF bloquea User-Agent; violaría transparencia suplantar navegador.</td>
+                </tr>
+                <tr className="bg-rose-500/5">
+                  <td className="p-3 font-bold opacity-60">Indeed</td>
+                  <td className="p-3 opacity-60">—</td>
+                  <td className="p-3"><Badge variant="destructive">Excluido</Badge></td>
+                  <td className="p-3 text-rose-300">Cloudflare exige bypasses no autorizados. Exclusión voluntaria.</td>
+                </tr>
+              </tbody>
+            </table>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectPage() {
   const params = useParams();
   const router = useRouter();
@@ -391,6 +808,11 @@ export default function ProjectPage() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Interactive Showcase Section - Only for Project 5 */}
+            {projectId === "5" && (
+              <JobEngineShowcaseSection />
+            )}
 
             {/* Interactive Dashboards Section - Only for Project 1 */}
             {projectId === "1" && (
