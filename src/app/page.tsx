@@ -4,13 +4,11 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
 import { ContactForm } from "@/components/contact-form";
 import {
   Github,
   Linkedin,
-  Mail,
   ExternalLink,
   Code,
   Database,
@@ -23,6 +21,7 @@ import {
   ArrowRight,
   Sparkles
 } from "lucide-react";
+import { getFeaturedProjects, getOtherProjects } from "@/data/projects";
 
 const skills = {
   "IA & Big Data": [
@@ -48,58 +47,6 @@ const skills = {
   ],
 };
 
-const projects = [
-  {
-    id: 1,
-    title: "Dashboards interactivos en PowerBI",
-    description: "Durante mi tiempo en la Diputación Foral de Bizkaia, desarrollé dashboards interactivos utilizando PowerBI gracias a los datos abiertos de Open Data Bizkaia. Estos paneles permitieron visualizar la información de manera más clara e intuitiva para la web \"Gardentasuna\", facilitando la comprensión de los datos.",
-    image: "/images/Graficas.jpg",
-    technologies: ["PowerBI", "Design Systems", "Data Visualization"],
-    githubUrl: "",
-    demoUrl: "",
-    featured: false,
-  },
-  {
-    id: 2,
-    title: "Chatbot administrativo",
-    description: "Desarrollé un chatbot administrativo capaz de analizar las consultas de los usuarios y determinar si se refieren a un ayuntamiento, un departamento o un trámite administrativo. El proyecto está implementado en Python, usando librerías como pandas, faiss, rapidfuzz y transformers, con una interfaz interactiva en Gradio. Incluye un instalador que prepara el entorno y descarga los modelos necesarios para ejecutarlo localmente.",
-    image: "/images/Chatbot.jpg",
-    technologies: ["Python", "Pandas", "Faiss", "Rapidfuzz", "Transformers", "Gradio"],
-    githubUrl: "https://github.com/KimetzL/ChatbotDFB",
-    demoUrl: "",
-    featured: false,
-  },
-  {
-    id: 3,
-    title: "Informe de Ciberseguridad: Proyecto Bootcamp",
-    description: "Como parte del Bootcamp de Ciberseguridad de The Bridge, participé en un proyecto colaborativo de dos semanas para la startup Deiviator. Mi labor incluyó auditorías de seguridad (OSINT, Pentesting y análisis de vulnerabilidades), implementación de un entorno self-hosted con Ubuntu, VPN, Suricata, Firewall UFW y Docker, y automatización de auditorías mediante GitHub Actions integrando Semgrep, ESLint, Gitleaks y SBOMs.",
-    image: "/images/Ciberseguridad.jpg",
-    technologies: ["OSINT", "Pentesting", "Ubuntu", "VPN", "Suricata", "Docker", "GitHub Actions"],
-    githubUrl: "",
-    demoUrl: "",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "Sistema de gestión de Iniciativas",
-    description: "Plataforma centralizada para la gestión, procesamiento y seguimiento en tiempo real de iniciativas y trámites administrativos. Optimiza los flujos de trabajo internos, facilita la toma de decisiones basada en datos y mejora la trazabilidad de solicitudes.",
-    image: "/images/iniciativas.png",
-    technologies: ["Python", "SQL", "Data Analytics", "API Rest"],
-    githubUrl: "",
-    demoUrl: "",
-    featured: true,
-  },
-  {
-    id: 5,
-    title: "Scraping & Analítica de Ofertas Laborales",
-    description: "Plataforma automatizada de recolección de datos, enriquecimiento sintáctico mediante NLP/RegEx y deduplicación inteligente de vacantes laborales de la Región del Maule para el CFT San Agustín.",
-    image: "/images/scraping_square.png",
-    technologies: ["Python", "Data Science", "Web Scraping", "NLP / RegEx", "Data Analytics"],
-    githubUrl: "",
-    demoUrl: "",
-    featured: true,
-  },
-];
 
 export default function Home() {
   return (
@@ -261,7 +208,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Proyectos</h2>
             {/* Featured Projects Grid (Top Row - 2 Columns) */}
             <div className="grid md:grid-cols-2 gap-8 mb-8">
-              {projects.filter(p => p.featured).map((project, index) => (
+              {getFeaturedProjects().map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -312,7 +259,7 @@ export default function Home() {
 
             {/* Other Projects Grid (Bottom Row - 3 Columns) */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.filter(p => !p.featured).map((project, index) => (
+              {getOtherProjects().map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -403,7 +350,7 @@ export default function Home() {
       <footer className="py-8 px-4 border-t">
         <div className="container mx-auto text-center">
           <p className="text-muted-foreground">
-            © 2024 Kimetz Loroño. Desarrollado con Next.js, TypeScript y Tailwind CSS.
+            © {new Date().getFullYear()} Kimetz Loroño. Desarrollado con Next.js, TypeScript y Tailwind CSS.
           </p>
         </div>
       </footer>

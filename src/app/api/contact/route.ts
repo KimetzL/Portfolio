@@ -11,6 +11,19 @@ const contactSchema = z.object({
   website: z.string().optional(),
 });
 
+/**
+ * Escapa caracteres HTML especiales para prevenir XSS en la plantilla del email.
+ * Esencial cuando se insertan datos de usuario directamente en HTML sin sanitizar.
+ */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -37,6 +50,12 @@ export async function POST(req: NextRequest) {
 
     if (resendApiKey) {
       try {
+        // Escapar todos los campos del usuario antes de insertarlos en HTML (prevención XSS)
+        const safeName = escapeHtml(name);
+        const safeEmail = escapeHtml(email);
+        const safeSubject = escapeHtml(subject);
+        const safeMessage = escapeHtml(message).replace(/\n/g, "<br />");
+
         const emailResponse = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -47,15 +66,15 @@ export async function POST(req: NextRequest) {
             from: "Portfolio Contact <onboarding@resend.dev>",
             to: recipientEmail,
             reply_to: email,
-            subject: `[Portfolio] ${subject}`,
+            subject: `[Portfolio] ${safeSubject}`,
             html: `
               <h2>Nuevo mensaje de contacto desde el Portfolio</h2>
-              <p><strong>De:</strong> ${name} (&lt;${email}&gt;)</p>
-              <p><strong>Asunto:</strong> ${subject}</p>
+              <p><strong>De:</strong> ${safeName} (&lt;${safeEmail}&gt;)</p>
+              <p><strong>Asunto:</strong> ${safeSubject}</p>
               <hr />
               <p><strong>Mensaje:</strong></p>
               <blockquote style="background: #f4f4f4; padding: 10px; border-left: 4px solid #0070f3;">
-                ${message.replace(/\n/g, "<br />")}
+                ${safeMessage}
               </blockquote>
             `,
           }),

@@ -28,6 +28,8 @@ export const metadata: Metadata = {
     title: "Kimetz Loroño - Portfolio",
     description: "Data Scientist, Data Analyst e IT & Systems",
     type: "website",
+    url: "https://kimetz-portfolio.vercel.app",
+    locale: "es_ES",
   },
   twitter: {
     card: "summary_large_image",
@@ -42,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang="es" suppressHydrationWarning className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
