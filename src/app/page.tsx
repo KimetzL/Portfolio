@@ -22,6 +22,7 @@ import {
   Sparkles
 } from "lucide-react";
 import { getFeaturedProjects, getOtherProjects } from "@/data/projects";
+import { ProjectImage } from "@/components/project-image";
 
 const skills = {
   "IA & Big Data": [
@@ -58,12 +59,14 @@ export default function Home() {
       <section id="home" className="min-h-screen flex items-center justify-center px-4 pt-16 relative overflow-hidden">
         {/* Background image with overlay */}
         <div className="absolute inset-0">
-          <img
+          <ProjectImage
             src="/hero-bg.jpg"
             alt="Background"
-            className="w-full h-full object-cover"
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/80 to-background/90" />
+          <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/80 to-background/90 z-10 pointer-events-none" />
         </div>
 
         {/* Background decoration */}
@@ -218,10 +221,10 @@ export default function Home() {
                 >
                   <Card className="h-full overflow-hidden hover:shadow-xl transition-all duration-300 border-primary/30 bg-card/80 backdrop-blur">
                     <div className="aspect-video bg-muted relative overflow-hidden group">
-                      <img
+                      <ProjectImage
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                     <CardHeader className="pb-3">
@@ -269,10 +272,10 @@ export default function Home() {
                 >
                   <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow">
                     <div className="aspect-video bg-muted relative overflow-hidden group">
-                      <img
+                      <ProjectImage
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <CardHeader>

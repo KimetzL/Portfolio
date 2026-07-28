@@ -29,6 +29,7 @@ import {
   RefreshCw
 } from "lucide-react";
 import { getProjectById } from "@/data/projects";
+import { ProjectImage } from "@/components/project-image";
 
 
 
@@ -508,11 +509,13 @@ export default function ProjectPage() {
             transition={{ duration: 0.8 }}
           >
             {/* Compact Banner Image First */}
-            <div className="w-full max-h-[260px] md:max-h-[320px] bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-8 flex items-center justify-center">
-              <img 
+            <div className="w-full h-[260px] md:h-[320px] relative bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-8">
+              <ProjectImage 
                 src={bannerImage} 
                 alt={project.title}
-                className="w-full h-full max-h-[260px] md:max-h-[320px] object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
             </div>
 
@@ -795,26 +798,12 @@ export default function ProjectPage() {
                         transition={{ delay: index * 0.1, duration: 0.5 }}
                       >
                         <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                          <div className="aspect-video bg-muted relative">
-                            <img 
+                          <div className="aspect-video bg-muted relative group">
+                            <ProjectImage 
                               src={`/images/${gif.fileName}.gif`}
                               alt={`${gif.name} - Transformación PowerBI`}
-                              className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-300"
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                                target.parentElement!.innerHTML = `
-                                  <div class="flex flex-col items-center justify-center h-full text-muted-foreground p-4">
-                                    <div class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-3">
-                                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                      </svg>
-                                    </div>
-                                    <span class="text-sm font-medium">${gif.fileName}.gif</span>
-                                    <span class="text-xs text-muted-foreground/70 mt-1">Sube el GIF para visualizar</span>
-                                  </div>
-                                `;
-                              }}
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                             <div className="absolute top-2 right-2">
                               <Badge variant="secondary" className="text-xs">
