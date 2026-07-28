@@ -687,11 +687,11 @@ export default function ProjectPage() {
             transition={{ duration: 0.8 }}
           >
             {/* Compact Banner Image First */}
-            <div className={`w-full max-h-[260px] md:max-h-[300px] rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-8 flex items-center justify-center ${project.image.includes('chatbot') ? 'bg-[#e0f7fc] dark:bg-[#0c2832] py-2' : 'bg-muted'}`}>
+            <div className="w-full max-h-[260px] md:max-h-[320px] bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-8 flex items-center justify-center">
               <img 
                 src={project.image} 
                 alt={project.title}
-                className={`w-full h-full max-h-[260px] md:max-h-[300px] transition-transform duration-500 group-hover:scale-105 ${project.image.includes('chatbot') ? 'object-contain p-2' : 'object-cover object-center'}`}
+                className="w-full h-full max-h-[260px] md:max-h-[320px] object-cover object-center transition-transform duration-500 group-hover:scale-105"
               />
             </div>
 
