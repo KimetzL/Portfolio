@@ -310,6 +310,7 @@ function JobEngineShowcaseSection() {
   };
 
   const portalMatrix = [
+    // 7 Portales Activos
     { name: "BNE", motor: "API REST", status: "active", note: "API pública oficial autorizada" },
     { name: "Empleos Públicos", motor: "HTTP / lxml", status: "active", note: "Portal gubernamental público estatal" },
     { name: "Trabaja en el Estado", motor: "ElasticSearch POST", status: "active", note: "Endpoint público optimizado sin renderizado JS" },
@@ -317,11 +318,13 @@ function JobEngineShowcaseSection() {
     { name: "Laborum.cl", motor: "Playwright", status: "active", note: "Navegación responsable con delays éticos de 1s a 3s" },
     { name: "ChileTrabajos", motor: "HTTP / BS4", status: "active", note: "Parsing de metadatos JSON-LD estructurados" },
     { name: "Get on Board", motor: "REST API v0", status: "active", note: "Consumo de API REST pública oficial" },
-    { name: "Computrabajo", motor: "—", status: "excluded", note: "AWS WAF bloquea User-Agent institucional; violaría transparencia suplantar navegador (Reglas 2 y 6)." },
-    { name: "Indeed", motor: "—", status: "excluded", note: "Cloudflare + Captchas exigen bypasses no permitidos (Regla 6). Exclusión voluntaria." },
+    // 3 Portales Deshabilitados (Redundancia)
     { name: "Buscojobs", motor: "—", status: "disabled", note: "Metabuscador deshabilitado por generar duplicados de portales cubiertos." },
     { name: "Jooble", motor: "—", status: "disabled", note: "Metabuscador deshabilitado que agrega vacantes de terceros ya existentes." },
-    { name: "Opcionempleo", motor: "—", status: "disabled", note: "API Careerjet deshabilitada por redundancia en resultados." }
+    { name: "Opcionempleo", motor: "—", status: "disabled", note: "API Careerjet deshabilitada por redundancia en resultados." },
+    // 2 Portales Excluidos (Restricción Técnica / Ética)
+    { name: "Computrabajo", motor: "—", status: "excluded", note: "AWS WAF bloquea User-Agent institucional; violaría transparencia suplantar navegador (Reglas 2 y 6)." },
+    { name: "Indeed", motor: "—", status: "excluded", note: "Cloudflare + Captchas exigen bypasses no permitidos (Regla 6). Exclusión voluntaria." }
   ];
 
   return (
@@ -521,19 +524,19 @@ function JobEngineShowcaseSection() {
                     <CardTitle className="text-base font-bold line-clamp-1">{offer.titulo}</CardTitle>
                     <Badge variant="secondary" className="text-[10px] shrink-0">{offer.portal}</Badge>
                   </div>
-                  <CardDescription className="text-xs font-semibold text-purple-400">
+                  <CardDescription className="text-xs font-semibold text-purple-700 dark:text-purple-400">
                     🏢 {offer.empresa}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3 pt-2">
                   <div className="flex flex-wrap gap-1.5">
-                    <Badge variant="outline" className="text-[11px] bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+                    <Badge variant="outline" className="text-[11px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30">
                       💰 {offer.sueldo}
                     </Badge>
-                    <Badge variant="outline" className="text-[11px] bg-blue-500/10 text-blue-400 border-blue-500/30">
+                    <Badge variant="outline" className="text-[11px] bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/30">
                       📍 {offer.comuna}
                     </Badge>
-                    <Badge variant="outline" className="text-[11px] bg-purple-500/10 text-purple-400 border-purple-500/30">
+                    <Badge variant="outline" className="text-[11px] bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/30">
                       💻 {offer.modalidad}
                     </Badge>
                   </div>
@@ -569,21 +572,42 @@ function JobEngineShowcaseSection() {
               </thead>
               <tbody className="divide-y">
                 {portalMatrix.map((item) => (
-                  <tr key={item.name} className={item.status !== "active" ? "bg-rose-500/5" : ""}>
-                    <td className={`p-3 font-bold ${item.status !== "active" ? "opacity-70" : ""}`}>{item.name}</td>
-                    <td className={`p-3 ${item.status !== "active" ? "opacity-70" : ""}`}>{item.motor}</td>
+                  <tr 
+                    key={item.name} 
+                    className={
+                      item.status === "excluded" 
+                        ? "bg-rose-500/10 dark:bg-rose-500/5" 
+                        : item.status === "disabled" 
+                        ? "bg-amber-500/10 dark:bg-amber-500/5" 
+                        : ""
+                    }
+                  >
+                    <td className={`p-3 font-bold ${item.status !== "active" ? "opacity-80" : ""}`}>{item.name}</td>
+                    <td className={`p-3 ${item.status !== "active" ? "opacity-80" : ""}`}>{item.motor}</td>
                     <td className="p-3">
                       {item.status === "active" && (
-                        <Badge className="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border-0">Activo</Badge>
+                        <Badge className="bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/30 border-0 font-semibold">
+                          Activo
+                        </Badge>
                       )}
                       {item.status === "excluded" && (
-                        <Badge variant="destructive">Excluido</Badge>
+                        <Badge className="bg-rose-600 text-white dark:bg-rose-900/80 dark:text-rose-200 border-0 font-semibold">
+                          Excluido
+                        </Badge>
                       )}
                       {item.status === "disabled" && (
-                        <Badge variant="outline" className="text-amber-400 border-amber-500/30 bg-amber-500/10">Deshabilitado</Badge>
+                        <Badge variant="outline" className="bg-amber-500/20 text-amber-900 dark:text-amber-300 border-amber-500/50 dark:border-amber-500/30 font-semibold">
+                          Deshabilitado
+                        </Badge>
                       )}
                     </td>
-                    <td className={`p-3 ${item.status === "excluded" ? "text-rose-300" : item.status === "disabled" ? "text-amber-200/70" : "text-muted-foreground"}`}>
+                    <td className={`p-3 ${
+                      item.status === "excluded" 
+                        ? "text-rose-800 dark:text-rose-300 font-medium" 
+                        : item.status === "disabled" 
+                        ? "text-amber-900 dark:text-amber-200/90 font-medium" 
+                        : "text-muted-foreground"
+                    }`}>
                       {item.note}
                     </td>
                   </tr>
