@@ -184,7 +184,7 @@ const projectData = {
 
       Para garantizar la calidad de los datos, el sistema implementa un algoritmo de deduplicación difusa en memoria capaz de procesar y unificar más de 3.300 vacantes en ~4 segundos, filtrando estrictamente por las 30 comunas de la región y operando bajo un estricto marco de scraping ético y gobernanza transparente.
     `,
-    image: "/images/scraping.png",
+    image: "/images/scraping_wide.png",
     technologies: ["Python", "Data Science", "Web Scraping", "NLP / RegEx", "Data Analytics", "Automation"],
     githubUrl: "",
     demoUrl: "",

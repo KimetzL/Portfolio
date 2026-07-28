@@ -93,7 +93,7 @@ const projects = [
     id: 5,
     title: "Scraping & Analítica de Ofertas Laborales",
     description: "Plataforma automatizada de recolección de datos, enriquecimiento sintáctico mediante NLP/RegEx y deduplicación inteligente de vacantes laborales de la Región del Maule para el CFT San Agustín.",
-    image: "/images/scraping.png",
+    image: "/images/scraping_square.png",
     technologies: ["Python", "Data Science", "Web Scraping", "NLP / RegEx", "Data Analytics"],
     githubUrl: "",
     demoUrl: "",
