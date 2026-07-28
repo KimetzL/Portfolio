@@ -686,22 +686,15 @@ export default function ProjectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="aspect-video bg-muted rounded-lg overflow-hidden mb-8">
-              <img 
-                src={project.image} 
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            
+            {/* Title & Info Section First */}
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               <div className="md:col-span-2">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">{project.title}</h1>
-                <p className="text-xl text-muted-foreground mb-6">{project.description}</p>
+                <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed">{project.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="flex items-center gap-1">
+                    <Badge key={tech} variant="secondary" className="flex items-center gap-1.5 py-1 px-3">
                       {getIcon(tech)}
                       {tech}
                     </Badge>
@@ -711,21 +704,21 @@ export default function ProjectPage() {
               
               <div className="space-y-4">
                 <Card>
-                  <CardHeader>
+                  <CardHeader className="pb-3">
                     <CardTitle className="text-lg">Project Details</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm">{project.startDate} - {project.endDate}</span>
+                  <CardContent className="space-y-3 text-sm">
+                    <div className="flex items-center gap-2.5">
+                      <Calendar className="w-4 h-4 text-primary shrink-0" />
+                      <span>{project.startDate} - {project.endDate}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm">{project.client}</span>
+                    <div className="flex items-center gap-2.5">
+                      <User className="w-4 h-4 text-primary shrink-0" />
+                      <span>{project.client}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Code className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm">{project.category}</span>
+                    <div className="flex items-center gap-2.5">
+                      <Code className="w-4 h-4 text-primary shrink-0" />
+                      <span>{project.category}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -748,6 +741,15 @@ export default function ProjectPage() {
                   )}
                 </div>
               </div>
+            </div>
+
+            {/* Compact Horizontal Image Banner Below Header Info */}
+            <div className="w-full max-h-[280px] md:max-h-[320px] bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-4">
+              <img 
+                src={project.image} 
+                alt={project.title}
+                className="w-full h-full max-h-[280px] md:max-h-[320px] object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              />
             </div>
           </motion.div>
         </div>
