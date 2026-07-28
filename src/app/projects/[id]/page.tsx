@@ -197,7 +197,7 @@ const projectData = {
       "Enriquecimiento sintáctico NLP con RegEx (sueldos, modalidades y jornadas)",
       "Algoritmo de deduplicación difusa en memoria (+3.300 ofertas en ~4 segundos)",
       "Filtrado geográfico inteligente para las 30 comunas de la Región del Maule",
-      "Scraping ético auditado con User-Agent institucional e inmunidad a fallos O(1)",
+      "Scraping ético auditado con User-Agent institucional e inmunidad a fallos",
       "Optimizaciones de rendimiento con algoritmo de parada temprana (Early Stopping)"
     ],
     challenges: [
@@ -276,16 +276,16 @@ function JobEngineShowcaseSection() {
       desc: "Arquitectura desacoplada que utiliza la técnica óptima según la fuente: REST APIs para BNE y Get on Board, HTTP/lxml de alto rendimiento para Empleos Públicos y ChileTrabajos, y automatización con Playwright para portales con renderizado JS (Trabajando, Laborum).",
       highlights: [
         "User-Agent transparente institucional: IES-CareerBot/1.0",
-        "Delays aleatorios éticos de 1s a 10s entre peticiones",
+        "Delays aleatorios éticos de 1s a 3s entre peticiones",
         "Caché local HTTP (cache_http.py) con TTL configurable (4h / 24h)"
       ]
     },
     2: {
-      title: "02. Persistencia Incremental Append O(1) & Parada Temprana",
+      title: "02. Persistencia Incremental & Parada Temprana",
       desc: "Cada oferta extraída se serializa e inserta de forma inmediata al final del CSV individual en disco (mode='a'). Además, si el 100% de las ofertas de una página completa ya existen en la base de datos local, la paginación se aborta inmediatamente.",
       highlights: [
         "Cero pérdida de datos ante interrupciones de red o suspensión del SO",
-        "Tiempo de escritura constante O(1) sin reescritura de archivos",
+        "Tiempo de escritura constante sin reescritura de archivos",
         "Reducción del tiempo incremental de 3 horas a solo 2-4 minutos"
       ]
     },
@@ -300,7 +300,7 @@ function JobEngineShowcaseSection() {
     },
     4: {
       title: "04. Deduplicación Difusa & Salida Consolidada (clean_existing_csvs.py)",
-      desc: "Proceso que consolida todos los CSVs individuales, normaliza los nombres de empresas (removiendo stop-words y sufijos legales como Ltda/S.A.), agrupa por la tupla (título, empresa, comuna) y conserva la versión del portal de mayor prioridad.",
+      desc: "Proceso que consolida todos los CSVs individuales, normaliza los nombres de empresas (removiendo sufijos legales como Ltda/S.A.), agrupa por la tupla (título, empresa, comuna) y conserva la versión del portal de mayor prioridad.",
       highlights: [
         "Procesamiento y deduplicación de +3.300 ofertas en ~4 segundos en memoria",
         "Generación de reportes de auditoría de duplicados y excluidos",
@@ -314,7 +314,7 @@ function JobEngineShowcaseSection() {
     { name: "Empleos Públicos", motor: "HTTP / lxml", status: "active", note: "Portal gubernamental público estatal" },
     { name: "Trabaja en el Estado", motor: "ElasticSearch POST", status: "active", note: "Endpoint público optimizado sin renderizado JS" },
     { name: "Trabajando.cl", motor: "Playwright", status: "active", note: "Renderizado headless respetando robots.txt" },
-    { name: "Laborum.cl", motor: "Playwright", status: "active", note: "Navegación responsable con delays éticos de 5-10s" },
+    { name: "Laborum.cl", motor: "Playwright", status: "active", note: "Navegación responsable con delays éticos de 1s a 3s" },
     { name: "ChileTrabajos", motor: "HTTP / BS4", status: "active", note: "Parsing de metadatos JSON-LD estructurados" },
     { name: "Get on Board", motor: "REST API v0", status: "active", note: "Consumo de API REST pública oficial" },
     { name: "Computrabajo", motor: "—", status: "excluded", note: "AWS WAF bloquea User-Agent institucional; violaría transparencia suplantar navegador (Reglas 2 y 6)." },

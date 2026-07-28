@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const navItems = [
   { name: "Inicio", href: "#home" },
@@ -19,7 +20,13 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Check if we're on a project page
   const isProjectPage = pathname?.startsWith('/projects/');
@@ -128,6 +135,24 @@ export function Navigation() {
                 )}
               </motion.button>
             ))}
+
+            {/* Theme Toggle Button (Sol / Luna) */}
+            {mounted && (
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="rounded-full w-9 h-9 border-border/60 hover:bg-accent transition-all shadow-sm"
+                title={theme === "dark" ? "Cambiar a Modo Claro" : "Cambiar a Modo Noche"}
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4 text-yellow-400 transition-all transform hover:rotate-45" />
+                ) : (
+                  <Moon className="h-4 w-4 text-slate-700 dark:text-slate-200 transition-all transform hover:-rotate-12" />
+                )}
+                <span className="sr-only">Cambiar modo claro / noche</span>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Navigation */}
@@ -155,6 +180,31 @@ export function Navigation() {
                     {item.name}
                   </motion.button>
                 ))}
+
+                {/* Mobile Theme Toggle */}
+                {mounted && (
+                  <div className="pt-6 mt-4 border-t border-border flex items-center justify-between">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Tema
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                      className="gap-2 rounded-full"
+                    >
+                      {theme === "dark" ? (
+                        <>
+                          <Sun className="h-4 w-4 text-yellow-400" /> Modo Claro
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="h-4 w-4 text-slate-700" /> Modo Noche
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                )}
               </div>
             </SheetContent>
           </Sheet>
