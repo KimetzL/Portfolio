@@ -471,17 +471,17 @@ function PowerBIDashboardsSection() {
     <div className="space-y-12">
       {/* Metric Stat Cards Grid (Compact Layout matching Project 5) */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores de Rendimiento</h2>
+        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores del Proyecto</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
             <CardContent className="p-4 flex items-center gap-3">
               <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
                 <Globe className="w-5 h-5" />
               </div>
-              <div>
-                <div className="text-xl font-bold text-primary whitespace-nowrap">3 Dashboards</div>
-                <div className="text-xs text-muted-foreground font-medium">Interactivos en Vivo</div>
-                <div className="text-[10px] text-muted-foreground/70">Comunicaciones, Web y Mapa</div>
+              <div className="min-w-0">
+                <div className="text-lg xl:text-xl font-bold text-primary leading-tight truncate">3 Dashboards</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Interactivos en Vivo</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Comunicaciones, Web y Mapa</div>
               </div>
             </CardContent>
           </Card>
@@ -491,10 +491,10 @@ function PowerBIDashboardsSection() {
               <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
                 <Zap className="w-5 h-5" />
               </div>
-              <div>
-                <div className="text-xl font-bold text-blue-500 whitespace-nowrap">+15 Dashboards</div>
-                <div className="text-xs text-muted-foreground font-medium">Informes Renovados</div>
-                <div className="text-[10px] text-muted-foreground/70">Estandarización Gardentasuna</div>
+              <div className="min-w-0">
+                <div className="text-lg xl:text-xl font-bold text-blue-500 leading-tight truncate">+15 Dashboards</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Informes Renovados</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Estandarización Gardentasuna</div>
               </div>
             </CardContent>
           </Card>
@@ -504,10 +504,10 @@ function PowerBIDashboardsSection() {
               <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
                 <Database className="w-5 h-5" />
               </div>
-              <div>
-                <div className="text-xl font-bold text-purple-500 whitespace-nowrap">100%</div>
-                <div className="text-xs text-muted-foreground font-medium">Datos Abiertos DFB</div>
-                <div className="text-[10px] text-muted-foreground/70">Open Data Bizkaia</div>
+              <div className="min-w-0">
+                <div className="text-lg xl:text-xl font-bold text-purple-500 leading-tight truncate">100%</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Datos Abiertos DFB</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Open Data Bizkaia</div>
               </div>
             </CardContent>
           </Card>
@@ -517,10 +517,10 @@ function PowerBIDashboardsSection() {
               <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
-              <div>
-                <div className="text-xl font-bold text-emerald-500 whitespace-nowrap">Coherencia & UX</div>
-                <div className="text-xs text-muted-foreground font-medium">Usabilidad Unificada</div>
-                <div className="text-[10px] text-muted-foreground/70">Navegación e interfaz limpia</div>
+              <div className="min-w-0">
+                <div className="text-lg xl:text-xl font-bold text-emerald-500 leading-tight truncate">Coherencia & UX</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Usabilidad Unificada</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Navegación e interfaz limpia</div>
               </div>
             </CardContent>
           </Card>
