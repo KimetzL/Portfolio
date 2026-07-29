@@ -597,8 +597,6 @@ export default function ProjectPage() {
   const projectId = params.id as string;
   
   const project = getProjectById(Number(projectId));
-  // La imagen de banner usa la variante panorámica si existe, o la imagen estándar como fallback
-  const bannerImage = project?.imageWide ?? project?.image;
 
   // Función para manejar la vista previa del PDF de Ciberseguridad
   const handlePreviewCybersecurityPDF = () => {
@@ -644,6 +642,10 @@ export default function ProjectPage() {
       </div>
     );
   }
+
+  // La imagen de banner usa la variante panorámica si existe, o la imagen estándar como fallback
+  // Declarado después del guard para que TypeScript sepa que project no es undefined
+  const bannerImage: string = project.imageWide ?? project.image;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
