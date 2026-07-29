@@ -46,7 +46,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   typescript: {
-    ignoreBuildErrors: true,
+    // Validación estricta de tipos activada para producción
+    ignoreBuildErrors: process.env.NODE_ENV === "development",
   },
   reactStrictMode: true,
   async headers() {
@@ -66,7 +67,8 @@ const nextConfig: NextConfig = {
     return config;
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    // Validación estricta de linter activada para producción
+    ignoreDuringBuilds: process.env.NODE_ENV === "development",
   },
 };
 

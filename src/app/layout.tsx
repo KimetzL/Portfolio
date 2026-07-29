@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   keywords: ["Kimetz Loroño", "portfolio", "data scientist", "data analyst", "IT", "systems", "desarrollo web"],
   authors: [{ name: "Kimetz Loroño" }],
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   openGraph: {
     title: "Kimetz Loroño - Portfolio",

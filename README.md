@@ -23,7 +23,7 @@ Focalizado en **Data Science**, **Data Analytics**, **IA** e **Infraestructura I
 
 ### 📊 Analítica Web & SEO
 - **Vercel Analytics Integrado**: Medición en tiempo real sin cookies ni banners intrusivos.
-- **SEO & Open Graph**: Estructura semántica HTML5, metadatos dinámicos, `lang="es"` y copyright automatizado (`© {new Date().getFullYear()}`).
+- **SEO & Open Graph**: Estructura semántica HTML5, metadatos dinámicos, `lang="es"` y copyright automatizado (`© 2026`).
 
 ---
 
@@ -119,4 +119,4 @@ El servidor estará disponible en `http://localhost:3000`.
 
 ## 📝 Licencia y Autoría
 
-© {new Date().getFullYear()} **Kimetz Loroño**. Desarrollado con Next.js, TypeScript y Tailwind CSS.
+© 2026 **Kimetz Loroño**. Desarrollado con Next.js, TypeScript y Tailwind CSS.
