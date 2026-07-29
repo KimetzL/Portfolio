@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     // 1. Validar el payload con Zod
     const result = contactSchema.safeParse(body);
     if (!result.success) {
-      const firstError = result.error.errors[0]?.message || "Datos del formulario no válidos";
+      const firstError = result.error.issues[0]?.message || "Datos del formulario no válidos";
       return NextResponse.json({ error: firstError }, { status: 400 });
     }
 

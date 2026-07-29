@@ -441,6 +441,156 @@ function JobEngineShowcaseSection() {
   );
 }
 
+function PowerBIDashboardsSection() {
+  const [activeTab, setActiveTab] = useState(1);
+
+  const dashboards = [
+    {
+      id: 1,
+      title: "Comunicaciones, Consultas, Quejas y Sugerencias",
+      description: "Sistema de seguimiento de comunicaciones ciudadanas y gestión de solicitudes",
+      src: "https://app.powerbi.com/view?r=eyJrIjoiNGIwNWM4MjEtMjJmZi00ZDJlLTg2N2EtNjQzMjhhYmIwNmZiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
+    },
+    {
+      id: 2,
+      title: "Estadísticas del portal de transparencia",
+      description: "Análisis de tráfico y métricas de rendimiento del sitio web Gardentasuna",
+      src: "https://app.powerbi.com/view?r=eyJrIjoiODlkYzBhZjctMjZjOC00ZGI0LTkzYTQtZTRhZmM4NjU2YzRkIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
+    },
+    {
+      id: 3,
+      title: "Mapa de Oficinas y Atención Ciudadana",
+      description: "Visualización geográfica interactiva de las oficinas y puntos de atención",
+      src: "https://app.powerbi.com/view?r=eyJrIjoiNzA5MTZkYjgtY2JhYS00MWQ4LWFiMTctNGFmMGNmMDMxNWRiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=5c18373603eff3c5e8c7"
+    }
+  ];
+
+  const currentDashboard = dashboards.find((d) => d.id === activeTab) || dashboards[0];
+
+  return (
+    <div className="space-y-12">
+      {/* Metric Stat Cards Grid (Opción A) */}
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores del Proyecto</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
+                <Globe className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl font-bold text-primary">3 Dashboards</div>
+                <div className="text-xs text-muted-foreground font-medium">Interactivos en Vivo</div>
+                <div className="text-[10px] text-muted-foreground/70">Comunicaciones, Web y Mapa</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
+                <Zap className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl font-bold text-blue-500">+15 Dashboards</div>
+                <div className="text-xs text-muted-foreground font-medium">Informes Renovados</div>
+                <div className="text-[10px] text-muted-foreground/70">Estandarización Gardentasuna</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
+                <Database className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl font-bold text-purple-500">100%</div>
+                <div className="text-xs text-muted-foreground font-medium">Datos Abiertos DFB</div>
+                <div className="text-[10px] text-muted-foreground/70">Open Data Bizkaia</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl font-bold text-emerald-500">Coherencia & UX</div>
+                <div className="text-xs text-muted-foreground font-medium">Usabilidad Unificada</div>
+                <div className="text-[10px] text-muted-foreground/70">Navegación e interfaz limpia</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Interactive Live Selector Tabs */}
+      <div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 className="text-3xl font-bold">Dashboards Interactivos en Vivo</h2>
+            <p className="text-muted-foreground text-sm mt-1">
+              Selecciona uno de los paneles dinámicos embebidos para explorar los datos en tiempo real.
+            </p>
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => window.open(currentDashboard.src, '_blank')}
+            className="w-fit shrink-0"
+          >
+            <ExternalLink className="w-4 h-4 mr-2" />
+            Abrir en Power BI
+          </Button>
+        </div>
+
+        <Card className="overflow-hidden">
+          <CardHeader className="bg-muted/30 border-b pb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {dashboards.map((dash) => (
+                <Button
+                  key={dash.id}
+                  variant={activeTab === dash.id ? "default" : "outline"}
+                  onClick={() => setActiveTab(dash.id)}
+                  className="flex flex-col items-start h-auto py-3 px-4 text-left justify-start"
+                >
+                  <span className="text-[10px] opacity-75 uppercase font-mono tracking-wider">Dashboard 0{dash.id}</span>
+                  <span className="text-xs font-bold truncate w-full">
+                    {dash.id === 1 && "Comunicaciones & Quejas"}
+                    {dash.id === 2 && "Estadísticas Web"}
+                    {dash.id === 3 && "Mapa de Oficinas"}
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="p-4 border-b bg-muted/10">
+              <h3 className="font-bold text-base">{currentDashboard.title}</h3>
+              <p className="text-xs text-muted-foreground">{currentDashboard.description}</p>
+            </div>
+            <div className="aspect-video bg-muted flex items-center justify-center relative">
+              <iframe 
+                key={currentDashboard.id}
+                title={currentDashboard.title}
+                width="100%" 
+                height="100%" 
+                src={currentDashboard.src}
+                frameBorder="0" 
+                allowFullScreen={true}
+                className="w-full h-full"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectPage() {
   const params = useParams();
   const router = useRouter();
@@ -609,81 +759,9 @@ export default function ProjectPage() {
               <JobEngineShowcaseSection />
             )}
 
-            {/* Interactive Dashboards Section - Only for Project 1 */}
+            {/* Interactive Dashboards & Metrics Section - Only for Project 1 */}
             {projectId === "1" && (
-              <div>
-                <h2 className="text-3xl font-bold mb-6">Dashboards Interactivos</h2>
-                <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
-                  {/* Dashboard 1: Comunicaciones, Consultas, Quejas y Sugerencias */}
-                  <Card className="overflow-hidden">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Comunicaciones, Consultas, Quejas y Sugerencias</CardTitle>
-                      <CardDescription>
-                        Sistema de seguimiento de comunicaciones ciudadanas y gestión de solicitudes
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <div className="aspect-video bg-muted flex items-center justify-center">
-                        <iframe 
-                          title="Comunicaciones, Consultas, Quejas y Sugerencias"
-                          width="100%" 
-                          height="100%" 
-                          src="https://app.powerbi.com/view?r=eyJrIjoiNGIwNWM4MjEtMjJmZi00ZDJlLTg2N2EtNjQzMjhhYmIwNmZiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
-                          frameBorder="0" 
-                          allowFullScreen={true}
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Dashboard 2: Estadísticas del portal de transparencia */}
-                  <Card className="overflow-hidden">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Estadísticas del portal de transparencia</CardTitle>
-                      <CardDescription>
-                        Análisis de tráfico y métricas de rendimiento del sitio web
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <div className="aspect-video bg-muted flex items-center justify-center">
-                        <iframe 
-                          title="Estadisticas WEB"
-                          width="100%" 
-                          height="100%" 
-                          src="https://app.powerbi.com/view?r=eyJrIjoiODlkYzBhZjctMjZjOC00ZGI0LTkzYTQtZTRhZmM4NjU2YzRkIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
-                          frameBorder="0" 
-                          allowFullScreen={true}
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Dashboard 3: Mapa de Oficinas */}
-                  <Card className="overflow-hidden">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Mapa de Oficinas</CardTitle>
-                      <CardDescription>
-                        Visualización geográfica de las oficinas y puntos de atención ciudadana
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <div className="aspect-video bg-muted flex items-center justify-center">
-                        <iframe 
-                          title="Mapa oficinas"
-                          width="100%" 
-                          height="100%" 
-                          src="https://app.powerbi.com/view?r=eyJrIjoiNzA5MTZkYjgtY2JhYS00MWQ4LWFiMTctNGFmMGNmMDMxNWRiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=5c18373603eff3c5e8c7"
-                          frameBorder="0" 
-                          allowFullScreen={true}
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
+              <PowerBIDashboardsSection />
             )}
 
             {/* Video Demo Section - Only for Project 2 */}
