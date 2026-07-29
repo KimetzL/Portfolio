@@ -34,7 +34,7 @@ import { ProjectImage } from "@/components/project-image";
 
 
 const getIcon = (tech: string) => {
-  const iconMap: { [key: string]: JSX.Element } = {
+  const iconMap: Record<string, React.ReactNode> = {
     Python: <Code className="w-4 h-4" />,
     React: <Globe className="w-4 h-4" />,
     PowerBI: <Database className="w-4 h-4" />,
