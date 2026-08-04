@@ -489,52 +489,52 @@ function ChatbotShowcaseSection() {
       <div>
         <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores del Proyecto</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-4 flex items-center gap-3">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
               <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
                 <Brain className="w-5 h-5" />
               </div>
-              <div className="min-w-0" title="Motor NLP - Clasificación Contextual con Transformers">
-                <div className="text-base sm:text-lg xl:text-xl font-bold text-primary leading-tight whitespace-nowrap">Motor NLP</div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="Motor NLP - Clasificación Contextual con Transformers">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-primary leading-tight truncate">Motor NLP</div>
                 <div className="text-xs text-muted-foreground font-medium truncate">Clasificación Contextual</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Transformers & Intent Detection</div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-4 flex items-center gap-3">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
               <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
                 <Zap className="w-5 h-5" />
               </div>
-              <div className="min-w-0" title="Indexación FAISS - Búsqueda Vectorial Ultra-Rápida">
-                <div className="text-base sm:text-lg xl:text-xl font-bold text-blue-500 leading-tight whitespace-nowrap">Indexación FAISS</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Búsqueda Vectorial</div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="Búsqueda FAISS - Búsqueda Vectorial Ultra-Rápida">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-blue-500 leading-tight truncate">Búsqueda FAISS</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Indexación Vectorial</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Embeddings de Trámites & Dptos</div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-4 flex items-center gap-3">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
               <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
                 <Search className="w-5 h-5" />
               </div>
-              <div className="min-w-0" title="RapidFuzz - Coincidencia Difusa y Tolerancia a Erratas">
-                <div className="text-base sm:text-lg xl:text-xl font-bold text-purple-500 leading-tight whitespace-nowrap">RapidFuzz</div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="RapidFuzz - Coincidencia Difusa y Tolerancia a Erratas">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-purple-500 leading-tight truncate">RapidFuzz</div>
                 <div className="text-xs text-muted-foreground font-medium truncate">Coincidencia Difusa</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Tolerancia a Erratas Ciudadanas</div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
-            <CardContent className="p-4 flex items-center gap-3">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
               <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
                 <Server className="w-5 h-5" />
               </div>
-              <div className="min-w-0" title="100% Local - Ejecución Offline con Gradio e Instalador Python">
-                <div className="text-base sm:text-lg xl:text-xl font-bold text-emerald-500 leading-tight whitespace-nowrap">100% Local</div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="100% Local - Ejecución Offline con Gradio e Instalador Python">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-emerald-500 leading-tight truncate">100% Local</div>
                 <div className="text-xs text-muted-foreground font-medium truncate">Ejecución Offline</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Interfaz Gradio & Python Setup</div>
               </div>
@@ -842,7 +842,7 @@ export default function ProjectPage() {
               <div className="space-y-4">
                 <Card>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">Project Details</CardTitle>
+                    <CardTitle className="text-lg">Ficha Técnica</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3 text-sm">
                     <div className="flex items-center gap-2.5">
