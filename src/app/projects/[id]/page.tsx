@@ -478,8 +478,8 @@ function PowerBIDashboardsSection() {
               <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
                 <Globe className="w-5 h-5" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg xl:text-xl font-bold text-primary leading-tight truncate">3 Dashboards</div>
+              <div className="min-w-0" title="3 Dashboards Interactivos en Vivo (Comunicaciones, Web y Mapa)">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-primary leading-tight whitespace-nowrap">3 Dashboards</div>
                 <div className="text-xs text-muted-foreground font-medium truncate">Interactivos en Vivo</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Comunicaciones, Web y Mapa</div>
               </div>
@@ -491,9 +491,9 @@ function PowerBIDashboardsSection() {
               <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
                 <Zap className="w-5 h-5" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg xl:text-xl font-bold text-blue-500 leading-tight truncate">+15 Dashboards</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Informes Renovados</div>
+              <div className="min-w-0" title="+15 Informes Renovados (Estandarización Gardentasuna)">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-blue-500 leading-tight whitespace-nowrap">+15 Informes</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Diseño Renovado</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Estandarización Gardentasuna</div>
               </div>
             </CardContent>
@@ -504,8 +504,8 @@ function PowerBIDashboardsSection() {
               <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
                 <Database className="w-5 h-5" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg xl:text-xl font-bold text-purple-500 leading-tight truncate">100%</div>
+              <div className="min-w-0" title="100% Datos Abiertos DFB (Open Data Bizkaia)">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-purple-500 leading-tight whitespace-nowrap">100%</div>
                 <div className="text-xs text-muted-foreground font-medium truncate">Datos Abiertos DFB</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Open Data Bizkaia</div>
               </div>
@@ -517,10 +517,10 @@ function PowerBIDashboardsSection() {
               <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
-              <div className="min-w-0">
-                <div className="text-lg xl:text-xl font-bold text-emerald-500 leading-tight truncate">Coherencia & UX</div>
+              <div className="min-w-0" title="Design System - Usabilidad Unificada (Coherencia visual y navegación limpia)">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-emerald-500 leading-tight whitespace-nowrap">Design System</div>
                 <div className="text-xs text-muted-foreground font-medium truncate">Usabilidad Unificada</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Navegación e interfaz limpia</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Coherencia visual & UX</div>
               </div>
             </CardContent>
           </Card>
@@ -848,10 +848,10 @@ export default function ProjectPage() {
             {/* PowerBI Renovation Section - Only for Project 1 */}
             {projectId === "1" && project.hasRenovation && (
               <div>
-                <h2 className="text-3xl font-bold mb-6">Renove PowerBI - Design System Implementation</h2>
+                <h2 className="text-3xl font-bold mb-4">Renove PowerBI - Design System Implementation</h2>
                 
-                <Card className="mb-8">
-                  <CardContent className="p-6">
+                <Card className="mb-6">
+                  <CardContent className="py-4 px-5">
                     <p className="text-muted-foreground leading-relaxed">
                       Como parte de la evolución de este proyecto, he implementado un completo "Design System" para unificar la apariencia y funcionalidad 
                       de todos los dashboards PowerBI. Esta renovación ha permitido estandarizar colores, tipografías, componentes visuales y patrones de interacción, 
