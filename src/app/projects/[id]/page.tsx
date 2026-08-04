@@ -441,6 +441,158 @@ function JobEngineShowcaseSection() {
   );
 }
 
+function ChatbotShowcaseSection() {
+  const [activeStep, setActiveStep] = useState(1);
+
+  const pipelineSteps: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
+    1: {
+      title: "01. Búsqueda Difusa & Normalización (RapidFuzz & Pandas)",
+      desc: "Limpieza del texto introducido por el ciudadano, filtrado de caracteres especiales y aplicación de algoritmos de coincidencia sintáctica difusa (fuzzy matching) para tolerar erratas o variaciones en nombres de ayuntamientos y trámites.",
+      highlights: [
+        "Tolerancia a erratas tipográficas ciudadanas",
+        "Normalización sintáctica inmediata en DataFrames",
+        "Filtrado previo a la búsqueda semántica"
+      ]
+    },
+    2: {
+      title: "02. Indexación & Recuperación Vectorial (FAISS)",
+      desc: "Conversión de consultas a embeddings vectoriales y búsqueda por distancia en el índice FAISS en memoria, recuperando instantáneamente los trámites y departamentos administrativamente más afines.",
+      highlights: [
+        "Búsqueda vectorial en milisegundos en memoria",
+        "Indexación de trámites y departamentos de Bizkaia",
+        "Recuperación k-NN de alta precisión semántica"
+      ]
+    },
+    3: {
+      title: "03. Clasificación Contextual (Transformers & Intent Detection)",
+      desc: "Modelo de lenguaje enfocado en comprender la intención del usuario y clasificar automáticamente si la pregunta se refiere a un ayuntamiento específico, un departamento o un trámite administrativo.",
+      highlights: [
+        "Desambiguación inteligente del contexto administrativo",
+        "Clasificación jerárquica: Ayuntamiento vs Dpto vs Trámite",
+        "Estructuración de intents con contexto enriquecido"
+      ]
+    },
+    4: {
+      title: "04. Despliegue Local & Interfaz Gráfica (Gradio & Python)",
+      desc: "Interfaz conversacional interactiva desarrollada en Gradio. El proyecto incluye un script instalador autónomo que prepara el entorno virtual Python y descarga los modelos para ejecutarse 100% offline.",
+      highlights: [
+        "Interfaz web interactiva conversacional en Gradio",
+        "Script de instalación automatizado para ejecución local",
+        "Privacidad total de datos sin dependencia de la nube"
+      ]
+    }
+  };
+
+  return (
+    <div className="space-y-12 mb-12">
+      {/* Metric Stat Cards Grid (A) */}
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores del Proyecto</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
+                <Brain className="w-5 h-5" />
+              </div>
+              <div className="min-w-0" title="Motor NLP - Clasificación Contextual con Transformers">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-primary leading-tight whitespace-nowrap">Motor NLP</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Clasificación Contextual</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Transformers & Intent Detection</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
+                <Zap className="w-5 h-5" />
+              </div>
+              <div className="min-w-0" title="Indexación FAISS - Búsqueda Vectorial Ultra-Rápida">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-blue-500 leading-tight whitespace-nowrap">Indexación FAISS</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Búsqueda Vectorial</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Embeddings de Trámites & Dptos</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
+                <Search className="w-5 h-5" />
+              </div>
+              <div className="min-w-0" title="RapidFuzz - Coincidencia Difusa y Tolerancia a Erratas">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-purple-500 leading-tight whitespace-nowrap">RapidFuzz</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Coincidencia Difusa</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Tolerancia a Erratas Ciudadanas</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
+                <Server className="w-5 h-5" />
+              </div>
+              <div className="min-w-0" title="100% Local - Ejecución Offline con Gradio e Instalador Python">
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-emerald-500 leading-tight whitespace-nowrap">100% Local</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Ejecución Offline</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Interfaz Gradio & Python Setup</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Interactive AI Pipeline Stepper (C) */}
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Canalización de Inteligencia Artificial</h2>
+        <Card className="overflow-hidden">
+          <CardHeader className="bg-muted/30 border-b pb-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {[1, 2, 3, 4].map((stepNum) => (
+                <Button
+                  key={stepNum}
+                  variant={activeStep === stepNum ? "default" : "outline"}
+                  onClick={() => setActiveStep(stepNum)}
+                  className="flex flex-col items-start h-auto py-3 px-4 text-left justify-start"
+                >
+                  <span className="text-xs opacity-70 font-mono">Paso 0{stepNum}</span>
+                  <span className="text-xs font-bold truncate">
+                    {stepNum === 1 && "1. Lógica Difusa"}
+                    {stepNum === 2 && "2. FAISS Vectorial"}
+                    {stepNum === 3 && "3. Transformers"}
+                    {stepNum === 4 && "4. Gradio & Local"}
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </CardHeader>
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center gap-3 text-primary font-semibold text-lg">
+              <Zap className="w-5 h-5" />
+              {pipelineSteps[activeStep].title}
+            </div>
+            <p className="text-muted-foreground leading-relaxed text-sm">
+              {pipelineSteps[activeStep].desc}
+            </p>
+            <div className="space-y-2 pt-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Puntos clave:</span>
+              <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {pipelineSteps[activeStep].highlights.map((h, i) => (
+                  <li key={i} className="flex items-center gap-2 text-xs bg-muted/50 p-2.5 rounded-lg border">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
 function PowerBIDashboardsSection() {
   const [activeTab, setActiveTab] = useState(1);
 
@@ -766,6 +918,11 @@ export default function ProjectPage() {
               <PowerBIDashboardsSection />
             )}
 
+            {/* Interactive Showcase Section - Only for Project 2 */}
+            {projectId === "2" && (
+              <ChatbotShowcaseSection />
+            )}
+
             {/* Video Demo Section - Only for Project 2 */}
             {projectId === "2" && (
               <div>
@@ -795,47 +952,47 @@ export default function ProjectPage() {
                       {/* Key Features Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                         <div className="flex items-start space-x-3">
-                          <div className="bg-blue-100 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="bg-blue-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-gray-800">Interacción Natural</h4>
-                            <p className="text-sm text-gray-600">Conversación fluida e intuitiva con los usuarios</p>
+                            <h4 className="font-semibold text-foreground">Interacción Natural</h4>
+                            <p className="text-sm text-muted-foreground">Conversación fluida e intuitiva con los usuarios</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
-                          <div className="bg-green-100 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="bg-emerald-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-gray-800">Respuestas Precisas</h4>
-                            <p className="text-sm text-gray-600">Información municipal y departamental actualizada</p>
+                            <h4 className="font-semibold text-foreground">Respuestas Precisas</h4>
+                            <p className="text-sm text-muted-foreground">Información municipal y departamental actualizada</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
-                          <div className="bg-purple-100 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="bg-purple-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-gray-800">Configuración Flexible</h4>
-                            <p className="text-sm text-gray-600">Adaptable a diferentes consultas y formatos</p>
+                            <h4 className="font-semibold text-foreground">Configuración Flexible</h4>
+                            <p className="text-sm text-muted-foreground">Adaptable a diferentes consultas y formatos</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
-                          <div className="bg-orange-100 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="bg-amber-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-gray-800">Rápido y Eficiente</h4>
-                            <p className="text-sm text-gray-600">Respuestas inmediatas 24/7</p>
+                            <h4 className="font-semibold text-foreground">Rápido y Eficiente</h4>
+                            <p className="text-sm text-gray-600 dark:text-muted-foreground">Respuestas inmediatas 24/7</p>
                           </div>
                         </div>
                       </div>
