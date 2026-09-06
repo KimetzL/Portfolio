@@ -29,6 +29,14 @@ Los reclutadores dedican un promedio de **6 a 10 segundos** antes de decidir si 
   - **CFT San Agustín** (sobre la plataforma de Scraping & ETL).
   - **The Bridge Bootcamp** (sobre las auditorías de Ciberseguridad).
 
+### 🔒 D. Etiquetas de Código Institucional / Confidencial en Proyectos sin GitHub
+* **Objetivo**: Eliminar la ambigüedad en evaluadores técnicos cuando un proyecto no tiene enlace a repositorio público (por tratarse de clientes reales o acuerdos de confidencialidad).
+* **Implementación**: En las tarjetas de proyecto donde `githubUrl` esté vacío, mostrar una insignia o *tooltip* explicativo en lugar del botón ausente, por ejemplo:
+  - 🔒 *"Código privado — Proyecto institucional"*
+  - 📋 *"Bajo acuerdo de confidencialidad con el cliente"*
+* **Beneficio**: Deja claro que la ausencia del enlace no es descuido sino profesionalidad y respeto al cliente, lo que genera mayor confianza en reclutadores.
+* **Proyectos afectados**: PowerBI (Diputación), Chatbot (Diputación), Sistema de Iniciativas y Ciberseguridad (Deiviator).
+
 ---
 
 ## 💡 2. Propuesta de Valor Diferenciadora (Destacar sobre otros candidatos)
@@ -82,6 +90,7 @@ En lugar de mostrar solo el resultado final, añadir artículos técnicos breves
 |---|---|---|---|
 | 📄 Botón de Descarga CV PDF | 🔥 Alto | 🟢 Fácil | 15 mins |
 | 🖼️ Imagen Open Graph (Social Sharing) | 🔥 Alto | 🟢 Fácil | 20 mins |
+| 🔒 Etiquetas Código Institucional / Confidencial | 🔥 Alto | 🟢 Fácil | 10 mins |
 | ✍️ Casos de Estudio (Artículos MDX) | 💡 Diferenciador | 🟡 Media | 1 hora / art. |
 | 🧪 Tester RegEx / Playground | 💡 Diferenciador | 🟡 Media | 45 mins |
 | 🤖 Asistente Virtual Kimetz-Bot | 🚀 Innovador | 🔴 Alta | 2 horas |
