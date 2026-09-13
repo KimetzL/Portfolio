@@ -241,7 +241,7 @@ export const projects: ProjectDetail[] = [
     demoUrl: "",
     featured: true,
     isConfidential: true,
-    confidentialNotice: "Proyecto institucional desarrollado para el CFT San Agustín. Repositorio y datos reservados para uso interno de la institución.",
+    confidentialNotice: "Proyecto desarrollado para la institución CFT San Agustín. Repositorio y datos reservados para uso interno.",
     startDate: "Junio 2026",
     endDate: "Agosto 2026",
     client: "CFT San Agustín",

@@ -1158,7 +1158,7 @@ export default function ProjectPage() {
                 
                 <div className="space-y-3">
                   <div className="flex gap-2">
-                    {project.demoUrl && (
+                    {project.demoUrl && projectId !== "4" && (
                       <Button size="sm" asChild className="flex-1">
                         <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="w-4 h-4 mr-2" />
@@ -1216,7 +1216,7 @@ export default function ProjectPage() {
                 <CardContent className="p-6">
                   <div className="prose prose-invert max-w-none">
                     {project.longDescription.split('\n\n').map((paragraph, index) => (
-                      <p key={index} className="mb-4 text-muted-foreground leading-relaxed">
+                      <p key={index} className="mb-4 text-muted-foreground leading-relaxed whitespace-pre-line">
                         {paragraph.trim()}
                       </p>
                     ))}
@@ -1224,6 +1224,84 @@ export default function ProjectPage() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Video Teaser Section - Only for Project 4 - right after overview */}
+            {projectId === "4" && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Tráiler de Kimün</h2>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground">
+                        Teaser audiovisual de presentación de la plataforma Kimün desarrollada para el CFT San Agustín.
+                      </p>
+                      {/* YouTube Video Player */}
+                      <div className="relative w-full overflow-hidden rounded-lg shadow-xl bg-black">
+                        <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                          <iframe
+                            className="absolute top-0 left-0 w-full h-full"
+                            src="https://www.youtube.com/embed/p0ptiThtMYI"
+                            title="Tráiler de la plataforma Kimün"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                          />
+                        </div>
+                      </div>
+                      {/* Key Features Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-blue-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Integrado en la Intranet</h4>
+                            <p className="text-sm text-muted-foreground">Acceso ágil y unificado para empleados y docentes institucionales</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-purple-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Wizard Guiado en 6 Fases</h4>
+                            <p className="text-sm text-muted-foreground">Formulación paso a paso con vinculación a metas ODS</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-emerald-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Ciclo de Aprobación & Roles</h4>
+                            <p className="text-sm text-muted-foreground">Control de acceso RBAC y flujo de supervisión con observaciones</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-amber-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Analítica y Tours Guiados</h4>
+                            <p className="text-sm text-muted-foreground">Dashboards de impacto y tours interactivos con Shepherd.js</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
 
             {/* Interactive Showcase Section - Only for Project 5 */}
             {projectId === "5" && (
@@ -1493,85 +1571,75 @@ export default function ProjectPage() {
               <KimunShowcaseSection />
             )}
 
-            {/* Video Teaser Section - Only for Project 4 */}
+            {/* Capturas del Formulario Wizard - Only for Project 4 */}
             {projectId === "4" && (
               <div>
-                <h2 className="text-3xl font-bold mb-6">Tráiler de Kimün</h2>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <p className="text-muted-foreground">
-                        Teaser audiovisual de presentación de la plataforma Kimün desarrollada para el CFT San Agustín.
-                      </p>
-                      
-                      {/* YouTube Video Player */}
-                      <div className="relative w-full overflow-hidden rounded-lg shadow-xl bg-black">
-                        <div className="relative" style={{ paddingBottom: '56.25%' }}>
-                          <iframe
-                            className="absolute top-0 left-0 w-full h-full"
-                            src="https://www.youtube.com/embed/p0ptiThtMYI"
-                            title="Tráiler de la plataforma Kimün"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerPolicy="strict-origin-when-cross-origin"
-                            allowFullScreen
-                          />
-                        </div>
+                <h2 className="text-3xl font-bold mb-2">Capturas del Formulario Wizard</h2>
+                <p className="text-muted-foreground mb-6">
+                  Vista paso a paso del formulario de formulación de iniciativas, con cada etapa del proceso.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {[
+                    { paso: "Paso 1", titulo: "Datos Generales" },
+                    { paso: "Paso 2", titulo: "Datos Adicionales" },
+                    { paso: "Paso 3", titulo: "ODS" },
+                    { paso: "Paso 4", titulo: "Participantes, Asistentes y Productos" },
+                    { paso: "Paso 5", titulo: "Recursos" },
+                    { paso: "Paso 6", titulo: "Evidencias" },
+                  ].map((step) => (
+                    <div
+                      key={step.paso}
+                      className="rounded-xl border border-dashed border-border/60 bg-muted/30 aspect-video flex flex-col items-center justify-center gap-2 text-center p-4 hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Layers className="w-5 h-5 text-primary/60" />
                       </div>
-                      
-                      {/* Key Features Grid */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                        <div className="flex items-start space-x-3">
-                          <div className="bg-blue-500/10 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-foreground">Integrado en la Intranet</h4>
-                            <p className="text-sm text-muted-foreground">Acceso ágil y unificado para empleados y docentes institucionales</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-3">
-                          <div className="bg-purple-500/10 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                            </svg>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-foreground">Wizard Guiado en 6 Fases</h4>
-                            <p className="text-sm text-muted-foreground">Formulación paso a paso con vinculación a metas ODS</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-3">
-                          <div className="bg-emerald-500/10 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-foreground">Ciclo de Aprobación & Roles</h4>
-                            <p className="text-sm text-muted-foreground">Control de acceso RBAC y flujo de supervisión con observaciones</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-3">
-                          <div className="bg-amber-500/10 rounded-full p-2 mt-1">
-                            <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                            </svg>
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-foreground">Analítica y Tours Guiados</h4>
-                            <p className="text-sm text-muted-foreground">Dashboards de impacto y tours interactivos con Shepherd.js</p>
-                          </div>
-                        </div>
-                      </div>
+                      <span className="text-xs font-mono text-muted-foreground/70 uppercase tracking-wider">{step.paso}</span>
+                      <span className="text-sm font-semibold text-muted-foreground">{step.titulo}</span>
+                      <span className="text-xs text-muted-foreground/50 italic">Captura pendiente</span>
                     </div>
-                  </CardContent>
-                </Card>
+                  ))}
+                </div>
               </div>
             )}
+
+            {/* Análisis de Datos - Only for Project 4 */}
+            {projectId === "4" && (
+              <div>
+                <h2 className="text-3xl font-bold mb-2">Análisis de Datos</h2>
+                <p className="text-muted-foreground mb-6">
+                  Dashboards analíticos, gráficas de impacto y exportaciones de reportes generados por la plataforma Kimün.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Placeholder grande — dashboard principal */}
+                  <div className="md:col-span-2 rounded-xl border border-dashed border-border/60 bg-muted/30 h-56 flex flex-col items-center justify-center gap-3 text-center p-6 hover:bg-muted/50 transition-colors">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Database className="w-6 h-6 text-primary/60" />
+                    </div>
+                    <span className="text-sm font-semibold text-muted-foreground">Dashboard Analítico General</span>
+                    <span className="text-xs text-muted-foreground/50 italic">Captura / exportación pendiente</span>
+                  </div>
+                  {/* Placeholder gráfica 1 */}
+                  <div className="rounded-xl border border-dashed border-border/60 bg-muted/30 h-44 flex flex-col items-center justify-center gap-2 text-center p-4 hover:bg-muted/50 transition-colors">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-primary/60" />
+                    </div>
+                    <span className="text-sm font-semibold text-muted-foreground">Gráfica de Iniciativas por Estado</span>
+                    <span className="text-xs text-muted-foreground/50 italic">Captura pendiente</span>
+                  </div>
+                  {/* Placeholder gráfica 2 */}
+                  <div className="rounded-xl border border-dashed border-border/60 bg-muted/30 h-44 flex flex-col items-center justify-center gap-2 text-center p-4 hover:bg-muted/50 transition-colors">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Globe className="w-5 h-5 text-primary/60" />
+                    </div>
+                    <span className="text-sm font-semibold text-muted-foreground">Distribución Geográfica de Actividades</span>
+                    <span className="text-xs text-muted-foreground/50 italic">Captura pendiente</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+
 
           </motion.div>
         </div>
