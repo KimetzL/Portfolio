@@ -154,41 +154,51 @@ export const projects: ProjectDetail[] = [
   },
   {
     id: 4,
-    title: "Sistema de gestión de Iniciativas",
+    title: "Kimün: Gestión de Vinculación con el Medio e Innovación",
     description:
-      "Plataforma centralizada para la gestión, procesamiento y seguimiento en tiempo real de iniciativas y trámites administrativos. Optimiza los flujos de trabajo internos, facilita la toma de decisiones basada en datos y mejora la trazabilidad de solicitudes.",
+      "Plataforma integral desarrollada en Laravel y PostgreSQL para la formulación, auditoría, trazabilidad y evaluación de impacto de iniciativas y propuestas de Vinculación con el Medio e Innovación en el CFT San Agustín.",
     longDescription: `
-      Este proyecto consiste en una solución integral para el procesamiento, control y análisis de iniciativas administrativas y solicitudes ciudadanas.
+      Kimün (VCMEI) es una plataforma institucional desarrollada para el Centro de Formación Técnica San Agustín, orientada a centralizar y dinamizar la gestión de iniciativas y propuestas de Vinculación con el Medio e Innovación.
 
-      Desarrollada con un enfoque moderno centrado en datos, la plataforma permite catalogar cada iniciativa, realizar seguimiento de su estado en tiempo real, asignar responsables y generar métricas clave sobre el tiempo de respuesta y la eficiencia de los flujos de trabajo.
+      El sistema implementa un ciclo de vida colaborativo completo: los colaboradores formulan propuestas a través de un wizard interactivo de 6 etapas (datos generales, localización geográfica en cascada, metas de los ODS de la ONU, participantes internos/externos, presupuesto y evidencias). Posteriormente, los supervisores y administradores revisan, solicitan retroalimentación o aprueban formalmente las propuestas para convertirlas en iniciativas activas.
 
-      Integrando bases de datos optimizadas y APIs de comunicación, el sistema simplifica la gestión diaria, reduciendo la carga operativa y mejorando la transparencia operativa.
+      En el apartado técnico, la arquitectura se diseñó bajo altos estándares de rendimiento y ciberseguridad: implementación de un sistema RBAC con memoización estática en memoria para mitigar consultas redundantes a la base de datos, protección contra Mass Assignment mediante Form Requests tipados, saneamiento de credenciales en logs de auditoría y cabeceras HTTP de seguridad reforzadas (CSP, anti-clickjacking). Además, cuenta con un dashboard analítico con exportación de reportes en Excel/PDF y tours guiados paso a paso mediante Shepherd.js.
     `,
     image: "/images/iniciativas.png",
-    technologies: ["Python", "SQL", "Data Analytics", "API Rest"],
+    technologies: [
+      "PHP",
+      "Laravel",
+      "PostgreSQL",
+      "Docker",
+      "JavaScript",
+      "RBAC",
+      "Data Analytics",
+    ],
     githubUrl: "",
-    demoUrl: "",
+    demoUrl: "https://www.youtube.com/watch?v=p0ptiThtMYI",
     featured: true,
-    startDate: "Junio 2025",
-    endDate: "Julio 2025",
-    client: "Proyecto de Gestión IT",
-    category: "Gestión de Sistemas & Datos",
+    startDate: "Febrero 2026",
+    endDate: "Agosto 2026",
+    client: "CFT San Agustín",
+    category: "Desarrollo Web & Gestión Institucional",
     features: [
-      "Plataforma centralizada de registro de iniciativas",
-      "Panel de seguimiento de estados en tiempo real",
-      "Métricas de rendimiento e indicadores de eficiencia",
-      "Arquitectura de datos estructurada y escalable",
-      "Exportación de informes y análisis para toma de decisiones",
+      "Ciclo de vida completo: Formulación, revisión con observaciones y aprobación de iniciativas",
+      "Wizard interactivo en 6 etapas con validación estricta y vinculación a metas ODS",
+      "Control de acceso basado en roles (RBAC: Admin, Supervisor, Digitador, Colaborador)",
+      "Centro de ayuda interactivo con tours guiados paso a paso (Shepherd.js)",
+      "Dashboards analíticos de impacto con descarga de gráficas HD y exportación a Excel/PDF",
+      "Entorno contenerizado con Docker Compose (PHP 8.3 FPM, Nginx y PostgreSQL 16)",
     ],
     challenges: [
-      "Estructuración de datos heterogéneos de solicitudes",
-      "Diseño de flujos de trabajo intuitivos para los administradores",
-      "Garantía de rendimiento y actualización inmediata en el panel",
+      "Optimización de rendimiento y mitigación de N+1 queries en Eloquent mediante memoización estática en servicios",
+      "Modelado de datos complejo con +21 modelos relacionales (geografía chilena, unidades ejecutoras, ODS y evidencias)",
+      "Implementación de políticas estrictas de ciberseguridad (SecurityHeaders, logs saneados y validación MIME de archivos)",
+      "Diseño de una experiencia de onboarding intuitiva para personal académico y administrativo no técnico",
     ],
     outcomes: [
-      "Centralización efectiva de la información de iniciativas",
-      "Reducción en tiempos de consulta y trazabilidad de solicitudes",
-      "Visibilidad global del estado del sistema",
+      "Centralización del 100% de las iniciativas y propuestas de vinculación del CFT San Agustín",
+      "Reducción drástica en los tiempos de revisión y aprobación administrativa",
+      "Trazabilidad y auditoría total de cambios con registro de evidencias y exportaciones ejecutivas",
     ],
   },
   {

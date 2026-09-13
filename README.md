@@ -75,8 +75,8 @@ c:\Portfolio\
    - *Data Science & ETL*: Pipelines multicanal de 7 fuentes, deduplicación difusa en memoria (+3.300 vacantes en ~4s) y motor sintáctico RegEx/NLP.
 2. **Chatbot Administrativo (Diputación Foral de Bizkaia)**
    - *IA & NLP*: Clasificación inteligente de consultas ciudadanas mediante Python, Pandas, Faiss, Rapidfuzz, Transformers y Gradio.
-3. **Sistema de Gestión de Iniciativas**
-   - *Gestión IT & Datos*: Plataforma centralizada para seguimiento y trazabilidad de trámites administrativos en tiempo real.
+3. **Kimün: Gestión de Vinculación con el Medio e Innovación (CFT San Agustín)**
+   - *Desarrollo Web & Gestión*: Plataforma integral en Laravel, PostgreSQL y Docker para formulación wizard (6 fases), trazabilidad ODS, roles RBAC y auditoría.
 4. **Dashboards Interactivos en PowerBI (Diputación Foral de Bizkaia)**
    - *Data Analytics*: Paneles interactivos sobre Open Data Bizkaia para la web "Gardentasuna", con Design System unificado e informe técnico.
 5. **Informe de Ciberseguridad (The Bridge Bootcamp / Deiviator)**
