@@ -17,9 +17,11 @@ export interface ProjectSummary {
   githubUrl: string;
   demoUrl: string;
   featured: boolean;
+  /** Badge de estado o despliegue personalizado (ej: 'En Producción · Intranet CFT') */
+  statusBadge?: string;
   /** Indica si el proyecto es institucional/confidencial y no tiene repositorio público */
   isConfidential?: boolean;
-  /** Nota explicativa de confidencialidad */
+  /** Nota explicativa de confidencialidad o uso institucional */
   confidentialNotice?: string;
 }
 
@@ -165,12 +167,13 @@ export const projects: ProjectDetail[] = [
       Kimün es una plataforma institucional desarrollada para el Centro de Formación Técnica San Agustín, orientada a centralizar y dinamizar la gestión de iniciativas y propuestas de Vinculación con el Medio e Innovación.
 
       Integrada directamente en la intranet institucional del CFT San Agustín para facilitar el acceso unificado y sin fricción de docentes, directivos y personal administrativo, el sistema implementa un ciclo de vida colaborativo completo: los colaboradores formulan propuestas a través de un formulario wizard interactivo estructurado en 6 etapas:
-      • Paso 1: Datos Generales (nombre, dirección VcM/Innovación, modalidad, sedes y unidad ejecutora).
-      • Paso 2: Datos Adicionales (programa institucional, ámbitos, líneas de acción y localización geográfica oficial).
-      • Paso 3: ODS (vinculación directa y selección de metas e indicadores de los 17 Objetivos de Desarrollo Sostenible de la ONU).
-      • Paso 4: Participantes, Asistentes y Productos (cuantificación de integrantes internos, socios comunitarios externos y entregables tangibles).
-      • Paso 5: Recursos (presupuesto estimado, costos y fuentes de financiamiento institucional o externo).
-      • Paso 6: Evidencias (adjunción de respaldos documentales, convenios, actas y guardado final).
+
+      • Paso 1: Datos Generales
+      • Paso 2: Datos Adicionales
+      • Paso 3: ODS
+      • Paso 4: Participantes, Asistentes y Productos
+      • Paso 5: Recursos
+      • Paso 6: Evidencias
 
       Posteriormente, los supervisores y administradores revisan, solicitan ajustes mediante observaciones («Falta información») o aprueban formalmente las propuestas para convertirlas en iniciativas institucionales activas.
 
@@ -189,8 +192,8 @@ export const projects: ProjectDetail[] = [
     githubUrl: "",
     demoUrl: "https://www.youtube.com/watch?v=p0ptiThtMYI",
     featured: true,
-    isConfidential: true,
-    confidentialNotice: "Proyecto institucional desarrollado para el CFT San Agustín. Código fuente y base de datos privados bajo acuerdo de confidencialidad.",
+    statusBadge: "En Producción · Intranet CFT",
+    confidentialNotice: "Desplegado en la intranet privada del CFT San Agustín con usuarios activos y datos institucionales.",
     startDate: "Febrero 2026",
     endDate: "Agosto 2026",
     client: "CFT San Agustín",
@@ -209,7 +212,7 @@ export const projects: ProjectDetail[] = [
       "Modelado de datos complejo con +21 modelos relacionales (geografía chilena, unidades ejecutoras, ODS y evidencias)",
       "Implementación de políticas estrictas de ciberseguridad (SecurityHeaders, logs saneados y validación MIME de archivos)",
       "Diseño de una experiencia de onboarding intuitiva para personal académico y administrativo no técnico",
-      "Preservación de la confidencialidad institucional y gobierno seguro de datos corporativos",
+      "Despliegue e integración segura dentro de la infraestructura y gobierno de datos de la intranet institucional",
     ],
     outcomes: [
       "Centralización del 100% de las iniciativas y propuestas de vinculación del CFT San Agustín",
@@ -238,7 +241,7 @@ export const projects: ProjectDetail[] = [
     demoUrl: "",
     featured: true,
     isConfidential: true,
-    confidentialNotice: "Proyecto institucional desarrollado para el CFT San Agustín. Repositorio y datos privados bajo acuerdo de confidencialidad.",
+    confidentialNotice: "Proyecto institucional desarrollado para el CFT San Agustín. Repositorio y datos reservados para uso interno de la institución.",
     startDate: "Junio 2026",
     endDate: "Agosto 2026",
     client: "CFT San Agustín",

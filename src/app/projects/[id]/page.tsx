@@ -1004,7 +1004,7 @@ function KimunShowcaseSection() {
                 <div className="text-xs font-mono text-primary font-semibold mb-1">FASE 01</div>
                 <h4 className="font-bold text-sm text-foreground mb-1">Colaborador: Borrador</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  El docente o directivo completa el wizard en 6 pasos y guarda su avance de forma segura.
+                  El docente o el encargado de Vinculación completa el wizard en 6 pasos y guarda su avance de forma segura.
                 </p>
               </div>
 
@@ -1031,36 +1031,6 @@ function KimunShowcaseSection() {
                   Conversión automática a Iniciativa activa en el catálogo general con métricas en dashboards.
                 </p>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Entity-Relationship Data Model Section */}
-      <div>
-        <h2 className="text-3xl font-bold mb-4">Arquitectura de Datos y Modelo Entidad-Relación</h2>
-        <Card className="overflow-hidden">
-          <CardContent className="p-6 space-y-4">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Kimün maneja un esquema relacional con más de 21 modelos en PostgreSQL: centraliza iniciativas, propuestas, cascada geográfica de Chile, objetivos ODS, presupuestos y auditorías de acceso.
-            </p>
-            <div className="relative rounded-lg overflow-hidden border border-border/60 bg-muted/20 group">
-              <img
-                src="/images/kimun_er.png"
-                alt="Diagrama Entidad-Relación de Kimün"
-                className="w-full h-auto max-h-[550px] object-contain mx-auto"
-              />
-            </div>
-            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-xs text-muted-foreground">
-              <span>📐 Modelo relacional PostgreSQL 16 con Eloquent ORM y prevención de consultas N+1</span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => window.open('/images/kimun_er.png', '_blank')}
-              >
-                <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                Ver Diagrama Completo HD
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -1204,11 +1174,22 @@ export default function ProjectPage() {
                       </Button>
                     )}
                   </div>
-                  {project.isConfidential && (
+                  {/* Status badge for production/intranet projects (e.g. Kimün) */}
+                  {project.statusBadge && !project.githubUrl && (
+                    <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-800 dark:text-emerald-300">
+                      <span className="relative flex h-2 w-2 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                      <span className="font-medium leading-relaxed">{project.statusBadge}</span>
+                    </div>
+                  )}
+                  {/* Confidential notice for projects without public repo */}
+                  {(project.isConfidential || (project.confidentialNotice && !project.githubUrl)) && (
                     <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800 dark:text-amber-300">
                       <Lock className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
                       <span className="leading-relaxed">
-                        {project.confidentialNotice || "Código y datos protegidos bajo acuerdo de confidencialidad institucional."}
+                        {project.confidentialNotice || "Código y datos protegidos para uso interno institucional."}
                       </span>
                     </div>
                   )}
@@ -1512,15 +1493,15 @@ export default function ProjectPage() {
               <KimunShowcaseSection />
             )}
 
-            {/* Video Demo Section - Only for Project 4 */}
+            {/* Video Teaser Section - Only for Project 4 */}
             {projectId === "4" && (
               <div>
-                <h2 className="text-3xl font-bold mb-6">Demostración de Kimün</h2>
+                <h2 className="text-3xl font-bold mb-6">Tráiler de Kimün</h2>
                 <Card>
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       <p className="text-muted-foreground">
-                        Explora las capacidades y el flujo de trabajo de la plataforma Kimün desarrollada para el CFT San Agustín.
+                        Teaser audiovisual de presentación de la plataforma Kimün desarrollada para el CFT San Agustín.
                       </p>
                       
                       {/* YouTube Video Player */}
@@ -1529,7 +1510,7 @@ export default function ProjectPage() {
                           <iframe
                             className="absolute top-0 left-0 w-full h-full"
                             src="https://www.youtube.com/embed/p0ptiThtMYI"
-                            title="Demostración de la plataforma Kimün"
+                            title="Tráiler de la plataforma Kimün"
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerPolicy="strict-origin-when-cross-origin"

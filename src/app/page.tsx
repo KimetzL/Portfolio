@@ -252,13 +252,21 @@ export default function Home() {
                               <Github className="w-4 h-4" />
                             </a>
                           </Button>
+                        ) : project.statusBadge ? (
+                          <span
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 self-center"
+                            title={project.confidentialNotice || project.statusBadge}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            {project.statusBadge}
+                          </span>
                         ) : project.isConfidential ? (
                           <span
                             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-muted/60 text-muted-foreground border border-border/60 self-center"
-                            title={project.confidentialNotice || "Proyecto confidencial"}
+                            title={project.confidentialNotice || "Proyecto institucional"}
                           >
                             <Lock className="w-3 h-3 text-amber-500" />
-                            Confidencial
+                            Uso Interno
                           </span>
                         ) : null}
                       </div>
