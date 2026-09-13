@@ -26,7 +26,8 @@ import {
   CheckCircle2,
   Filter,
   Search,
-  RefreshCw
+  RefreshCw,
+  Layers
 } from "lucide-react";
 import { getProjectById } from "@/data/projects";
 import { ProjectImage } from "@/components/project-image";
@@ -743,6 +744,331 @@ function PowerBIDashboardsSection() {
   );
 }
 
+function KimunShowcaseSection() {
+  const [activeWizardStep, setActiveWizardStep] = useState(1);
+
+  const wizardSteps: {
+    [key: number]: {
+      title: string;
+      subtitle: string;
+      desc: string;
+      highlights: string[];
+      details: string[];
+    };
+  } = {
+    1: {
+      title: "Paso 1: Datos Generales",
+      subtitle: "Identificación y configuración básica de la propuesta",
+      desc: "Registro del nombre oficial del proyecto, selección de Dirección Responsable (Vinculación con el Medio o Innovación), Modalidad de ejecución (Presencial, Online o Mixta), Sedes involucradas, Mecanismo y Unidad Ejecutora titular.",
+      highlights: [
+        "Dirección Responsable: VcM o Innovación",
+        "Modalidad: Presencial, Online o Mixta",
+        "Asignación de Sedes, Mecanismos y Unidad Ejecutora"
+      ],
+      details: [
+        "Control de campos obligatorios con validación en cliente y servidor",
+        "Asignación automática del usuario creador y ciclo de formulación",
+        "Definición clara del marco institucional y líneas estratégicas"
+      ]
+    },
+    2: {
+      title: "Paso 2: Datos Adicionales",
+      subtitle: "Contribución temática y localización territorial oficial",
+      desc: "Selección del Programa institucional, Ámbitos de Acción, Líneas de Acción, categorización de Impacto Interno vs. Impacto Externo, y desglose de ubicación geográfica en cascada oficial de Chile (Región, Provincia y Comuna).",
+      highlights: [
+        "Cascada geográfica oficial de Chile (Región, Provincia y Comuna)",
+        "Doble evaluación: Impacto Interno (académico) e Impacto Externo (social)",
+        "Alineación con Programas y Ámbitos de Acción institucionales"
+      ],
+      details: [
+        "Carga dinámica de comunas mediante endpoints AJAX",
+        "Desglose de impacto medible en estudiantes y comunidad regional",
+        "Normalización geográfica para reportes territoriales"
+      ]
+    },
+    3: {
+      title: "Paso 3: ODS (Agenda 2030 ONU)",
+      subtitle: "Vinculación directa con Objetivos de Desarrollo Sostenible",
+      desc: "Matriz interactiva con los 17 Objetivos de Desarrollo Sostenible (ODS) de las Naciones Unidas. Al seleccionar cada objetivo, se despliega un panel para marcar metas e indicadores cuantitativos específicos.",
+      highlights: [
+        "Matriz interactiva de los 17 Objetivos de Desarrollo Sostenible",
+        "Selección de metas e indicadores específicos por objetivo",
+        "Cuantificación del aporte institucional a la Agenda 2030"
+      ],
+      details: [
+        "Relaciones M2M persistidas en tablas pivot de PostgreSQL",
+        "Métricas de contribución global para memorias institucionales",
+        "Filtros de auditoría basados en objetivos globales"
+      ]
+    },
+    4: {
+      title: "Paso 4: Participantes, Asistentes y Productos",
+      subtitle: "Cuantificación del ecosistema humano y entregables",
+      desc: "Registro y conteo de participantes internos (estudiantes de carreras del CFT, directivos, docentes), socios comunitarios o empresariales externos, estimación de asistentes y definición de productos o entregables tangibles.",
+      highlights: [
+        "Estudiantes, docentes y directivos del CFT San Agustín",
+        "Socios comunitarios, empresas y beneficiarios externos",
+        "Definición y catálogo de productos tangibles esperados"
+      ],
+      details: [
+        "Seguimiento de horas y dedicación del personal",
+        "Registro nominal y agregado de beneficiarios",
+        "Vinculación curricular con carreras y módulos formativos"
+      ]
+    },
+    5: {
+      title: "Paso 5: Recursos y Presupuesto",
+      subtitle: "Planificación económica y fuentes de financiamiento",
+      desc: "Desglose financiero detallado de costos estimados directos, financiamiento institucional interno, fondos de terceros o fuentes externas y valorización económica de recursos aportados.",
+      highlights: [
+        "Presupuesto estimado y costos operacionales",
+        "Financiamiento institucional vs. fondos externos",
+        "Valorización económica de recursos e infraestructura"
+      ],
+      details: [
+        "Cálculo automático de balances presupuestarios",
+        "Desglose por ítems de gasto y justificación financiera",
+        "Exportación estructurada a plantillas contables"
+      ]
+    },
+    6: {
+      title: "Paso 6: Evidencias y Guardado Final",
+      subtitle: "Almacenamiento, trazabilidad y gestión documental",
+      desc: "Cierre y persistencia de la propuesta en base de datos. Una vez almacenada, la plataforma permite gestionar el repositorio de evidencias documentales adjuntas (actas, convenios, listas de asistencia, certificados y fotografías).",
+      highlights: [
+        "Persistencia íntegra de la propuesta en PostgreSQL",
+        "Gestión documental de evidencias (PDF, actas, convenios)",
+        "Validación MIME y de tamaño de archivos para máxima seguridad"
+      ],
+      details: [
+        "Registro inmutable en el historial de trazabilidad (Logs)",
+        "Generación automática de ficha de la propuesta",
+        "Disponibilidad inmediata para el envío a revisión del supervisor"
+      ]
+    }
+  };
+
+  const currentStep = wizardSteps[activeWizardStep];
+
+  return (
+    <div className="space-y-12 mb-12">
+      {/* Metric Stat Cards Grid */}
+      <div>
+        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores Técnicos de Kimün</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
+                <Shield className="w-5 h-5" />
+              </div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="4 Roles RBAC - Admin, Supervisor, Digitador y Colaborador">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-primary leading-tight truncate">4 Roles RBAC</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Control de Acceso</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Caché en memoria (1 query/req)</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
+                <Layers className="w-5 h-5" />
+              </div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="Wizard en 6 Pasos - Formulación Estructurada con Validación">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-blue-500 leading-tight truncate">6 Pasos Wizard</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Formulación Guiada</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">ODS, Comunas y Evidencias</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
+                <Database className="w-5 h-5" />
+              </div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="+21 Modelos Relacionales - PostgreSQL 16 & Eloquent Scopes">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-purple-500 leading-tight truncate">+21 Modelos</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">PostgreSQL 16</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">Geografía Chile & Metas ODS</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-3 min-w-0">
+              <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
+                <Server className="w-5 h-5" />
+              </div>
+              <div className="min-w-0 flex-1 overflow-hidden" title="Docker Compose - PHP 8.3 FPM, Nginx y PostgreSQL">
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-emerald-500 leading-tight truncate">Docker Stack</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">Intranet CFT</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">PHP 8.3 + Nginx + Postgres</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Interactive 6-Step Wizard Stepper */}
+      <div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 className="text-3xl font-bold">Formulario Wizard en 6 Pasos Oficiales</h2>
+            <p className="text-muted-foreground text-sm mt-1">
+              Explora la secuencia interactiva con la que los colaboradores formulan propuestas en la plataforma.
+            </p>
+          </div>
+        </div>
+
+        <Card className="overflow-hidden">
+          <CardHeader className="bg-muted/30 border-b pb-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+              {[1, 2, 3, 4, 5, 6].map((stepNum) => (
+                <Button
+                  key={stepNum}
+                  variant={activeWizardStep === stepNum ? "default" : "outline"}
+                  onClick={() => setActiveWizardStep(stepNum)}
+                  className="flex flex-col items-start h-auto py-2.5 px-3 text-left justify-start"
+                >
+                  <span className="text-[10px] opacity-75 uppercase font-mono tracking-wider">Paso 0{stepNum}</span>
+                  <span className="text-xs font-bold truncate w-full">
+                    {stepNum === 1 && "Datos Generales"}
+                    {stepNum === 2 && "Datos Adicionales"}
+                    {stepNum === 3 && "ODS"}
+                    {stepNum === 4 && "Participantes"}
+                    {stepNum === 5 && "Recursos"}
+                    {stepNum === 6 && "Evidencias"}
+                  </span>
+                </Button>
+              ))}
+            </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="space-y-6">
+              <div>
+                <div className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary mb-2">
+                  Etapa 0{activeWizardStep} de 06
+                </div>
+                <h3 className="text-xl font-bold text-foreground">{currentStep.title}</h3>
+                <p className="text-sm text-primary font-medium mt-0.5">{currentStep.subtitle}</p>
+                <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{currentStep.desc}</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div className="p-4 rounded-lg bg-muted/40 border border-border/50">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    Puntos Clave del Paso
+                  </h4>
+                  <ul className="space-y-2">
+                    {currentStep.highlights.map((item, idx) => (
+                      <li key={idx} className="text-xs text-muted-foreground flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-4 rounded-lg bg-muted/40 border border-border/50">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-1.5">
+                    <Zap className="w-4 h-4 text-amber-500" />
+                    Lógica y Reglas de Negocio
+                  </h4>
+                  <ul className="space-y-2">
+                    {currentStep.details.map((item, idx) => (
+                      <li key={idx} className="text-xs text-muted-foreground flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Workflow Cycle (Flujo de Aprobación Institucional) */}
+      <div>
+        <h2 className="text-3xl font-bold mb-4">Ciclo de Vida y Flujo de Aprobación</h2>
+        <Card className="overflow-hidden">
+          <CardContent className="p-6">
+            <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+              Las iniciativas no se publican directamente: atraviesan un riguroso ciclo de revisión colaborativa en la intranet para garantizar el cumplimiento de normativas institucionales.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-4 rounded-lg bg-muted/30 border border-border/60 relative">
+                <div className="text-xs font-mono text-primary font-semibold mb-1">FASE 01</div>
+                <h4 className="font-bold text-sm text-foreground mb-1">Colaborador: Borrador</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  El docente o directivo completa el wizard en 6 pasos y guarda su avance de forma segura.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-lg bg-muted/30 border border-border/60 relative">
+                <div className="text-xs font-mono text-blue-500 font-semibold mb-1">FASE 02</div>
+                <h4 className="font-bold text-sm text-foreground mb-1">Pendiente de Revisión</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Envío formal al equipo directivo. El registro se bloquea para edición mientras se evalúa.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-lg bg-muted/30 border border-border/60 relative">
+                <div className="text-xs font-mono text-amber-500 font-semibold mb-1">FASE 03</div>
+                <h4 className="font-bold text-sm text-foreground mb-1">Observaciones / Ajustes</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Si falta información, el supervisor emite observaciones puntuales y reabre la edición.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-lg bg-muted/30 border border-emerald-500/40 bg-emerald-500/5 relative">
+                <div className="text-xs font-mono text-emerald-500 font-semibold mb-1">FASE 04</div>
+                <h4 className="font-bold text-sm text-emerald-500 mb-1">Aprobación e Iniciativa Activa</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Conversión automática a Iniciativa activa en el catálogo general con métricas en dashboards.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Entity-Relationship Data Model Section */}
+      <div>
+        <h2 className="text-3xl font-bold mb-4">Arquitectura de Datos y Modelo Entidad-Relación</h2>
+        <Card className="overflow-hidden">
+          <CardContent className="p-6 space-y-4">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Kimün maneja un esquema relacional con más de 21 modelos en PostgreSQL: centraliza iniciativas, propuestas, cascada geográfica de Chile, objetivos ODS, presupuestos y auditorías de acceso.
+            </p>
+            <div className="relative rounded-lg overflow-hidden border border-border/60 bg-muted/20 group">
+              <img
+                src="/images/kimun_er.png"
+                alt="Diagrama Entidad-Relación de Kimün"
+                className="w-full h-auto max-h-[550px] object-contain mx-auto"
+              />
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-xs text-muted-foreground">
+              <span>📐 Modelo relacional PostgreSQL 16 con Eloquent ORM y prevención de consultas N+1</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.open('/images/kimun_er.png', '_blank')}
+              >
+                <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                Ver Diagrama Completo HD
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectPage() {
   const params = useParams();
   const router = useRouter();
@@ -860,21 +1186,31 @@ export default function ProjectPage() {
                   </CardContent>
                 </Card>
                 
-                <div className="flex gap-2">
-                  {project.demoUrl && (
-                    <Button size="sm" asChild className="flex-1">
-                      <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Demo en Vivo
-                      </a>
-                    </Button>
-                  )}
-                  {project.githubUrl && (
-                    <Button size="sm" variant="outline" asChild>
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="w-4 h-4" />
-                      </a>
-                    </Button>
+                <div className="space-y-3">
+                  <div className="flex gap-2">
+                    {project.demoUrl && (
+                      <Button size="sm" asChild className="flex-1">
+                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Demo en Video
+                        </a>
+                      </Button>
+                    )}
+                    {project.githubUrl && (
+                      <Button size="sm" variant="outline" asChild>
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          <Github className="w-4 h-4" />
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+                  {project.isConfidential && (
+                    <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800 dark:text-amber-300">
+                      <Lock className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
+                      <span className="leading-relaxed">
+                        {project.confidentialNotice || "Código y datos protegidos bajo acuerdo de confidencialidad institucional."}
+                      </span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -1164,6 +1500,91 @@ export default function ProjectPage() {
                             }`}
                           />
                         ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {/* Interactive Showcase Section - Only for Project 4 (Kimün) */}
+            {projectId === "4" && (
+              <KimunShowcaseSection />
+            )}
+
+            {/* Video Demo Section - Only for Project 4 */}
+            {projectId === "4" && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Demostración de Kimün</h2>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="space-y-4">
+                      <p className="text-muted-foreground">
+                        Explora las capacidades y el flujo de trabajo de la plataforma Kimün desarrollada para el CFT San Agustín.
+                      </p>
+                      
+                      {/* YouTube Video Player */}
+                      <div className="relative w-full overflow-hidden rounded-lg shadow-xl bg-black">
+                        <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                          <iframe
+                            className="absolute top-0 left-0 w-full h-full"
+                            src="https://www.youtube.com/embed/p0ptiThtMYI"
+                            title="Demostración de la plataforma Kimün"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Key Features Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-blue-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Integrado en la Intranet</h4>
+                            <p className="text-sm text-muted-foreground">Acceso ágil y unificado para empleados y docentes institucionales</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-purple-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Wizard Guiado en 6 Fases</h4>
+                            <p className="text-sm text-muted-foreground">Formulación paso a paso con vinculación a metas ODS</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-emerald-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Ciclo de Aprobación & Roles</h4>
+                            <p className="text-sm text-muted-foreground">Control de acceso RBAC y flujo de supervisión con observaciones</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="bg-amber-500/10 rounded-full p-2 mt-1">
+                            <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Analítica y Tours Guiados</h4>
+                            <p className="text-sm text-muted-foreground">Dashboards de impacto y tours interactivos con Shepherd.js</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </CardContent>

@@ -246,13 +246,21 @@ export default function Home() {
                             <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
                           </a>
                         </Button>
-                        {project.githubUrl && (
+                        {project.githubUrl ? (
                           <Button size="sm" variant="outline" asChild>
                             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                               <Github className="w-4 h-4" />
                             </a>
                           </Button>
-                        )}
+                        ) : project.isConfidential ? (
+                          <span
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-muted/60 text-muted-foreground border border-border/60 self-center"
+                            title={project.confidentialNotice || "Proyecto confidencial"}
+                          >
+                            <Lock className="w-3 h-3 text-amber-500" />
+                            Confidencial
+                          </span>
+                        ) : null}
                       </div>
                     </CardContent>
                   </Card>
@@ -297,13 +305,21 @@ export default function Home() {
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </a>
                         </Button>
-                        {project.githubUrl && (
+                        {project.githubUrl ? (
                           <Button size="sm" variant="outline" asChild>
                             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                               <Github className="w-4 h-4" />
                             </a>
                           </Button>
-                        )}
+                        ) : project.isConfidential ? (
+                          <span
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-muted/60 text-muted-foreground border border-border/60 self-center"
+                            title={project.confidentialNotice || "Proyecto confidencial"}
+                          >
+                            <Lock className="w-3 h-3 text-amber-500" />
+                            Confidencial
+                          </span>
+                        ) : null}
                       </div>
                     </CardContent>
                   </Card>

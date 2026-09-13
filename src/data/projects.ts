@@ -17,6 +17,10 @@ export interface ProjectSummary {
   githubUrl: string;
   demoUrl: string;
   featured: boolean;
+  /** Indica si el proyecto es institucional/confidencial y no tiene repositorio público */
+  isConfidential?: boolean;
+  /** Nota explicativa de confidencialidad */
+  confidentialNotice?: string;
 }
 
 export interface ProjectDetail extends ProjectSummary {
@@ -158,11 +162,19 @@ export const projects: ProjectDetail[] = [
     description:
       "Plataforma integral desarrollada en Laravel y PostgreSQL para la formulación, auditoría, trazabilidad y evaluación de impacto de iniciativas y propuestas de Vinculación con el Medio e Innovación en el CFT San Agustín.",
     longDescription: `
-      Kimün (VCMEI) es una plataforma institucional desarrollada para el Centro de Formación Técnica San Agustín, orientada a centralizar y dinamizar la gestión de iniciativas y propuestas de Vinculación con el Medio e Innovación.
+      Kimün es una plataforma institucional desarrollada para el Centro de Formación Técnica San Agustín, orientada a centralizar y dinamizar la gestión de iniciativas y propuestas de Vinculación con el Medio e Innovación.
 
-      El sistema implementa un ciclo de vida colaborativo completo: los colaboradores formulan propuestas a través de un wizard interactivo de 6 etapas (datos generales, localización geográfica en cascada, metas de los ODS de la ONU, participantes internos/externos, presupuesto y evidencias). Posteriormente, los supervisores y administradores revisan, solicitan retroalimentación o aprueban formalmente las propuestas para convertirlas en iniciativas activas.
+      Integrada directamente en la intranet institucional del CFT San Agustín para facilitar el acceso unificado y sin fricción de docentes, directivos y personal administrativo, el sistema implementa un ciclo de vida colaborativo completo: los colaboradores formulan propuestas a través de un formulario wizard interactivo estructurado en 6 etapas:
+      • Paso 1: Datos Generales (nombre, dirección VcM/Innovación, modalidad, sedes y unidad ejecutora).
+      • Paso 2: Datos Adicionales (programa institucional, ámbitos, líneas de acción y localización geográfica oficial).
+      • Paso 3: ODS (vinculación directa y selección de metas e indicadores de los 17 Objetivos de Desarrollo Sostenible de la ONU).
+      • Paso 4: Participantes, Asistentes y Productos (cuantificación de integrantes internos, socios comunitarios externos y entregables tangibles).
+      • Paso 5: Recursos (presupuesto estimado, costos y fuentes de financiamiento institucional o externo).
+      • Paso 6: Evidencias (adjunción de respaldos documentales, convenios, actas y guardado final).
 
-      En el apartado técnico, la arquitectura se diseñó bajo altos estándares de rendimiento y ciberseguridad: implementación de un sistema RBAC con memoización estática en memoria para mitigar consultas redundantes a la base de datos, protección contra Mass Assignment mediante Form Requests tipados, saneamiento de credenciales en logs de auditoría y cabeceras HTTP de seguridad reforzadas (CSP, anti-clickjacking). Además, cuenta con un dashboard analítico con exportación de reportes en Excel/PDF y tours guiados paso a paso mediante Shepherd.js.
+      Posteriormente, los supervisores y administradores revisan, solicitan ajustes mediante observaciones («Falta información») o aprueban formalmente las propuestas para convertirlas en iniciativas institucionales activas.
+
+      En el apartado técnico, la arquitectura se diseñó bajo altos estándares de rendimiento y ciberseguridad: implementación de un sistema RBAC con caché interna en memoria para optimizar las consultas y reducir drásticamente la carga sobre la base de datos, protección contra Mass Assignment mediante Form Requests tipados, saneamiento de credenciales en logs de auditoría y cabeceras HTTP de seguridad reforzadas (CSP, anti-clickjacking). Además, cuenta con un dashboard analítico con exportación de reportes en Excel/PDF y tours guiados paso a paso mediante Shepherd.js.
     `,
     image: "/images/iniciativas.png",
     technologies: [
@@ -177,23 +189,27 @@ export const projects: ProjectDetail[] = [
     githubUrl: "",
     demoUrl: "https://www.youtube.com/watch?v=p0ptiThtMYI",
     featured: true,
+    isConfidential: true,
+    confidentialNotice: "Proyecto institucional desarrollado para el CFT San Agustín. Código fuente y base de datos privados bajo acuerdo de confidencialidad.",
     startDate: "Febrero 2026",
     endDate: "Agosto 2026",
     client: "CFT San Agustín",
     category: "Desarrollo Web & Gestión Institucional",
     features: [
+      "Integración directa en la intranet del CFT San Agustín para un acceso ágil y unificado de todo el personal",
       "Ciclo de vida completo: Formulación, revisión con observaciones y aprobación de iniciativas",
-      "Wizard interactivo en 6 etapas con validación estricta y vinculación a metas ODS",
+      "Wizard interactivo en 6 pasos oficiales (Datos Generales, Datos Adicionales, ODS, Participantes/Productos, Recursos y Evidencias)",
       "Control de acceso basado en roles (RBAC: Admin, Supervisor, Digitador, Colaborador)",
       "Centro de ayuda interactivo con tours guiados paso a paso (Shepherd.js)",
       "Dashboards analíticos de impacto con descarga de gráficas HD y exportación a Excel/PDF",
       "Entorno contenerizado con Docker Compose (PHP 8.3 FPM, Nginx y PostgreSQL 16)",
     ],
     challenges: [
-      "Optimización de rendimiento y mitigación de N+1 queries en Eloquent mediante memoización estática en servicios",
+      "Optimización de rendimiento y mitigación de consultas repetitivas a la base de datos mediante almacenamiento en caché en servicios",
       "Modelado de datos complejo con +21 modelos relacionales (geografía chilena, unidades ejecutoras, ODS y evidencias)",
       "Implementación de políticas estrictas de ciberseguridad (SecurityHeaders, logs saneados y validación MIME de archivos)",
       "Diseño de una experiencia de onboarding intuitiva para personal académico y administrativo no técnico",
+      "Preservación de la confidencialidad institucional y gobierno seguro de datos corporativos",
     ],
     outcomes: [
       "Centralización del 100% de las iniciativas y propuestas de vinculación del CFT San Agustín",
@@ -221,6 +237,8 @@ export const projects: ProjectDetail[] = [
     githubUrl: "",
     demoUrl: "",
     featured: true,
+    isConfidential: true,
+    confidentialNotice: "Proyecto institucional desarrollado para el CFT San Agustín. Repositorio y datos privados bajo acuerdo de confidencialidad.",
     startDate: "Junio 2026",
     endDate: "Agosto 2026",
     client: "CFT San Agustín",
