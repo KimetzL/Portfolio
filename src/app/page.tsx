@@ -118,7 +118,7 @@ export default function Home() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-xl md:text-2xl text-muted-foreground mb-8"
           >
-            Data Scientist | Data Analyst | IT &amp; Systems
+            {t.hero.subtitle}
           </motion.p>
 
           <motion.div

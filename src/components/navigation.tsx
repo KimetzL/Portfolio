@@ -23,11 +23,11 @@ export function Navigation() {
   }, []);
 
   const navItems = [
-    { name: t.nav.home, href: "#home" },
-    { name: t.nav.about, href: "#about" },
-    { name: t.nav.skills, href: "#skills" },
-    { name: t.nav.projects, href: "#projects" },
-    { name: t.nav.contact, href: "#contact" },
+    { name: t.nav.home, href: "#home", width: "w-[64px]" },
+    { name: t.nav.about, href: "#about", width: "w-[88px]" },
+    { name: t.nav.skills, href: "#skills", width: "w-[104px]" },
+    { name: t.nav.projects, href: "#projects", width: "w-[88px]" },
+    { name: t.nav.contact, href: "#contact", width: "w-[82px]" },
   ];
 
   // Check if we're on a project page
@@ -111,7 +111,7 @@ export function Navigation() {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-5">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.href}
@@ -119,51 +119,79 @@ export function Navigation() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => handleNavClick(item.href)}
-                className={`relative text-sm font-medium transition-colors hover:text-primary ${!isProjectPage && activeSection === item.href.substring(1)
+                className={`relative ${item.width} flex items-center justify-center text-sm font-medium transition-colors hover:text-primary whitespace-nowrap ${
+                  !isProjectPage && activeSection === item.href.substring(1)
                     ? "text-primary"
                     : "text-muted-foreground"
-                  }`}
+                }`}
               >
-                {item.name}
-                {!isProjectPage && activeSection === item.href.substring(1) && (
-                  <motion.div
-                    layoutId="activeSection"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                    initial={false}
-                    transition={{
-                      type: "spring",
-                      stiffness: 380,
-                      damping: 30,
-                    }}
-                  />
-                )}
+                <span className="relative inline-block py-1">
+                  {item.name}
+                  {!isProjectPage && activeSection === item.href.substring(1) && (
+                    <motion.div
+                      layoutId="activeSection"
+                      className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-primary"
+                      initial={false}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                </span>
               </motion.button>
             ))}
 
             {/* Language Toggle EN / ES */}
             {mounted && (
-              <motion.button
+              <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navItems.length * 0.1 }}
-                onClick={toggleLocale}
-                className="relative flex items-center rounded-full border border-border/60 bg-muted/40 hover:bg-muted/80 transition-colors overflow-hidden h-9 px-1 shadow-sm"
-                title={locale === "es" ? "Switch to English" : "Cambiar a Español"}
-                aria-label={locale === "es" ? "Switch to English" : "Cambiar a Español"}
+                className="relative inline-flex items-center rounded-full border border-border/60 bg-muted/40 p-1 shadow-sm"
               >
-                {/* Sliding pill */}
-                <motion.span
-                  className="absolute top-1 bottom-1 left-1 w-[calc(50%-2px)] rounded-full bg-primary"
-                  animate={{ x: locale === "en" ? "calc(100% + 2px)" : 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-                <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "es" ? "text-primary-foreground" : "text-muted-foreground"}`}>
-                  ES
-                </span>
-                <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "en" ? "text-primary-foreground" : "text-muted-foreground"}`}>
-                  EN
-                </span>
-              </motion.button>
+                <button
+                  type="button"
+                  onClick={() => setLocale("es")}
+                  className={`relative z-10 w-9 h-7 rounded-full text-xs font-semibold flex items-center justify-center transition-colors duration-200 ${
+                    locale === "es"
+                      ? "text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  title="Español"
+                  aria-label="Cambiar a Español"
+                >
+                  {locale === "es" && (
+                    <motion.div
+                      layoutId="active-locale-desktop"
+                      className="absolute inset-0 rounded-full bg-primary"
+                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">ES</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLocale("en")}
+                  className={`relative z-10 w-9 h-7 rounded-full text-xs font-semibold flex items-center justify-center transition-colors duration-200 ${
+                    locale === "en"
+                      ? "text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  title="English"
+                  aria-label="Switch to English"
+                >
+                  {locale === "en" && (
+                    <motion.div
+                      layoutId="active-locale-desktop"
+                      className="absolute inset-0 rounded-full bg-primary"
+                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">EN</span>
+                </button>
+              </motion.div>
             )}
 
             {/* Theme Toggle Button */}
@@ -219,24 +247,46 @@ export function Navigation() {
                       <span className="text-sm font-medium text-muted-foreground">
                         {locale === "es" ? "Idioma" : "Language"}
                       </span>
-                      <button
-                        onClick={toggleLocale}
-                        className="relative flex items-center rounded-full border border-border/60 bg-muted/40 hover:bg-muted/80 transition-colors overflow-hidden h-9 px-1 shadow-sm"
-                        aria-label={locale === "es" ? "Switch to English" : "Cambiar a Español"}
-                      >
-                        {/* Sliding pill */}
-                        <motion.span
-                          className="absolute top-1 bottom-1 left-1 w-[calc(50%-2px)] rounded-full bg-primary"
-                          animate={{ x: locale === "en" ? "calc(100% + 2px)" : 0 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                        <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "es" ? "text-primary-foreground" : "text-muted-foreground"}`}>
-                          ES
-                        </span>
-                        <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "en" ? "text-primary-foreground" : "text-muted-foreground"}`}>
-                          EN
-                        </span>
-                      </button>
+                      <div className="relative inline-flex items-center rounded-full border border-border/60 bg-muted/40 p-1 shadow-sm">
+                        <button
+                          type="button"
+                          onClick={() => setLocale("es")}
+                          className={`relative z-10 w-9 h-7 rounded-full text-xs font-semibold flex items-center justify-center transition-colors duration-200 ${
+                            locale === "es"
+                              ? "text-primary-foreground"
+                              : "text-muted-foreground hover:text-foreground"
+                          }`}
+                          aria-label="Cambiar a Español"
+                        >
+                          {locale === "es" && (
+                            <motion.div
+                              layoutId="active-locale-mobile"
+                              className="absolute inset-0 rounded-full bg-primary"
+                              transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                            />
+                          )}
+                          <span className="relative z-10">ES</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setLocale("en")}
+                          className={`relative z-10 w-9 h-7 rounded-full text-xs font-semibold flex items-center justify-center transition-colors duration-200 ${
+                            locale === "en"
+                              ? "text-primary-foreground"
+                              : "text-muted-foreground hover:text-foreground"
+                          }`}
+                          aria-label="Switch to English"
+                        >
+                          {locale === "en" && (
+                            <motion.div
+                              layoutId="active-locale-mobile"
+                              className="absolute inset-0 rounded-full bg-primary"
+                              transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                            />
+                          )}
+                          <span className="relative z-10">EN</span>
+                        </button>
+                      </div>
                     </div>
 
                     {/* Theme toggle */}
