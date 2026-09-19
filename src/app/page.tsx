@@ -23,33 +23,45 @@ import {
 } from "lucide-react";
 import { getFeaturedProjects, getOtherProjects } from "@/data/projects";
 import { ProjectImage } from "@/components/project-image";
+import { useLanguage } from "@/context/language-context";
 
-const skills = {
-  "IA & Big Data": [
-    { name: "Python", icon: <Code className="w-4 h-4" /> },
-    { name: "Power BI", icon: <Database className="w-4 h-4" /> },
-    { name: "TensorFlow", icon: <Brain className="w-4 h-4" /> },
-    { name: "Scikit-learn", icon: <Brain className="w-4 h-4" /> },
-    { name: "MySQL", icon: <Database className="w-4 h-4" /> },
-  ],
-  "Sistemas y Virtualización": [
-    { name: "Active Directory", icon: <Server className="w-4 h-4" /> },
-    { name: "Docker", icon: <Server className="w-4 h-4" /> },
-    { name: "Linux", icon: <Terminal className="w-4 h-4" /> },
-    { name: "Windows Server", icon: <Server className="w-4 h-4" /> },
-    { name: "VMware", icon: <Server className="w-4 h-4" /> },
-  ],
-  "Ciberseguridad": [
-    { name: "Metasploit", icon: <Shield className="w-4 h-4" /> },
-    { name: "Criptografía", icon: <Lock className="w-4 h-4" /> },
-    { name: "Burp Suite", icon: <Lock className="w-4 h-4" /> },
-    { name: "Kali Linux", icon: <Terminal className="w-4 h-4" /> },
-    { name: "Análisis forense", icon: <Shield className="w-4 h-4" /> },
-  ],
+const skillIcons: Record<string, React.ReactNode> = {
+  Python: <Code className="w-4 h-4" />,
+  "Power BI": <Database className="w-4 h-4" />,
+  TensorFlow: <Brain className="w-4 h-4" />,
+  "Scikit-learn": <Brain className="w-4 h-4" />,
+  MySQL: <Database className="w-4 h-4" />,
+  "Active Directory": <Server className="w-4 h-4" />,
+  Docker: <Server className="w-4 h-4" />,
+  Linux: <Terminal className="w-4 h-4" />,
+  "Windows Server": <Server className="w-4 h-4" />,
+  VMware: <Server className="w-4 h-4" />,
+  Metasploit: <Shield className="w-4 h-4" />,
+  Criptografía: <Lock className="w-4 h-4" />,
+  Cryptography: <Lock className="w-4 h-4" />,
+  "Burp Suite": <Lock className="w-4 h-4" />,
+  "Kali Linux": <Terminal className="w-4 h-4" />,
+  "Análisis forense": <Shield className="w-4 h-4" />,
+  "Forensic Analysis": <Shield className="w-4 h-4" />,
 };
 
+const skillsData = {
+  es: {
+    "IA & Big Data": ["Python", "Power BI", "TensorFlow", "Scikit-learn", "MySQL"],
+    "Sistemas y Virtualización": ["Active Directory", "Docker", "Linux", "Windows Server", "VMware"],
+    "Ciberseguridad": ["Metasploit", "Criptografía", "Burp Suite", "Kali Linux", "Análisis forense"],
+  },
+  en: {
+    "AI & Big Data": ["Python", "Power BI", "TensorFlow", "Scikit-learn", "MySQL"],
+    "Systems & Virtualization": ["Active Directory", "Docker", "Linux", "Windows Server", "VMware"],
+    "Cybersecurity": ["Metasploit", "Cryptography", "Burp Suite", "Kali Linux", "Forensic Analysis"],
+  },
+};
 
 export default function Home() {
+  const { locale, t } = useLanguage();
+  const skills = skillsData[locale];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
@@ -87,7 +99,7 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm text-primary">Disponible para Proyectos</span>
+              <span className="text-sm text-primary">{t.hero.available}</span>
             </div>
           </motion.div>
 
@@ -106,7 +118,7 @@ export default function Home() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-xl md:text-2xl text-muted-foreground mb-8"
           >
-            Data Scientist | Data Analyst | IT & Systems
+            Data Scientist | Data Analyst | IT &amp; Systems
           </motion.p>
 
           <motion.div
@@ -117,12 +129,12 @@ export default function Home() {
           >
             <Button size="lg" className="group" asChild>
               <a href="#projects">
-                Ver Proyectos
+                {t.hero.viewProjects}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <a href="#contact">Contactar</a>
+              <a href="#contact">{t.hero.contact}</a>
             </Button>
           </motion.div>
         </motion.div>
@@ -137,21 +149,13 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Sobre Mí</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.about.title}</h2>
             <Card className="p-8">
               <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
-                <p>
-                  Soy Kimetz, un apasionado por la Tecnología y la Informática. Mi carrera ha estado marcada por ofrecer soluciones tecnológicas eficientes y resolver desafíos de manera creativa en diversas áreas.
-                </p>
-                <p>
-                  Desde mis inicios, me he destacado en la prestación de servicios personalizados, especialmente en el análisis y reparación de hardware. Mi dedicación a este campo ha consolidado una sólida experiencia y habilidades, poniendo de manifiesto mi verdadera fortaleza para abordar problemas de manera analítica y proponer soluciones eficaces. Por otra parte también he desempeñado un papel clave en la gestión de comunicaciones y soporte remoto, lo que ha fortalecido mi habilidad para interactuar efectivamente con los usuarios y ofrecer soluciones a medida.
-                </p>
-                <p>
-                  Así como también he trabajado en áreas clave como la gestión de sistemas informáticos, la administración de Active Directory, la implementación de soluciones de ciberseguridad, y la optimización de sistemas de almacenamiento de datos. Esta experiencia me ha permitido desarrollar una visión integral de la infraestructura tecnológica, garantizando su eficiencia, seguridad y rendimiento.
-                </p>
-                <p>
-                  Actualmente estoy enfocado en la Inteligencia Artificial y el Big Data, áreas que considero clave para el futuro de la innovación tecnológica, ya que mi objetivo es seguir creciendo en el mundo de la tecnología, enfrentando nuevos retos y contribuyendo a la evolución digital de las organizaciones a través de soluciones creativas y eficientes. Creo que destaco por mi capacidad resolutiva, iniciativa y un compromiso constante con el aprendizaje continuo en todas las áreas del sector IT.
-                </p>
+                <p>{t.about.p1}</p>
+                <p>{t.about.p2}</p>
+                <p>{t.about.p3}</p>
+                <p>{t.about.p4}</p>
               </div>
             </Card>
           </motion.div>
@@ -167,7 +171,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Habilidades y Experiencia</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.skills.title}</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Object.entries(skills).map(([category, items], index) => (
                 <motion.div
@@ -184,9 +188,9 @@ export default function Home() {
                     <CardContent>
                       <div className="flex flex-wrap gap-2">
                         {items.map((skill) => (
-                          <Badge key={skill.name} variant="secondary" className="flex items-center gap-1">
-                            {skill.icon}
-                            {skill.name}
+                          <Badge key={skill} variant="secondary" className="flex items-center gap-1">
+                            {skillIcons[skill] ?? <Globe className="w-4 h-4" />}
+                            {skill}
                           </Badge>
                         ))}
                       </div>
@@ -208,7 +212,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Proyectos</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.projects.title}</h2>
             {/* Featured Projects Grid (Top Row - 2 Columns) */}
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               {getFeaturedProjects().map((project, index) => (
@@ -242,7 +246,7 @@ export default function Home() {
                       <div className="flex gap-3">
                         <Button size="sm" asChild className="group">
                           <a href={`/projects/${project.id}`}>
-                            Saber Más
+                            {t.projects.learnMore}
                             <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
                           </a>
                         </Button>
@@ -263,10 +267,10 @@ export default function Home() {
                         ) : project.isConfidential ? (
                           <span
                             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-muted/60 text-muted-foreground border border-border/60 self-center"
-                            title={project.confidentialNotice || "Proyecto institucional"}
+                            title={project.confidentialNotice || (locale === "es" ? "Proyecto institucional" : "Institutional project")}
                           >
                             <Lock className="w-3 h-3 text-amber-500" />
-                            Uso Interno
+                            {t.projects.internalUse}
                           </span>
                         ) : null}
                       </div>
@@ -309,7 +313,7 @@ export default function Home() {
                       <div className="flex gap-2">
                         <Button size="sm" asChild>
                           <a href={`/projects/${project.id}`}>
-                            Saber Más
+                            {t.projects.learnMore}
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </a>
                         </Button>
@@ -322,10 +326,10 @@ export default function Home() {
                         ) : project.isConfidential ? (
                           <span
                             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-muted/60 text-muted-foreground border border-border/60 self-center"
-                            title={project.confidentialNotice || "Proyecto confidencial"}
+                            title={project.confidentialNotice || (locale === "es" ? "Proyecto confidencial" : "Confidential project")}
                           >
                             <Lock className="w-3 h-3 text-amber-500" />
-                            Confidencial
+                            {t.projects.confidential}
                           </span>
                         ) : null}
                       </div>
@@ -347,10 +351,9 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">Contacto</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">{t.contact.title}</h2>
             <p className="text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-10">
-              ¿Tienes algún proyecto en mente, una consulta o te gustaría colaborar?
-              Envíame un mensaje a través del formulario o conéctate a través de mis redes profesionales.
+              {t.contact.subtitle}
             </p>
 
             <ContactForm />
@@ -377,7 +380,7 @@ export default function Home() {
       <footer className="py-8 px-4 border-t">
         <div className="container mx-auto text-center">
           <p className="text-muted-foreground">
-            © {new Date().getFullYear()} Kimetz Loroño. Desarrollado con Next.js, TypeScript y Tailwind CSS.
+            © {new Date().getFullYear()} Kimetz Loroño. {t.footer.built}
           </p>
         </div>
       </footer>

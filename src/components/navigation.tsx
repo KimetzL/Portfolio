@@ -1,20 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, Sun, Moon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-
-const navItems = [
-  { name: "Inicio", href: "#home" },
-  { name: "Sobre Mí", href: "#about" },
-  { name: "Habilidades", href: "#skills" },
-  { name: "Proyectos", href: "#projects" },
-  { name: "Contacto", href: "#contact" },
-];
+import { useLanguage } from "@/context/language-context";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,10 +16,19 @@ export function Navigation() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
+  const { locale, setLocale, t } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const navItems = [
+    { name: t.nav.home, href: "#home" },
+    { name: t.nav.about, href: "#about" },
+    { name: t.nav.skills, href: "#skills" },
+    { name: t.nav.projects, href: "#projects" },
+    { name: t.nav.contact, href: "#contact" },
+  ];
 
   // Check if we're on a project page
   const isProjectPage = pathname?.startsWith('/projects/');
@@ -37,7 +39,7 @@ export function Navigation() {
 
       // Only update active section if we're not on a project page
       if (!isProjectPage) {
-        const sections = navItems.map(item => item.href.substring(1));
+        const sections = ["home", "about", "skills", "projects", "contact"];
         const scrollPosition = window.scrollY + 100;
 
         for (const section of sections) {
@@ -88,6 +90,8 @@ export function Navigation() {
     }
   };
 
+  const toggleLocale = () => setLocale(locale === "es" ? "en" : "es");
+
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
@@ -110,7 +114,7 @@ export function Navigation() {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
               <motion.button
-                key={item.name}
+                key={item.href}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -136,14 +140,40 @@ export function Navigation() {
               </motion.button>
             ))}
 
-            {/* Theme Toggle Button (Sol / Luna) */}
+            {/* Language Toggle EN / ES */}
+            {mounted && (
+              <motion.button
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navItems.length * 0.1 }}
+                onClick={toggleLocale}
+                className="relative flex items-center rounded-full border border-border/60 bg-muted/40 hover:bg-muted/80 transition-colors overflow-hidden h-9 px-1 shadow-sm"
+                title={locale === "es" ? "Switch to English" : "Cambiar a Español"}
+                aria-label={locale === "es" ? "Switch to English" : "Cambiar a Español"}
+              >
+                {/* Sliding pill */}
+                <motion.span
+                  className="absolute top-1 bottom-1 left-1 w-[calc(50%-2px)] rounded-full bg-primary"
+                  animate={{ x: locale === "en" ? "calc(100% + 2px)" : 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+                <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "es" ? "text-primary-foreground" : "text-muted-foreground"}`}>
+                  ES
+                </span>
+                <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "en" ? "text-primary-foreground" : "text-muted-foreground"}`}>
+                  EN
+                </span>
+              </motion.button>
+            )}
+
+            {/* Theme Toggle Button */}
             {mounted && (
               <Button
                 variant="outline"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 className="rounded-full w-9 h-9 border-border/60 hover:bg-accent transition-all shadow-sm"
-                title={theme === "dark" ? "Cambiar a Modo Claro" : "Cambiar a Modo Noche"}
+                title={theme === "dark" ? t.nav.themeLight : t.nav.themeDark}
               >
                 {theme === "dark" ? (
                   <Sun className="h-4 w-4 text-yellow-400 transition-all transform hover:rotate-45" />
@@ -167,7 +197,7 @@ export function Navigation() {
               <div className="flex flex-col space-y-4 mt-8">
                 {navItems.map((item, index) => (
                   <motion.button
-                    key={item.name}
+                    key={item.href}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
@@ -181,28 +211,58 @@ export function Navigation() {
                   </motion.button>
                 ))}
 
-                {/* Mobile Theme Toggle */}
+                {/* Mobile Language + Theme toggles */}
                 {mounted && (
-                  <div className="pt-6 mt-4 border-t border-border flex items-center justify-between">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Tema
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                      className="gap-2 rounded-full"
-                    >
-                      {theme === "dark" ? (
-                        <>
-                          <Sun className="h-4 w-4 text-yellow-400" /> Modo Claro
-                        </>
-                      ) : (
-                        <>
-                          <Moon className="h-4 w-4 text-slate-700" /> Modo Noche
-                        </>
-                      )}
-                    </Button>
+                  <div className="pt-6 mt-4 border-t border-border space-y-4">
+                    {/* Language toggle */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-muted-foreground">
+                        {locale === "es" ? "Idioma" : "Language"}
+                      </span>
+                      <button
+                        onClick={toggleLocale}
+                        className="relative flex items-center rounded-full border border-border/60 bg-muted/40 hover:bg-muted/80 transition-colors overflow-hidden h-9 px-1 shadow-sm"
+                        aria-label={locale === "es" ? "Switch to English" : "Cambiar a Español"}
+                      >
+                        {/* Sliding pill */}
+                        <motion.span
+                          className="absolute top-1 bottom-1 left-1 w-[calc(50%-2px)] rounded-full bg-primary"
+                          animate={{ x: locale === "en" ? "calc(100% + 2px)" : 0 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        />
+                        <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "es" ? "text-primary-foreground" : "text-muted-foreground"}`}>
+                          ES
+                        </span>
+                        <span className={`relative z-10 px-3 py-1 text-xs font-semibold transition-colors duration-200 ${locale === "en" ? "text-primary-foreground" : "text-muted-foreground"}`}>
+                          EN
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Theme toggle */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-muted-foreground">
+                        {locale === "es" ? "Tema" : "Theme"}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                        className="gap-2 rounded-full"
+                      >
+                        {theme === "dark" ? (
+                          <>
+                            <Sun className="h-4 w-4 text-yellow-400" />
+                            {locale === "es" ? "Modo Claro" : "Light Mode"}
+                          </>
+                        ) : (
+                          <>
+                            <Moon className="h-4 w-4 text-slate-700" />
+                            {locale === "es" ? "Modo Noche" : "Dark Mode"}
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
