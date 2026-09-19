@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { getProjectById } from "@/data/projects";
 import { ProjectImage } from "@/components/project-image";
+import { useLanguage } from "@/context/language-context";
 
 
 
@@ -63,6 +64,7 @@ const getIcon = (tech: string) => {
 };
 
 function JobEngineShowcaseSection() {
+  const { locale } = useLanguage();
   const [activeStep, setActiveStep] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [portalFilter, setPortalFilter] = useState("all");
@@ -91,7 +93,7 @@ function JobEngineShowcaseSection() {
     return matchesSearch && matchesPortal && matchesComuna && matchesModalidad;
   });
 
-  const pipelineSteps: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
+  const pipelineStepsEs: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
     1: {
       title: "01. Extracción Multi-Fuente (APIs, HTTP & Playwright)",
       desc: "Arquitectura desacoplada que utiliza la técnica óptima según la fuente: REST APIs para BNE y Get on Board, HTTP/lxml de alto rendimiento para Empleos Públicos y ChileTrabajos, y automatización con Playwright para portales con renderizado JS (Trabajando, Laborum).",
@@ -130,6 +132,47 @@ function JobEngineShowcaseSection() {
     }
   };
 
+  const pipelineStepsEn: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
+    1: {
+      title: "01. Multi-Source Extraction (APIs, HTTP & Playwright)",
+      desc: "Decoupled architecture using optimal extraction methods per source: REST APIs for BNE and Get on Board, high-performance HTTP/lxml for Empleos Públicos and ChileTrabajos, and Playwright automation for JS-rendered portals (Trabajando, Laborum).",
+      highlights: [
+        "Transparent institutional User-Agent: IES-CareerBot/1.0",
+        "Ethical random jitter delays (1s to 3s) between requests",
+        "Local HTTP caching layer (cache_http.py) with configurable TTL (4h / 24h)"
+      ]
+    },
+    2: {
+      title: "02. Incremental Persistence & Early Stopping",
+      desc: "Each extracted offer is immediately serialized and appended to individual CSV files on disk (mode='a'). Furthermore, when 100% of the listings on a scraped page already exist in local storage, pagination is terminated early.",
+      highlights: [
+        "Zero data loss during network hiccups or system suspension",
+        "Constant-time disk writes avoiding file rewriting overhead",
+        "Incremental scrape runtime slashed from 3 hours to 2-4 minutes"
+      ]
+    },
+    3: {
+      title: "03. Transformation & NLP RegEx Engine (extractor_helpers.py)",
+      desc: "Centralized regular expression engine parsing unstructured job titles and descriptions to extract explicit salary values, classify workplace modalities (Remote, Hybrid, On-site), and filter strictly across the 30 Maule communes.",
+      highlights: [
+        "Automated syntactic salary conversion ($1.2M -> $1,200,000 CLP)",
+        "Bilingual workplace terminology recognition (WFH, Remote, Presencial)",
+        "Strict geographic whitelist for all 30 Maule communes"
+      ]
+    },
+    4: {
+      title: "04. In-Memory Fuzzy Deduplication & Unified Output (clean_existing_csvs.py)",
+      desc: "Post-processing pipeline that consolidates individual CSVs, normalizes corporate names (stripping legal suffixes like Ltd./S.A.), clusters on (title, company, commune), and retains the highest-priority source record.",
+      highlights: [
+        "In-memory processing and deduplication of 3,300+ listings in ~4s",
+        "Automated generation of audit logs for duplicates and exclusions",
+        "Consolidated into ofertas_unificadas.csv with a 17-column canonical schema"
+      ]
+    }
+  };
+
+  const pipelineSteps = locale === "en" ? pipelineStepsEn : pipelineStepsEs;
+
   const portalMatrix = [
     // 7 Portales Activos
     { name: "BNE", motor: "API REST", status: "active", note: "API pública oficial autorizada" },
@@ -152,7 +195,7 @@ function JobEngineShowcaseSection() {
     <div className="space-y-12 mt-12">
       {/* KPI Stat Cards Grid (Compact Layout) */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores de Rendimiento</h2>
+        <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Performance Metrics & Key Indicators" : "Métricas e Indicadores de Rendimiento"}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
             <CardContent className="p-4 flex items-center gap-3">
@@ -161,8 +204,8 @@ function JobEngineShowcaseSection() {
               </div>
               <div>
                 <div className="text-xl font-bold text-primary">+3.300</div>
-                <div className="text-xs text-muted-foreground font-medium">Vacantes Consolidadas</div>
-                <div className="text-[10px] text-muted-foreground/70">Dataset activo Maule</div>
+                <div className="text-xs text-muted-foreground font-medium">{locale === "en" ? "Consolidated Postings" : "Vacantes Consolidadas"}</div>
+                <div className="text-[10px] text-muted-foreground/70">{locale === "en" ? "Active Maule dataset" : "Dataset activo Maule"}</div>
               </div>
             </CardContent>
           </Card>
@@ -173,8 +216,8 @@ function JobEngineShowcaseSection() {
                 <Globe className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-xl font-bold text-blue-500 whitespace-nowrap">7 Fuentes</div>
-                <div className="text-xs text-muted-foreground font-medium">Portales Integrados</div>
+                <div className="text-xl font-bold text-blue-500 whitespace-nowrap">{locale === "en" ? "7 Sources" : "7 Fuentes"}</div>
+                <div className="text-xs text-muted-foreground font-medium">{locale === "en" ? "Integrated Portals" : "Portales Integrados"}</div>
                 <div className="text-[10px] text-muted-foreground/70">APIs + HTTP + Playwright</div>
               </div>
             </CardContent>
@@ -186,9 +229,9 @@ function JobEngineShowcaseSection() {
                 <Zap className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-xl font-bold text-purple-500 whitespace-nowrap">~4 seg</div>
-                <div className="text-xs text-muted-foreground font-medium">Deduplicación Difusa</div>
-                <div className="text-[10px] text-muted-foreground/70">Procesamiento en memoria</div>
+                <div className="text-xl font-bold text-purple-500 whitespace-nowrap">{locale === "en" ? "~4 sec" : "~4 seg"}</div>
+                <div className="text-xs text-muted-foreground font-medium">{locale === "en" ? "Fuzzy Deduplication" : "Deduplicación Difusa"}</div>
+                <div className="text-[10px] text-muted-foreground/70">{locale === "en" ? "In-memory processing" : "Procesamiento en memoria"}</div>
               </div>
             </CardContent>
           </Card>
@@ -200,7 +243,7 @@ function JobEngineShowcaseSection() {
               </div>
               <div>
                 <div className="text-xl font-bold text-emerald-500 whitespace-nowrap">100%</div>
-                <div className="text-xs text-muted-foreground font-medium">Scraping Ético Auditado</div>
+                <div className="text-xs text-muted-foreground font-medium">{locale === "en" ? "Audited Ethical Scraping" : "Scraping Ético Auditado"}</div>
                 <div className="text-[10px] text-muted-foreground/70">User-Agent & Robots.txt</div>
               </div>
             </CardContent>
@@ -210,7 +253,7 @@ function JobEngineShowcaseSection() {
 
       {/* Interactive ETL Pipeline Stepper */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Canalización ETL Interactiva</h2>
+        <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Interactive ETL Pipeline" : "Canalización ETL Interactiva"}</h2>
         <Card className="overflow-hidden">
           <CardHeader className="bg-muted/30 border-b pb-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -221,12 +264,12 @@ function JobEngineShowcaseSection() {
                   onClick={() => setActiveStep(stepNum)}
                   className="flex flex-col items-start h-auto py-3 px-4 text-left justify-start"
                 >
-                  <span className="text-xs opacity-70 font-mono">Paso 0{stepNum}</span>
+                  <span className="text-xs opacity-70 font-mono">{locale === "en" ? `Step 0${stepNum}` : `Paso 0${stepNum}`}</span>
                   <span className="text-xs font-bold truncate">
-                    {stepNum === 1 && "1. Extracción"}
+                    {stepNum === 1 && (locale === "en" ? "1. Extraction" : "1. Extracción")}
                     {stepNum === 2 && "2. Append & Stop"}
                     {stepNum === 3 && "3. NLP RegEx"}
-                    {stepNum === 4 && "4. Deduplicación"}
+                    {stepNum === 4 && (locale === "en" ? "4. Deduplication" : "4. Deduplicación")}
                   </span>
                 </Button>
               ))}
@@ -241,7 +284,7 @@ function JobEngineShowcaseSection() {
               {pipelineSteps[activeStep].desc}
             </p>
             <div className="space-y-2 pt-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Puntos clave:</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{locale === "en" ? "Key points:" : "Puntos clave:"}</span>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {pipelineSteps[activeStep].highlights.map((h, i) => (
                   <li key={i} className="flex items-center gap-2 text-xs bg-muted/50 p-2.5 rounded-lg border">
@@ -443,9 +486,10 @@ function JobEngineShowcaseSection() {
 }
 
 function ChatbotShowcaseSection() {
+  const { locale } = useLanguage();
   const [activeStep, setActiveStep] = useState(1);
 
-  const pipelineSteps: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
+  const pipelineStepsEs: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
     1: {
       title: "01. Búsqueda Difusa & Normalización (RapidFuzz & Pandas)",
       desc: "Limpieza del texto introducido por el ciudadano, filtrado de caracteres especiales y aplicación de algoritmos de coincidencia sintáctica difusa (fuzzy matching) para tolerar erratas o variaciones en nombres de ayuntamientos y trámites.",
@@ -484,11 +528,52 @@ function ChatbotShowcaseSection() {
     }
   };
 
+  const pipelineStepsEn: { [key: number]: { title: string; desc: string; highlights: string[] } } = {
+    1: {
+      title: "01. Fuzzy Matching & Normalization (RapidFuzz & Pandas)",
+      desc: "Citizen query text normalization, special character stripping, and fuzzy syntactic matching to handle typos, slang, and naming variations across municipalities and procedures.",
+      highlights: [
+        "Typo and spelling error tolerance for citizen queries",
+        "Instant vector-ready DataFrame string preprocessing",
+        "Pre-filtering stage prior to dense semantic vector search"
+      ]
+    },
+    2: {
+      title: "02. Vector Indexing & Semantic Retrieval (FAISS)",
+      desc: "Converts queries into dense vector embeddings and performs L2/cosine distance lookups against an in-memory FAISS index, instantly retrieving top-k related municipal departments and procedures.",
+      highlights: [
+        "Sub-millisecond in-memory vector similarity searches",
+        "Indexed municipal catalog of Bizkaia procedures and services",
+        "High-precision semantic k-NN candidate retrieval"
+      ]
+    },
+    3: {
+      title: "03. Contextual Intent Classification (Transformers)",
+      desc: "Specialized language model pipeline assessing user intent to accurately classify whether the inquiry targets a town hall, administrative division, or civic procedure.",
+      highlights: [
+        "Intelligent administrative context disambiguation",
+        "Hierarchical classification: Municipality vs Department vs Procedure",
+        "Enriched query context payload generation"
+      ]
+    },
+    4: {
+      title: "04. Local Deployment & Web UI (Gradio & Python)",
+      desc: "Interactive conversational interface built with Gradio. Includes a self-contained installation script that automates virtual environment setup and model pre-loading for 100% offline execution.",
+      highlights: [
+        "Gradio conversational web application",
+        "One-click automated setup script for local execution",
+        "Absolute data privacy with zero cloud dependencies"
+      ]
+    }
+  };
+
+  const pipelineSteps = locale === "en" ? pipelineStepsEn : pipelineStepsEs;
+
   return (
     <div className="space-y-12 mb-12">
       {/* Metric Stat Cards Grid (A) */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores del Proyecto</h2>
+        <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Project Metrics & Indicators" : "Métricas e Indicadores del Proyecto"}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
             <CardContent className="p-4 flex items-center gap-3 min-w-0">
@@ -496,8 +581,8 @@ function ChatbotShowcaseSection() {
                 <Brain className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1 overflow-hidden" title="Motor NLP - Clasificación Contextual con Transformers">
-                <div className="text-sm sm:text-base xl:text-lg font-bold text-primary leading-tight truncate">Motor NLP</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Clasificación Contextual</div>
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-primary leading-tight truncate">{locale === "en" ? "NLP Engine" : "Motor NLP"}</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Contextual Classification" : "Clasificación Contextual"}</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Transformers & Intent Detection</div>
               </div>
             </CardContent>
@@ -509,9 +594,9 @@ function ChatbotShowcaseSection() {
                 <Zap className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1 overflow-hidden" title="Búsqueda FAISS - Búsqueda Vectorial Ultra-Rápida">
-                <div className="text-sm sm:text-base xl:text-lg font-bold text-blue-500 leading-tight truncate">Búsqueda FAISS</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Indexación Vectorial</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Embeddings de Trámites & Dptos</div>
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-blue-500 leading-tight truncate">{locale === "en" ? "FAISS Search" : "Búsqueda FAISS"}</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Vector Indexing" : "Indexación Vectorial"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "Embeddings for Services & Dpts" : "Embeddings de Trámites & Dptos"}</div>
               </div>
             </CardContent>
           </Card>
@@ -523,8 +608,8 @@ function ChatbotShowcaseSection() {
               </div>
               <div className="min-w-0 flex-1 overflow-hidden" title="RapidFuzz - Coincidencia Difusa y Tolerancia a Erratas">
                 <div className="text-sm sm:text-base xl:text-lg font-bold text-purple-500 leading-tight truncate">RapidFuzz</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Coincidencia Difusa</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Tolerancia a Erratas Ciudadanas</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Fuzzy Matching" : "Coincidencia Difusa"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "Citizen Typo Tolerance" : "Tolerancia a Erratas Ciudadanas"}</div>
               </div>
             </CardContent>
           </Card>
@@ -536,8 +621,8 @@ function ChatbotShowcaseSection() {
               </div>
               <div className="min-w-0 flex-1 overflow-hidden" title="100% Local - Ejecución Offline con Gradio e Instalador Python">
                 <div className="text-sm sm:text-base xl:text-lg font-bold text-emerald-500 leading-tight truncate">100% Local</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Ejecución Offline</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Interfaz Gradio & Python Setup</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Offline Execution" : "Ejecución Offline"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "Gradio UI & Python Setup" : "Interfaz Gradio & Python Setup"}</div>
               </div>
             </CardContent>
           </Card>
@@ -546,7 +631,7 @@ function ChatbotShowcaseSection() {
 
       {/* Interactive AI Pipeline Stepper (C) */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Canalización de Inteligencia Artificial</h2>
+        <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Artificial Intelligence Pipeline" : "Canalización de Inteligencia Artificial"}</h2>
         <Card className="overflow-hidden">
           <CardHeader className="bg-muted/30 border-b pb-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -557,10 +642,10 @@ function ChatbotShowcaseSection() {
                   onClick={() => setActiveStep(stepNum)}
                   className="flex flex-col items-start h-auto py-3 px-4 text-left justify-start"
                 >
-                  <span className="text-xs opacity-70 font-mono">Paso 0{stepNum}</span>
+                  <span className="text-xs opacity-70 font-mono">{locale === "en" ? `Step 0${stepNum}` : `Paso 0${stepNum}`}</span>
                   <span className="text-xs font-bold truncate">
-                    {stepNum === 1 && "1. Lógica Difusa"}
-                    {stepNum === 2 && "2. FAISS Vectorial"}
+                    {stepNum === 1 && (locale === "en" ? "1. Fuzzy Logic" : "1. Lógica Difusa")}
+                    {stepNum === 2 && (locale === "en" ? "2. Vector FAISS" : "2. FAISS Vectorial")}
                     {stepNum === 3 && "3. Transformers"}
                     {stepNum === 4 && "4. Gradio & Local"}
                   </span>
@@ -577,7 +662,7 @@ function ChatbotShowcaseSection() {
               {pipelineSteps[activeStep].desc}
             </p>
             <div className="space-y-2 pt-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Puntos clave:</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{locale === "en" ? "Key points:" : "Puntos clave:"}</span>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {pipelineSteps[activeStep].highlights.map((h, i) => (
                   <li key={i} className="flex items-center gap-2 text-xs bg-muted/50 p-2.5 rounded-lg border">
@@ -595,25 +680,26 @@ function ChatbotShowcaseSection() {
 }
 
 function PowerBIDashboardsSection() {
+  const { locale } = useLanguage();
   const [activeTab, setActiveTab] = useState(1);
 
   const dashboards = [
     {
       id: 1,
-      title: "Comunicaciones, Consultas, Quejas y Sugerencias",
-      description: "Sistema de seguimiento de comunicaciones ciudadanas y gestión de solicitudes",
+      title: locale === "en" ? "Communications, Inquiries, Complaints and Suggestions" : "Comunicaciones, Consultas, Quejas y Sugerencias",
+      description: locale === "en" ? "Citizen communications tracking system and inquiry management" : "Sistema de seguimiento de comunicaciones ciudadanas y gestión de solicitudes",
       src: "https://app.powerbi.com/view?r=eyJrIjoiNGIwNWM4MjEtMjJmZi00ZDJlLTg2N2EtNjQzMjhhYmIwNmZiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
     },
     {
       id: 2,
-      title: "Estadísticas del portal de transparencia",
-      description: "Análisis de tráfico y métricas de rendimiento del sitio web Gardentasuna",
+      title: locale === "en" ? "Transparency Portal Statistics" : "Estadísticas del portal de transparencia",
+      description: locale === "en" ? "Traffic analytics and web performance metrics for the Gardentasuna portal" : "Análisis de tráfico y métricas de rendimiento del sitio web Gardentasuna",
       src: "https://app.powerbi.com/view?r=eyJrIjoiODlkYzBhZjctMjZjOC00ZGI0LTkzYTQtZTRhZmM4NjU2YzRkIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=cb1fe6884b4f452a84ac"
     },
     {
       id: 3,
-      title: "Mapa de Oficinas y Atención Ciudadana",
-      description: "Visualización geográfica interactiva de las oficinas y puntos de atención",
+      title: locale === "en" ? "Citizen Service Centers & Offices Map" : "Mapa de Oficinas y Atención Ciudadana",
+      description: locale === "en" ? "Interactive geographical visualization of citizen assistance offices and points of contact" : "Visualización geográfica interactiva de las oficinas y puntos de atención",
       src: "https://app.powerbi.com/view?r=eyJrIjoiNzA5MTZkYjgtY2JhYS00MWQ4LWFiMTctNGFmMGNmMDMxNWRiIiwidCI6IjczZDE3ZDMzLTE4YTktNDJjZC04Yzc4LTc0ZDZjZjZkN2RjNSIsImMiOjl9&pageName=5c18373603eff3c5e8c7"
     }
   ];
@@ -622,9 +708,9 @@ function PowerBIDashboardsSection() {
 
   return (
     <div className="space-y-12">
-      {/* Metric Stat Cards Grid (Compact Layout matching Project 5) */}
+      {/* Metric Stat Cards Grid */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores del Proyecto</h2>
+        <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Project Metrics & Indicators" : "Métricas e Indicadores del Proyecto"}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors">
             <CardContent className="p-4 flex items-center gap-3">
@@ -633,8 +719,8 @@ function PowerBIDashboardsSection() {
               </div>
               <div className="min-w-0" title="3 Dashboards Interactivos en Vivo (Comunicaciones, Web y Mapa)">
                 <div className="text-base sm:text-lg xl:text-xl font-bold text-primary leading-tight whitespace-nowrap">3 Dashboards</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Interactivos en Vivo</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Comunicaciones, Web y Mapa</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Interactive Live" : "Interactivos en Vivo"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "Communications, Web & Map" : "Comunicaciones, Web y Mapa"}</div>
               </div>
             </CardContent>
           </Card>
@@ -645,9 +731,9 @@ function PowerBIDashboardsSection() {
                 <Zap className="w-5 h-5" />
               </div>
               <div className="min-w-0" title="+15 Informes Renovados (Estandarización Gardentasuna)">
-                <div className="text-base sm:text-lg xl:text-xl font-bold text-blue-500 leading-tight whitespace-nowrap">+15 Informes</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Diseño Renovado</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Estandarización Gardentasuna</div>
+                <div className="text-base sm:text-lg xl:text-xl font-bold text-blue-500 leading-tight whitespace-nowrap">{locale === "en" ? "+15 Reports" : "+15 Informes"}</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Redesigned Dashboards" : "Diseño Renovado"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "Gardentasuna Standardization" : "Estandarización Gardentasuna"}</div>
               </div>
             </CardContent>
           </Card>
@@ -659,7 +745,7 @@ function PowerBIDashboardsSection() {
               </div>
               <div className="min-w-0" title="100% Datos Abiertos DFB (Open Data Bizkaia)">
                 <div className="text-base sm:text-lg xl:text-xl font-bold text-purple-500 leading-tight whitespace-nowrap">100%</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Datos Abiertos DFB</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Bizkaia Open Data" : "Datos Abiertos DFB"}</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">Open Data Bizkaia</div>
               </div>
             </CardContent>
@@ -672,8 +758,8 @@ function PowerBIDashboardsSection() {
               </div>
               <div className="min-w-0" title="Design System - Usabilidad Unificada (Coherencia visual y navegación limpia)">
                 <div className="text-base sm:text-lg xl:text-xl font-bold text-emerald-500 leading-tight whitespace-nowrap">Design System</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Usabilidad Unificada</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Coherencia visual & UX</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Unified Usability" : "Usabilidad Unificada"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "Visual consistency & UX" : "Coherencia visual & UX"}</div>
               </div>
             </CardContent>
           </Card>
@@ -684,9 +770,9 @@ function PowerBIDashboardsSection() {
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-3xl font-bold">Dashboards Interactivos en Vivo</h2>
+            <h2 className="text-3xl font-bold">{locale === "en" ? "Interactive Live Dashboards" : "Dashboards Interactivos en Vivo"}</h2>
             <p className="text-muted-foreground text-sm mt-1">
-              Selecciona uno de los paneles dinámicos embebidos para explorar los datos en tiempo real.
+              {locale === "en" ? "Select one of the embedded dynamic panels to explore the data in real time." : "Selecciona uno de los paneles dinámicos embebidos para explorar los datos en tiempo real."}
             </p>
           </div>
           <Button 
@@ -696,7 +782,7 @@ function PowerBIDashboardsSection() {
             className="w-fit shrink-0"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
-            Abrir en Power BI
+            {locale === "en" ? "Open in Power BI" : "Abrir en Power BI"}
           </Button>
         </div>
 
@@ -712,9 +798,9 @@ function PowerBIDashboardsSection() {
                 >
                   <span className="text-[10px] opacity-75 uppercase font-mono tracking-wider">Dashboard 0{dash.id}</span>
                   <span className="text-xs font-bold truncate w-full">
-                    {dash.id === 1 && "Comunicaciones & Quejas"}
-                    {dash.id === 2 && "Estadísticas Web"}
-                    {dash.id === 3 && "Mapa de Oficinas"}
+                    {dash.id === 1 && (locale === "en" ? "Communications & Complaints" : "Comunicaciones & Quejas")}
+                    {dash.id === 2 && (locale === "en" ? "Web Statistics" : "Estadísticas Web")}
+                    {dash.id === 3 && (locale === "en" ? "Offices Map" : "Mapa de Oficinas")}
                   </span>
                 </Button>
               ))}
@@ -1040,11 +1126,12 @@ function KimunShowcaseSection() {
 }
 
 export default function ProjectPage() {
+  const { locale, t } = useLanguage();
   const params = useParams();
   const router = useRouter();
   const projectId = params.id as string;
   
-  const project = getProjectById(Number(projectId));
+  const project = getProjectById(Number(projectId), locale);
 
   // Función para manejar la vista previa del PDF de Ciberseguridad
   const handlePreviewCybersecurityPDF = () => {
@@ -1084,8 +1171,8 @@ export default function ProjectPage() {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Proyecto No Encontrado</h1>
-          <Button onClick={() => router.push('/')}>Volver al Inicio</Button>
+          <h1 className="text-2xl font-bold mb-4">{locale === "en" ? "Project Not Found" : "Proyecto No Encontrado"}</h1>
+          <Button onClick={() => router.push('/')}>{locale === "en" ? "Back to Home" : "Volver al Inicio"}</Button>
         </div>
       </div>
     );
@@ -1138,7 +1225,7 @@ export default function ProjectPage() {
               <div className="space-y-4">
                 <Card>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">Ficha Técnica</CardTitle>
+                    <CardTitle className="text-lg">{locale === "en" ? "Technical Specs" : "Ficha Técnica"}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3 text-sm">
                     <div className="flex items-center gap-2.5">
@@ -1162,7 +1249,7 @@ export default function ProjectPage() {
                       <Button size="sm" asChild className="flex-1">
                         <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="w-4 h-4 mr-2" />
-                          Demo en Video
+                          {locale === "en" ? "Video Demo" : "Demo en Video"}
                         </a>
                       </Button>
                     )}
@@ -1189,7 +1276,7 @@ export default function ProjectPage() {
                     <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800 dark:text-amber-300">
                       <Lock className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
                       <span className="leading-relaxed">
-                        {project.confidentialNotice || "Código y datos protegidos para uso interno institucional."}
+                        {project.confidentialNotice || (locale === "en" ? "Protected code and data for internal institutional use." : "Código y datos protegidos para uso interno institucional.")}
                       </span>
                     </div>
                   )}
@@ -1211,7 +1298,7 @@ export default function ProjectPage() {
           >
             {/* Overview */}
             <div>
-              <h2 className="text-3xl font-bold mb-6">Descripción General</h2>
+              <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Project Overview" : "Descripción General"}</h2>
               <Card>
                 <CardContent className="p-6">
                   <div className="prose prose-invert max-w-none">
@@ -1321,12 +1408,14 @@ export default function ProjectPage() {
             {/* Video Demo Section - Only for Project 2 */}
             {projectId === "2" && (
               <div>
-                <h2 className="text-3xl font-bold mb-6">Demostración del Chatbot</h2>
+                <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Chatbot Demonstration" : "Demostración del Chatbot"}</h2>
                 <Card>
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       <p className="text-muted-foreground">
-                        Explora las capacidades del chatbot administrativo desarrollado para la Diputación Foral de Bizkaia.
+                        {locale === "en" 
+                          ? "Explore the capabilities of the administrative AI chatbot developed for Diputación Foral de Bizkaia."
+                          : "Explora las capacidades del chatbot administrativo desarrollado para la Diputación Foral de Bizkaia."}
                       </p>
                       
                       {/* YouTube Video Player */}
@@ -1335,7 +1424,7 @@ export default function ProjectPage() {
                           <iframe
                             className="absolute top-0 left-0 w-full h-full"
                             src="https://www.youtube.com/embed/v2g-4adlr4k?si=opA0p6OGpMATycP5"
-                            title="Demostración del Chatbot Administrativo"
+                            title={locale === "en" ? "Administrative Chatbot Demonstration" : "Demostración del Chatbot Administrativo"}
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerPolicy="strict-origin-when-cross-origin"
@@ -1353,8 +1442,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Interacción Natural</h4>
-                            <p className="text-sm text-muted-foreground">Conversación fluida e intuitiva con los usuarios</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "Natural Interaction" : "Interacción Natural"}</h4>
+                            <p className="text-sm text-muted-foreground">{locale === "en" ? "Smooth and intuitive conversation with citizens" : "Conversación fluida e intuitiva con los usuarios"}</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
@@ -1364,8 +1453,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Respuestas Precisas</h4>
-                            <p className="text-sm text-muted-foreground">Información municipal y departamental actualizada</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "Accurate Answers" : "Respuestas Precisas"}</h4>
+                            <p className="text-sm text-muted-foreground">{locale === "en" ? "Up-to-date municipal and department data" : "Información municipal y departamental actualizada"}</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
@@ -1375,8 +1464,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Configuración Flexible</h4>
-                            <p className="text-sm text-muted-foreground">Adaptable a diferentes consultas y formatos</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "Flexible Configuration" : "Configuración Flexible"}</h4>
+                            <p className="text-sm text-muted-foreground">{locale === "en" ? "Adaptable to various query types and formats" : "Adaptable a diferentes consultas y formatos"}</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
@@ -1386,8 +1475,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Rápido y Eficiente</h4>
-                            <p className="text-sm text-gray-600 dark:text-muted-foreground">Respuestas inmediatas 24/7</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "Fast & Efficient" : "Rápido y Eficiente"}</h4>
+                            <p className="text-sm text-gray-600 dark:text-muted-foreground">{locale === "en" ? "Instant responses 24/7" : "Respuestas inmediatas 24/7"}</p>
                           </div>
                         </div>
                       </div>
@@ -1400,14 +1489,14 @@ export default function ProjectPage() {
             {/* PowerBI Renovation Section - Only for Project 1 */}
             {projectId === "1" && project.hasRenovation && (
               <div>
-                <h2 className="text-3xl font-bold mb-4">Renove PowerBI - Design System Implementation</h2>
+                <h2 className="text-3xl font-bold mb-4">{locale === "en" ? "Power BI Renovation - Design System Implementation" : "Renove PowerBI - Design System Implementation"}</h2>
                 
                 <Card className="mb-6">
                   <CardContent className="py-4 px-5">
                     <p className="text-muted-foreground leading-relaxed">
-                      Como parte de la evolución de este proyecto, he implementado un completo "Design System" para unificar la apariencia y funcionalidad 
-                      de todos los dashboards PowerBI. Esta renovación ha permitido estandarizar colores, tipografías, componentes visuales y patrones de interacción, 
-                      creando una experiencia coherente y profesional en todos los informes.
+                      {locale === "en"
+                        ? "As part of this project's evolution, I implemented a comprehensive Design System to standardize the visual identity and usability across all Power BI dashboards. This redesign unified color palettes, typography, visual components, and interaction patterns, delivering a consistent and professional experience across all institutional reports."
+                        : "Como parte de la evolución de este proyecto, he implementado un completo \"Design System\" para unificar la apariencia y funcionalidad de todos los dashboards PowerBI. Esta renovación ha permitido estandarizar colores, tipografías, componentes visuales y patrones de interacción, creando una experiencia coherente y profesional en todos los informes."}
                     </p>
                   </CardContent>
                 </Card>
@@ -1416,15 +1505,39 @@ export default function ProjectPage() {
                 <div className="mb-12">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[
-                      { name: "Presupuestos", description: "Presupuestos de la Diputación Foral de Bizkaia separados en Ingresos y Gastos", fileName: "Presupuestos" },
-                      { name: "Distribución de la Plantilla", description: "Distribución de la plantilla por departamentos y género", fileName: "Distribucion" },
-                      { name: "Temas", description: "Análisis de temas sobre los que se consulta en OpenData Bizkaia", fileName: "Temas" },
-                      { name: "Visitas y Descargas", description: "Visitas y descargas en OpenData Bizkaia", fileName: "Visitas" },
-                      { name: "Solicitudes", description: "Número de solicitudes recibidas", fileName: "Solicitudes" },
-                      { name: "Puestos de trabajo", description: "Puestos de trabajo de la Diputación Foral de Bizkaia", fileName: "Puestos" }
+                      { 
+                        name: locale === "en" ? "Budgets" : "Presupuestos", 
+                        description: locale === "en" ? "DFB budgets broken down by revenues and expenditures" : "Presupuestos de la Diputación Foral de Bizkaia separados en Ingresos y Gastos", 
+                        fileName: "Presupuestos" 
+                      },
+                      { 
+                        name: locale === "en" ? "Staff Distribution" : "Distribución de la Plantilla", 
+                        description: locale === "en" ? "Headcount distribution across departments and gender" : "Distribución de la plantilla por departamentos y género", 
+                        fileName: "Distribucion" 
+                      },
+                      { 
+                        name: locale === "en" ? "Topics Analysis" : "Temas", 
+                        description: locale === "en" ? "Analysis of citizen inquiry topics in OpenData Bizkaia" : "Análisis de temas sobre los que se consulta en OpenData Bizkaia", 
+                        fileName: "Temas" 
+                      },
+                      { 
+                        name: locale === "en" ? "Visits & Downloads" : "Visitas y Descargas", 
+                        description: locale === "en" ? "Web visits and dataset downloads in OpenData Bizkaia" : "Visitas y descargas en OpenData Bizkaia", 
+                        fileName: "Visitas" 
+                      },
+                      { 
+                        name: locale === "en" ? "Requests" : "Solicitudes", 
+                        description: locale === "en" ? "Volume and classification of citizen requests received" : "Número de solicitudes recibidas", 
+                        fileName: "Solicitudes" 
+                      },
+                      { 
+                        name: locale === "en" ? "Workforce Positions" : "Puestos de trabajo", 
+                        description: locale === "en" ? "Job and public employment positions catalog in DFB" : "Puestos de trabajo de la Diputación Foral de Bizkaia", 
+                        fileName: "Puestos" 
+                      }
                     ].map((gif, index) => (
                       <motion.div
-                        key={gif.name}
+                        key={gif.fileName}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1, duration: 0.5 }}
@@ -1433,13 +1546,13 @@ export default function ProjectPage() {
                           <div className="aspect-video bg-muted relative group">
                             <ProjectImage 
                               src={`/images/${gif.fileName}.gif`}
-                              alt={`${gif.name} - Transformación PowerBI`}
+                              alt={`${gif.name} - ${locale === "en" ? "Power BI Transformation" : "Transformación PowerBI"}`}
                               sizes="(max-width: 768px) 100vw, 50vw"
                               className="object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                             <div className="absolute top-2 right-2">
                               <Badge variant="secondary" className="text-xs">
-                                Antes/Después
+                                {locale === "en" ? "Before / After" : "Antes/Después"}
                               </Badge>
                             </div>
                           </div>
@@ -1460,17 +1573,20 @@ export default function ProjectPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Database className="w-5 h-5" />
-                      Informe Completo del Renove
+                      {locale === "en" ? "Complete Renovation Report" : "Informe Completo del Renove"}
                     </CardTitle>
                     <CardDescription>
-                      Documentación técnica completa del proceso de implementación del Design System
+                      {locale === "en" 
+                        ? "Comprehensive technical documentation detailing the Design System implementation" 
+                        : "Documentación técnica completa del proceso de implementación del Design System"}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="prose prose-invert max-w-none">
                       <p className="text-muted-foreground leading-relaxed">
-                        Este informe detalla el proceso completo de renovación de los dashboards PowerBI a través de la implementación de un Design System unificado para la Diputación Foral de Bizkaia. 
-                        Incluye un Antes y un Después para ver como han cambiado las visualizaciones y como tienen todos una estructura homogénea.
+                        {locale === "en"
+                          ? "This report details the end-to-end modernization of Power BI dashboards through the implementation of a unified Design System for Diputación Foral de Bizkaia. It includes Before & After comparisons demonstrating the evolution towards cleaner, standardized visualizations."
+                          : "Este informe detalla el proceso completo de renovación de los dashboards PowerBI a través de la implementación de un Design System unificado para la Diputación Foral de Bizkaia. Incluye un Antes y un Después para ver como han cambiado las visualizaciones y como tienen todos una estructura homogénea."}
                       </p>
                     </div>
                     
@@ -1484,7 +1600,7 @@ export default function ProjectPage() {
                         </div>
                         <h3 className="text-xl font-semibold">Renove PowerBI</h3>
                         <p className="text-muted-foreground max-w-md">
-                          Documentación completa del Design System implementation
+                          {locale === "en" ? "Full Design System implementation technical documentation" : "Documentación completa del Design System implementation"}
                         </p>
                         <div className="flex gap-2 justify-center">
                           <Button size="sm" variant="outline" onClick={handlePreviewRenovePDF}>
@@ -1492,13 +1608,13 @@ export default function ProjectPage() {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                            Vista Previa
+                            {locale === "en" ? "Preview" : "Vista Previa"}
                           </Button>
                           <Button size="sm" onClick={handleDownloadRenovePDF}>
                             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            Descargar PDF
+                            {locale === "en" ? "Download PDF" : "Descargar PDF"}
                           </Button>
                         </div>
                       </div>
@@ -1511,12 +1627,14 @@ export default function ProjectPage() {
             {/* PDF Report Section - Only for Project 3 */}
             {projectId === "3" && (
               <div>
-                <h2 className="text-3xl font-bold mb-6">Informe Técnico Completo</h2>
+                <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Full Technical Report" : "Informe Técnico Completo"}</h2>
                 <Card>
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       <p className="text-muted-foreground">
-                        Explora el informe técnico completo con toda la documentación, configuraciones, resultados y recomendaciones desarrolladas durante el proyecto.
+                        {locale === "en"
+                          ? "Explore the full technical report detailing all audit findings, network configs, hardening benchmarks, and security recommendations."
+                          : "Explora el informe técnico completo con toda la documentación, configuraciones, resultados y recomendaciones desarrolladas durante el proyecto."}
                       </p>
                       
                       {/* PDF Carousel Simulation */}
@@ -1527,9 +1645,11 @@ export default function ProjectPage() {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                           </div>
-                          <h3 className="text-xl font-semibold">Informe de Ciberseguridad</h3>
+                          <h3 className="text-xl font-semibold">{locale === "en" ? "Cybersecurity Report" : "Informe de Ciberseguridad"}</h3>
                           <p className="text-muted-foreground max-w-md">
-                            Documentación técnica completa del proyecto bootcamp para Deiviator
+                            {locale === "en" 
+                              ? "Comprehensive technical documentation of the bootcamp project for Deiviator" 
+                              : "Documentación técnica completa del proyecto bootcamp para Deiviator"}
                           </p>
                           <div className="flex gap-2 justify-center">
                             <Button size="sm" variant="outline" onClick={handlePreviewCybersecurityPDF}>
@@ -1537,13 +1657,13 @@ export default function ProjectPage() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                               </svg>
-                              Vista Previa
+                              {locale === "en" ? "Preview" : "Vista Previa"}
                             </Button>
                             <Button size="sm" onClick={handleDownloadCybersecurityPDF}>
                               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                               </svg>
-                              Descargar PDF
+                              {locale === "en" ? "Download PDF" : "Descargar PDF"}
                             </Button>
                           </div>
                         </div>
@@ -1649,11 +1769,13 @@ export default function ProjectPage() {
       <footer className="py-8 px-4 border-t">
         <div className="container mx-auto text-center">
           <p className="text-muted-foreground mb-4">
-            © {new Date().getFullYear()} Kimetz Loroño. Desarrollado con Next.js, TypeScript y Tailwind CSS.
+            {locale === "en"
+              ? `© ${new Date().getFullYear()} Kimetz Loroño. Built with Next.js, TypeScript and Tailwind CSS.`
+              : `© ${new Date().getFullYear()} Kimetz Loroño. Desarrollado con Next.js, TypeScript y Tailwind CSS.`}
           </p>
           <Button onClick={() => router.push('/')} variant="outline">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Volver al Portfolio
+            {t.projectDetail.backToPortfolio}
           </Button>
         </div>
       </footer>

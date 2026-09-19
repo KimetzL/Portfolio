@@ -215,7 +215,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.projects.title}</h2>
             {/* Featured Projects Grid (Top Row - 2 Columns) */}
             <div className="grid md:grid-cols-2 gap-8 mb-8">
-              {getFeaturedProjects().map((project, index) => (
+              {getFeaturedProjects(locale).map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -282,7 +282,7 @@ export default function Home() {
 
             {/* Other Projects Grid (Bottom Row - 3 Columns) */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {getOtherProjects().map((project, index) => (
+              {getOtherProjects(locale).map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
