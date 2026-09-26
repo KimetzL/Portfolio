@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kimetz Loroño - Portfolio | Científico de Datos | Analista de Datos | IT y Sistemas",
-  description: "Portfolio personal de Kimetz Loroño - Científico de Datos, Analista de Datos e IT y Sistemas",
-  keywords: ["Kimetz Loroño", "portfolio", "data scientist", "data analyst", "IT", "sistemas", "cientifico de datos", "analista de datos", "desarrollo web"],
+  title: "Kimetz Loroño - Portfolio | Científico | Analista | Ingeniero de Datos | IT y Sistemas",
+  description: "Portfolio personal de Kimetz Loroño - Científico, Analista e Ingeniero de Datos | IT y Sistemas",
+  keywords: ["Kimetz Loroño", "portfolio", "data scientist", "data analyst", "data engineer", "ingeniero de datos", "IT", "sistemas", "cientifico de datos", "analista de datos", "desarrollo web"],
   authors: [{ name: "Kimetz Loroño" }],
   icons: {
     icon: "/favicon.ico",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Kimetz Loroño - Portfolio",
-    description: "Científico de Datos, Analista de Datos e IT y Sistemas",
+    description: "Científico, Analista e Ingeniero de Datos | IT y Sistemas",
     type: "website",
     url: "https://kimetz-portfolio.vercel.app",
     locale: "es_ES",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Kimetz Loroño - Portfolio",
-    description: "Científico de Datos, Analista de Datos e IT y Sistemas",
+    description: "Científico, Analista e Ingeniero de Datos | IT y Sistemas",
   },
 };
 
