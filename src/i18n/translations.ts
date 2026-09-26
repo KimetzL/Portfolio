@@ -16,7 +16,7 @@ const translations = {
     // Hero
     hero: {
       available: "Disponible para Proyectos",
-      subtitle: "Científico | Analista | Ingeniero de Datos | IT y Sistemas",
+      subtitle: "Científico · Analista · Ingeniero de Datos | IT y Sistemas",
       viewProjects: "Ver Proyectos",
       contact: "Contactar",
     },
@@ -113,7 +113,7 @@ const translations = {
     // Hero
     hero: {
       available: "Available for Projects",
-      subtitle: "Data Scientist | Analyst | Engineer | IT & Systems",
+      subtitle: "Data Scientist · Analyst · Engineer | IT & Systems",
       viewProjects: "View Projects",
       contact: "Get in Touch",
     },
