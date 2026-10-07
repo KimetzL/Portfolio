@@ -95,6 +95,13 @@ export function KimunDashboardShowcase() {
   const { locale } = useLanguage();
   const [activeTab, setActiveTab] = useState("general");
   const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const zoomScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (zoomScrollRef.current) {
+      zoomScrollRef.current.scrollTop = 0;
+    }
+  }, [activeTab]);
 
   const views: Record<string, DashboardView> = {
     general: {
@@ -620,19 +627,19 @@ export function KimunDashboardShowcase() {
         </CardContent>
       </Card>
 
-      {/* Lightbox / Fullscreen Modal with Keyboard & Arrow Navigation */}
+      {/* Lightbox / Fullscreen Modal with Keyboard, Navigation & Full-Width Scrollable Zoom */}
       <AnimatePresence>
         {isZoomOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-between p-2 sm:p-4"
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-between p-2 sm:p-4 overflow-hidden"
             onClick={() => setIsZoomOpen(false)}
           >
             {/* Modal Controls Bar */}
             <div 
-              className="w-full max-w-6xl flex items-center justify-between gap-4 p-3 mb-2 bg-card/90 rounded-lg border border-border/60 shadow-xl shrink-0"
+              className="w-full max-w-6xl flex items-center justify-between gap-4 p-3 mb-2 bg-card/95 rounded-lg border border-border/60 shadow-xl shrink-0 z-30"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-2.5 min-w-0">
@@ -644,6 +651,9 @@ export function KimunDashboardShowcase() {
                 </Badge>
                 <span className="font-bold text-sm text-foreground truncate">
                   {currentView.title}
+                </span>
+                <span className="text-xs text-muted-foreground hidden md:inline truncate">
+                  ({currentView.subtitle})
                 </span>
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -674,7 +684,7 @@ export function KimunDashboardShowcase() {
                 >
                   <a href={currentView.image} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                    {locale === "en" ? "Original" : "Original"}
+                    {locale === "en" ? "Original HD" : "Original HD"}
                   </a>
                 </Button>
                 <Button
@@ -688,35 +698,38 @@ export function KimunDashboardShowcase() {
               </div>
             </div>
 
-            {/* Scrollable Zoom Image Container with Floating Left / Right Chevrons */}
+            {/* Scrollable Zoom Image Container with Full-Width & Vertical Scroll */}
             <div
-              className="relative w-full max-w-6xl flex-1 flex items-center justify-center overflow-hidden rounded-xl border border-border/40 shadow-2xl bg-card/50 p-1"
+              className="relative w-full max-w-6xl flex-1 min-h-0 rounded-xl border border-border/40 shadow-2xl bg-card/70 flex flex-col overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Floating Prev Button */}
+              {/* Floating Prev Button (Left) */}
               <Button
                 variant="secondary"
                 size="icon"
                 onClick={handlePrevView}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 rounded-full bg-background/80 hover:bg-background text-foreground shadow-2xl border border-border/60 hidden sm:flex items-center justify-center transition-transform hover:scale-110"
+                className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-40 h-12 w-12 rounded-full bg-background/85 hover:bg-background text-foreground shadow-2xl border border-border/70 hidden sm:flex items-center justify-center transition-all hover:scale-110 backdrop-blur-md"
                 title={locale === "en" ? "Previous view (←)" : "Vista anterior (←)"}
               >
                 <ChevronLeft className="w-6 h-6" />
               </Button>
 
-              {/* Floating Next Button */}
+              {/* Floating Next Button (Right) */}
               <Button
                 variant="secondary"
                 size="icon"
                 onClick={handleNextView}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 rounded-full bg-background/80 hover:bg-background text-foreground shadow-2xl border border-border/60 hidden sm:flex items-center justify-center transition-transform hover:scale-110"
+                className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 h-12 w-12 rounded-full bg-background/85 hover:bg-background text-foreground shadow-2xl border border-border/70 hidden sm:flex items-center justify-center transition-all hover:scale-110 backdrop-blur-md"
                 title={locale === "en" ? "Next view (→)" : "Siguiente vista (→)"}
               >
                 <ChevronRight className="w-6 h-6" />
               </Button>
 
-              {/* High-res Image */}
-              <div className="w-full h-full max-h-[75vh] overflow-auto flex items-center justify-center">
+              {/* Scrollable Full-Width Dashboard Container */}
+              <div
+                ref={zoomScrollRef}
+                className="w-full h-full overflow-y-auto p-1.5 sm:p-2 scroll-smooth"
+              >
                 <Image
                   key={currentView.id}
                   src={currentView.image}
@@ -724,15 +737,15 @@ export function KimunDashboardShowcase() {
                   width={1920}
                   height={1080}
                   priority
-                  sizes="95vw"
-                  className="w-full h-auto max-h-[75vh] object-contain rounded-lg"
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                  className="w-full h-auto object-cover object-top rounded-lg shadow-sm"
                 />
               </div>
             </div>
 
-            {/* Modal Bottom Controls: Pill selectors + keyboard hint */}
+            {/* Modal Bottom Controls: Pill selectors + keyboard & scroll hint */}
             <div 
-              className="flex flex-col items-center gap-1.5 mt-2 shrink-0"
+              className="flex flex-col items-center gap-1 mt-2 shrink-0 z-30"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Module Jump Pills */}
@@ -744,7 +757,7 @@ export function KimunDashboardShowcase() {
                     className={`px-2.5 py-1 text-[11px] rounded-full transition-all border ${
                       activeTab === key
                         ? "bg-primary text-primary-foreground border-primary font-semibold shadow-sm scale-105"
-                        : "bg-background/60 hover:bg-background text-muted-foreground hover:text-foreground border-border/50"
+                        : "bg-background/70 hover:bg-background text-muted-foreground hover:text-foreground border-border/50"
                     }`}
                   >
                     {idx + 1}. {views[key].shortLabel}
@@ -752,12 +765,12 @@ export function KimunDashboardShowcase() {
                 ))}
               </div>
 
-              {/* Keyboard helper hint */}
+              {/* Keyboard and scroll helper hint */}
               <div className="text-[11px] text-white/60 font-mono flex items-center gap-2">
                 <span>
                   {locale === "en" 
-                    ? "Use ← / → arrows to navigate · ESC to close" 
-                    : "Usa las flechas ← / → para navegar · ESC para cerrar"}
+                    ? "Scroll down to inspect full dashboard · Use ← / → arrows to navigate · ESC to close" 
+                    : "Haz scroll para explorar todo el dashboard · Usa flechas ← / → para navegar · ESC para cerrar"}
                 </span>
               </div>
             </div>
