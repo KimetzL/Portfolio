@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,10 +10,10 @@ import { useLanguage } from "@/context/language-context";
 import {
   BarChart3,
   Globe,
-  GraduationCap,
   Briefcase,
   Users,
   MapPin,
+  GraduationCap,
   Maximize2,
   ExternalLink,
   Download,
@@ -20,7 +21,9 @@ import {
   Layers,
   Sparkles,
   Clock,
-  TrendingUp
+  TrendingUp,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
 interface DashboardView {
@@ -36,27 +39,62 @@ interface DashboardView {
   metrics: { label: string; value: string; detail: string }[];
 }
 
+function AnimatedNumber({
+  value,
+  prefix = "",
+  suffix = "",
+  decimals = 0,
+}: {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-30px" });
+  const [displayValue, setDisplayValue] = useState("0");
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const duration = 1200;
+    let startTimestamp: number | null = null;
+
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const current = ease * value;
+
+      const formatted =
+        decimals > 0
+          ? current.toFixed(decimals)
+          : Math.round(current).toLocaleString("es-CL");
+
+      setDisplayValue(formatted);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    const frameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frameId);
+  }, [isInView, value, decimals]);
+
+  return (
+    <span ref={ref} className="tabular-nums">
+      {prefix}
+      {displayValue}
+      {suffix}
+    </span>
+  );
+}
+
 export function KimunDashboardShowcase() {
   const { locale } = useLanguage();
   const [activeTab, setActiveTab] = useState("general");
   const [isZoomOpen, setIsZoomOpen] = useState(false);
-
-  // Close lightbox on Escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsZoomOpen(false);
-    };
-    if (isZoomOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "auto";
-    };
-  }, [isZoomOpen]);
 
   const views: Record<string, DashboardView> = {
     general: {
@@ -96,24 +134,24 @@ export function KimunDashboardShowcase() {
       image: "/images/kimun/dashboard-ods.jpg",
       metrics: [
         { label: locale === "en" ? "People Dimension" : "Dimensión Personas", value: "36%", detail: locale === "en" ? "48 activities in education, health & equity" : "48 actividades en educación, salud y equidad" },
-        { label: locale === "en" ? "Prosperity Dimension" : "Dimensión Prosperidad", value: "29%", detail: locale === "en" ? "38 initiatives in decent work & innovation" : "38 iniciativas en trabajo decente e innovación" },
+        { label: locale === "en" ? "Prosperity Dimension" : "Dimensión Prosperidad", value: "29%", detail: locale === "en" ? "38 initiatives in decent work & innovation" : "38 initiatives en trabajo decente e innovación" },
         { label: locale === "en" ? "Planet Dimension" : "Dimensión Planeta", value: "19%", detail: locale === "en" ? "25 projects in climate action & ecosystems" : "25 proyectos en acción climática y biosfera" },
-        { label: locale === "en" ? "Specific Targets" : "Metas Específicas", value: "+15", detail: locale === "en" ? "Granular targets tracked (10.2, 9.5, 1.5, 4.6...)" : "Metas desagregadas con ranking de impacto" },
+        { label: locale === "en" ? "Partnerships & Peace" : "Alianzas & Paz", value: "16%", detail: locale === "en" ? "21 projects fostering territorial networks" : "21 proyectos tejiendo redes y justicia social" },
       ]
     },
     academico: {
       id: "academico",
-      tabLabel: locale === "en" ? "03. Academic & Execution" : "03. Académico y Ejecución",
+      tabLabel: locale === "en" ? "03. Academic Linkage" : "03. Vinculación Académica",
       shortLabel: "Académico",
       icon: <GraduationCap className="w-4 h-4" />,
-      badge: locale === "en" ? "Curricular Linkage" : "Vinculación Curricular",
-      title: locale === "en" ? "Academic Governance, Careers & Agreements" : "Gobernanza Académica, Carreras & Convenios",
+      badge: locale === "en" ? "Curricular Integration" : "Tributación Curricular",
+      title: locale === "en" ? "Curricular Tributation & Disciplinary Areas" : "Tributación Curricular & Áreas Disciplinares",
       subtitle: locale === "en"
-        ? "Traceability across executing units, academic programs, curricular subjects and formal agreements"
-        : "Trazabilidad de unidades ejecutoras, programas, carreras formativas y convenios institucionales",
+        ? "Direct alignment between field initiatives and formal academic degree plans across 4 institutional schools"
+        : "Articulación directa entre iniciativas de vinculación y mallas curriculares de 4 escuelas del CFT",
       desc: locale === "en"
-        ? "Audit of the system's direct linkage to CFT San Agustín's educational curriculum. Measures student engagement across academic schools (Technology, Business, Agro, Health), institutional lines of action, and formal collaboration addendums."
-        : "Auditoría del impacto directo en los planes de estudio del CFT San Agustín. Evalúa qué carreras y asignaturas curriculares nutren las iniciativas con participación estudiantil, además de rastrear convenios formales de cooperación.",
+        ? "Educational analytics view auditing curricular bidirectional impact. Demonstrates that 82% of all initiatives link directly to formal accredited coursework, with technology and software engineering careers representing the largest driving volume (34%)."
+        : "Vista de analítica pedagógica que audita la bidireccionalidad curricular. Demuestra que el 82% de iniciativas tributan a asignaturas oficiales de carrera, lideradas por carreras de Tecnología e Informática (34% del volumen total).",
       image: "/images/kimun/dashboard-academico.jpg",
       metrics: [
         { label: locale === "en" ? "Curricular Linkage" : "Mecanismo Curricular", value: "82%", detail: locale === "en" ? "32 initiatives integrated into formal coursework" : "32 iniciativas integradas en asignaturas oficiales" },
@@ -187,7 +225,43 @@ export function KimunDashboardShowcase() {
     }
   };
 
+  const viewKeys = Object.keys(views);
+  const currentIndex = viewKeys.indexOf(activeTab);
   const currentView = views[activeTab] || views.general;
+
+  const handlePrevView = useCallback(() => {
+    const prevIdx = (currentIndex - 1 + viewKeys.length) % viewKeys.length;
+    setActiveTab(viewKeys[prevIdx]);
+  }, [currentIndex, viewKeys]);
+
+  const handleNextView = useCallback(() => {
+    const nextIdx = (currentIndex + 1) % viewKeys.length;
+    setActiveTab(viewKeys[nextIdx]);
+  }, [currentIndex, viewKeys]);
+
+  // Keyboard controls: Escape to close, ArrowLeft / ArrowRight to cycle views in lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsZoomOpen(false);
+      } else if (isZoomOpen && e.key === "ArrowLeft") {
+        handlePrevView();
+      } else if (isZoomOpen && e.key === "ArrowRight") {
+        handleNextView();
+      }
+    };
+
+    if (isZoomOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "auto";
+    };
+  }, [isZoomOpen, handlePrevView, handleNextView]);
 
   return (
     <div className="space-y-8 my-10">
@@ -209,112 +283,179 @@ export function KimunDashboardShowcase() {
         </p>
       </div>
 
-      {/* Global Top KPI Ribbon — React + Tailwind CSS (Original Stretched Layout) */}
+      {/* Global Top KPI Ribbon — React + Tailwind CSS (Stretched layout with CountUp & Contextual progress bars) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {/* 01. Actividades Totales */}
-        <Card className="bg-card/70 backdrop-blur-xs border-primary/20 hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs">
-          <CardContent className="p-3 sm:p-3.5">
-            <div className="flex items-center gap-1.5 text-primary mb-1">
-              <BarChart3 className="w-3.5 h-3.5 shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
-                {locale === "en" ? "Total Activities" : "Actividades Totales"}
-              </span>
+        <Card className="bg-card/70 backdrop-blur-xs border-primary/20 hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs flex flex-col justify-between">
+          <CardContent className="p-3 sm:p-3.5 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex items-center gap-1.5 text-primary mb-1">
+                <BarChart3 className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
+                  {locale === "en" ? "Total Activities" : "Actividades Totales"}
+                </span>
+              </div>
+              <div className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight tabular-nums">
+                <AnimatedNumber value={52} />
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                {locale === "en" ? "43 init. (83%) · 9 prop. (17%)" : "43 inic. (83%) · 9 prop. (17%)"}
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight tabular-nums">
-              52
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "43 init. (83%) · 9 prop. (17%)" : "43 inic. (83%) · 9 prop. (17%)"}
+            {/* Visual Context Progress Bar */}
+            <div className="w-full bg-muted/60 rounded-full h-1 mt-2.5 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "83%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
+                className="h-full bg-primary rounded-full"
+              />
             </div>
           </CardContent>
         </Card>
 
         {/* 02. Impacto Estimado */}
-        <Card className="bg-card/70 backdrop-blur-xs border-blue-500/20 hover:border-blue-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs">
-          <CardContent className="p-3 sm:p-3.5">
-            <div className="flex items-center gap-1.5 text-blue-500 mb-1">
-              <Users className="w-3.5 h-3.5 shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
-                {locale === "en" ? "Estimated Impact" : "Impacto Estimado"}
-              </span>
+        <Card className="bg-card/70 backdrop-blur-xs border-blue-500/20 hover:border-blue-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs flex flex-col justify-between">
+          <CardContent className="p-3 sm:p-3.5 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex items-center gap-1.5 text-blue-500 mb-1">
+                <Users className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
+                  {locale === "en" ? "Estimated Impact" : "Impacto Estimado"}
+                </span>
+              </div>
+              <div className="text-xl sm:text-2xl font-extrabold text-blue-500 tracking-tight tabular-nums">
+                <AnimatedNumber value={1062} />
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                {locale === "en" ? "Participants & community" : "Participantes y comunidad"}
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-extrabold text-blue-500 tracking-tight tabular-nums">
-              1.062
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "Participants & community" : "Participantes y comunidad"}
+            <div className="w-full bg-muted/60 rounded-full h-1 mt-2.5 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "92%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+                className="h-full bg-blue-500 rounded-full"
+              />
             </div>
           </CardContent>
         </Card>
 
         {/* 03. Compromiso ODS */}
-        <Card className="bg-card/70 backdrop-blur-xs border-emerald-500/20 hover:border-emerald-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs">
-          <CardContent className="p-3 sm:p-3.5">
-            <div className="flex items-center gap-1.5 text-emerald-500 mb-1">
-              <Globe className="w-3.5 h-3.5 shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
-                {locale === "en" ? "SDG Commitment" : "Compromiso ODS"}
-              </span>
+        <Card className="bg-card/70 backdrop-blur-xs border-emerald-500/20 hover:border-emerald-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs flex flex-col justify-between">
+          <CardContent className="p-3 sm:p-3.5 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex items-center gap-1.5 text-emerald-500 mb-1">
+                <Globe className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
+                  {locale === "en" ? "SDG Commitment" : "Compromiso ODS"}
+                </span>
+              </div>
+              <div className="text-xl sm:text-2xl font-extrabold text-emerald-500 tracking-tight tabular-nums">
+                <AnimatedNumber value={17} /> / 17
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                {locale === "en" ? "100% 2030 Agenda (17 SDGs)" : "100% Agenda 2030 (17 ODS)"}
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-extrabold text-emerald-500 tracking-tight tabular-nums">
-              17 / 17
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "100% 2030 Agenda (17 SDGs)" : "100% Agenda 2030 (17 ODS)"}
+            <div className="w-full bg-muted/60 rounded-full h-1 mt-2.5 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
+                className="h-full bg-emerald-500 rounded-full"
+              />
             </div>
           </CardContent>
         </Card>
 
         {/* 04. Duración Promedio */}
-        <Card className="bg-card/70 backdrop-blur-xs border-sky-500/20 hover:border-sky-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs">
-          <CardContent className="p-3 sm:p-3.5">
-            <div className="flex items-center gap-1.5 text-sky-500 mb-1">
-              <Clock className="w-3.5 h-3.5 shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
-                {locale === "en" ? "Avg. Duration" : "Duración Promedio"}
-              </span>
+        <Card className="bg-card/70 backdrop-blur-xs border-sky-500/20 hover:border-sky-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs flex flex-col justify-between">
+          <CardContent className="p-3 sm:p-3.5 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex items-center gap-1.5 text-sky-500 mb-1">
+                <Clock className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
+                  {locale === "en" ? "Avg. Duration" : "Duración Promedio"}
+                </span>
+              </div>
+              <div className="text-xl sm:text-2xl font-extrabold text-sky-500 tracking-tight tabular-nums">
+                <AnimatedNumber value={12} suffix={locale === "en" ? " days" : " días"} />
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                {locale === "en" ? "Avg. days per initiative" : "Tiempo medio por iniciativa"}
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-extrabold text-sky-500 tracking-tight tabular-nums">
-              {locale === "en" ? "12 days" : "12 días"}
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "Avg. days per initiative" : "Tiempo medio por iniciativa"}
+            <div className="w-full bg-muted/60 rounded-full h-1 mt-2.5 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "75%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.4, ease: "easeOut" }}
+                className="h-full bg-sky-500 rounded-full"
+              />
             </div>
           </CardContent>
         </Card>
 
         {/* 05. Ratio de Impacto */}
-        <Card className="bg-card/70 backdrop-blur-xs border-purple-500/20 hover:border-purple-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs">
-          <CardContent className="p-3 sm:p-3.5">
-            <div className="flex items-center gap-1.5 text-purple-500 mb-1">
-              <TrendingUp className="w-3.5 h-3.5 shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
-                {locale === "en" ? "Impact Ratio" : "Ratio de Impacto"}
-              </span>
+        <Card className="bg-card/70 backdrop-blur-xs border-purple-500/20 hover:border-purple-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs flex flex-col justify-between">
+          <CardContent className="p-3 sm:p-3.5 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex items-center gap-1.5 text-purple-500 mb-1">
+                <TrendingUp className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
+                  {locale === "en" ? "Impact Ratio" : "Ratio de Impacto"}
+                </span>
+              </div>
+              <div className="text-xl sm:text-2xl font-extrabold text-purple-500 tracking-tight tabular-nums">
+                1 : <AnimatedNumber value={7.2} decimals={1} />
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                {locale === "en" ? "Beneficiaries / participant" : "Beneficiarios por participante"}
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-extrabold text-purple-500 tracking-tight tabular-nums">
-              1 : 7.2
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "Beneficiaries / participant" : "Beneficiarios por participante"}
+            <div className="w-full bg-muted/60 rounded-full h-1 mt-2.5 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "88%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.5, ease: "easeOut" }}
+                className="h-full bg-purple-500 rounded-full"
+              />
             </div>
           </CardContent>
         </Card>
 
         {/* 06. Inversión Valorizada */}
-        <Card className="bg-card/70 backdrop-blur-xs border-amber-500/20 hover:border-amber-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs">
-          <CardContent className="p-3 sm:p-3.5">
-            <div className="flex items-center gap-1.5 text-amber-500 mb-1">
-              <Briefcase className="w-3.5 h-3.5 shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
-                {locale === "en" ? "Valued Budget" : "Inversión Total"}
-              </span>
+        <Card className="bg-card/70 backdrop-blur-xs border-amber-500/20 hover:border-amber-500/40 hover:-translate-y-0.5 transition-all duration-200 shadow-xs flex flex-col justify-between">
+          <CardContent className="p-3 sm:p-3.5 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex items-center gap-1.5 text-amber-500 mb-1">
+                <Briefcase className="w-3.5 h-3.5 shrink-0" />
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
+                  {locale === "en" ? "Valued Budget" : "Inversión Total"}
+                </span>
+              </div>
+              <div className="text-xl sm:text-2xl font-extrabold text-amber-500 tracking-tight tabular-nums">
+                <AnimatedNumber value={6.48} prefix="$" suffix="M" decimals={2} />
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                {locale === "en" ? "CLP total funds ($6.484.000)" : "CLP fondos ($6.484.000)"}
+              </div>
             </div>
-            <div className="text-xl sm:text-2xl font-extrabold text-amber-500 tracking-tight tabular-nums">
-              $6.48M
-            </div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "CLP total funds ($6.484.000)" : "CLP fondos ($6.484.000)"}
+            <div className="w-full bg-muted/60 rounded-full h-1 mt-2.5 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "89.5%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }}
+                className="h-full bg-amber-500 rounded-full"
+              />
             </div>
           </CardContent>
         </Card>
@@ -450,15 +591,19 @@ export function KimunDashboardShowcase() {
                   </div>
                 </div>
 
-                {/* Clickable Image Viewer Container */}
+                {/* Clickable Image Viewer Container with Next.js Image Optimization */}
                 <div
                   onClick={() => setIsZoomOpen(true)}
-                  className="relative cursor-zoom-in group bg-slate-950/20 flex items-center justify-center overflow-hidden max-h-[600px]"
+                  className="relative cursor-zoom-in group bg-slate-950/20 flex items-center justify-center overflow-hidden max-h-[600px] w-full"
                   title={locale === "en" ? "Click to inspect full resolution in lightbox" : "Haz clic para abrir el visor en alta resolución"}
                 >
-                  <img
+                  <Image
                     src={currentView.image}
                     alt={currentView.title}
+                    width={1600}
+                    height={900}
+                    priority={activeTab === "general"}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1200px"
                     className="w-full h-auto object-cover object-top transition-transform duration-300 group-hover:scale-[1.01]"
                   />
                   {/* Hover Overlay Hint */}
@@ -475,62 +620,146 @@ export function KimunDashboardShowcase() {
         </CardContent>
       </Card>
 
-      {/* Lightbox / Fullscreen Modal */}
+      {/* Lightbox / Fullscreen Modal with Keyboard & Arrow Navigation */}
       <AnimatePresence>
         {isZoomOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-2 sm:p-4"
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-between p-2 sm:p-4"
             onClick={() => setIsZoomOpen(false)}
           >
             {/* Modal Controls Bar */}
             <div 
-              className="w-full max-w-6xl flex items-center justify-between gap-4 p-3 mb-2 bg-card/90 rounded-lg border border-border/60 shadow-xl"
+              className="w-full max-w-6xl flex items-center justify-between gap-4 p-3 mb-2 bg-card/90 rounded-lg border border-border/60 shadow-xl shrink-0"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <Badge variant="secondary" className="text-xs">{currentView.shortLabel}</Badge>
-                <span className="font-bold text-sm text-foreground truncate">{currentView.title}</span>
-                <span className="text-xs text-muted-foreground hidden md:inline">({currentView.subtitle})</span>
+                <Badge variant="secondary" className="text-xs font-mono">
+                  {currentIndex + 1} / {viewKeys.length}
+                </Badge>
+                <Badge variant="outline" className="text-xs hidden sm:inline-flex">
+                  {currentView.shortLabel}
+                </Badge>
+                <span className="font-bold text-sm text-foreground truncate">
+                  {currentView.title}
+                </span>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                {/* Previous & Next quick buttons in header */}
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={handlePrevView}
+                  className="h-8 w-8 text-xs"
+                  title={locale === "en" ? "Previous view (←)" : "Vista anterior (←)"}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={handleNextView}
+                  className="h-8 w-8 text-xs"
+                  title={locale === "en" ? "Next view (→)" : "Siguiente vista (→)"}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
                 <Button
                   size="sm"
                   variant="outline"
                   asChild
-                  className="text-xs"
+                  className="text-xs hidden md:inline-flex"
                 >
                   <a href={currentView.image} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                    {locale === "en" ? "Open Original" : "Abrir Original"}
+                    {locale === "en" ? "Original" : "Original"}
                   </a>
                 </Button>
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={() => setIsZoomOpen(false)}
-                  className="hover:bg-muted text-foreground"
+                  className="h-8 w-8 p-0 hover:bg-muted text-foreground"
                 >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
             </div>
 
-            {/* Scrollable Zoom Image Container */}
+            {/* Scrollable Zoom Image Container with Floating Left / Right Chevrons */}
             <div
-              className="w-full max-w-6xl max-h-[85vh] overflow-y-auto rounded-xl border border-border/40 shadow-2xl bg-card p-1"
+              className="relative w-full max-w-6xl flex-1 flex items-center justify-center overflow-hidden rounded-xl border border-border/40 shadow-2xl bg-card/50 p-1"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={currentView.image}
-                alt={currentView.title}
-                className="w-full h-auto object-contain rounded-lg"
-              />
+              {/* Floating Prev Button */}
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handlePrevView}
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 rounded-full bg-background/80 hover:bg-background text-foreground shadow-2xl border border-border/60 hidden sm:flex items-center justify-center transition-transform hover:scale-110"
+                title={locale === "en" ? "Previous view (←)" : "Vista anterior (←)"}
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </Button>
+
+              {/* Floating Next Button */}
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handleNextView}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 rounded-full bg-background/80 hover:bg-background text-foreground shadow-2xl border border-border/60 hidden sm:flex items-center justify-center transition-transform hover:scale-110"
+                title={locale === "en" ? "Next view (→)" : "Siguiente vista (→)"}
+              >
+                <ChevronRight className="w-6 h-6" />
+              </Button>
+
+              {/* High-res Image */}
+              <div className="w-full h-full max-h-[75vh] overflow-auto flex items-center justify-center">
+                <Image
+                  key={currentView.id}
+                  src={currentView.image}
+                  alt={currentView.title}
+                  width={1920}
+                  height={1080}
+                  priority
+                  sizes="95vw"
+                  className="w-full h-auto max-h-[75vh] object-contain rounded-lg"
+                />
+              </div>
             </div>
-            <div className="text-[11px] text-white/60 mt-2 font-mono">
-              {locale === "en" ? "Press ESC or click outside to close" : "Presiona ESC o haz clic fuera para cerrar"}
+
+            {/* Modal Bottom Controls: Pill selectors + keyboard hint */}
+            <div 
+              className="flex flex-col items-center gap-1.5 mt-2 shrink-0"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Module Jump Pills */}
+              <div className="flex items-center justify-center gap-1.5 flex-wrap max-w-2xl px-2">
+                {viewKeys.map((key, idx) => (
+                  <button
+                    key={key}
+                    onClick={() => setActiveTab(key)}
+                    className={`px-2.5 py-1 text-[11px] rounded-full transition-all border ${
+                      activeTab === key
+                        ? "bg-primary text-primary-foreground border-primary font-semibold shadow-sm scale-105"
+                        : "bg-background/60 hover:bg-background text-muted-foreground hover:text-foreground border-border/50"
+                    }`}
+                  >
+                    {idx + 1}. {views[key].shortLabel}
+                  </button>
+                ))}
+              </div>
+
+              {/* Keyboard helper hint */}
+              <div className="text-[11px] text-white/60 font-mono flex items-center gap-2">
+                <span>
+                  {locale === "en" 
+                    ? "Use ← / → arrows to navigate · ESC to close" 
+                    : "Usa las flechas ← / → para navegar · ESC para cerrar"}
+                </span>
+              </div>
             </div>
           </motion.div>
         )}

@@ -24,10 +24,8 @@ import {
   Terminal,
   Zap,
   CheckCircle2,
-  Filter,
-  Search,
-  RefreshCw,
-  Layers
+Search,
+Layers
 } from "lucide-react";
 import { getProjectById } from "@/data/projects";
 import { ProjectImage } from "@/components/project-image";
