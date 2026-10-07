@@ -13,14 +13,10 @@ import {
   Briefcase,
   Users,
   MapPin,
-  TrendingUp,
   Maximize2,
   ExternalLink,
   Download,
   X,
-  CheckCircle2,
-  Zap,
-  Database,
   Layers,
   Sparkles
 } from "lucide-react";
@@ -36,7 +32,6 @@ interface DashboardView {
   desc: string;
   image: string;
   metrics: { label: string; value: string; detail: string }[];
-  highlights: { title: string; desc: string }[];
 }
 
 export function KimunDashboardShowcase() {
@@ -81,26 +76,6 @@ export function KimunDashboardShowcase() {
         { label: locale === "en" ? "Estimated Impact" : "Impacto Estimado", value: "1.062", detail: locale === "en" ? "Participants and beneficiaries in Maule" : "Participantes y asistentes en el Maule" },
         { label: locale === "en" ? "SDG Engagement" : "Compromiso ODS", value: "17 / 17", detail: locale === "en" ? "100% of UN Global Goals addressed" : "100% de los Objetivos ONU abordados" },
         { label: locale === "en" ? "Conversion Rate" : "Tasa de Conversión", value: "40%", detail: locale === "en" ? "0.5 days avg. from proposal to approval" : "0.5 días promedio propuesta → aprobación" },
-      ],
-      highlights: [
-        {
-          title: locale === "en" ? "Chart.js Multi-Criteria Radar" : "Radar Multicriterio Chart.js",
-          desc: locale === "en" 
-            ? "Spider chart dynamically contrasting active initiatives vs. draft proposals across all 17 global goals."
-            : "Gráfico spider que cruza en tiempo real iniciativas aprobadas frente a propuestas en formulación."
-        },
-        {
-          title: locale === "en" ? "Maturity Cycle & Pipeline" : "Ciclo de Madurez & Estados",
-          desc: locale === "en"
-            ? "Strict workflow tracking: Draft, Registered, Pending Review, In Progress, Finalized, Closed."
-            : "Auditoría visual del pipeline de estados institucionales (Borrador, Revisión, Aprobado, Cerrado)."
-        },
-        {
-          title: locale === "en" ? "Annual Seasonality Curve" : "Curva de Estacionalidad",
-          desc: locale === "en"
-            ? "Monthly initiative launch trajectory to optimize academic planning and resource allocation."
-            : "Curva mensual de despliegue que permite planificar cargas docentes e infraestructura en el Maule."
-        }
       ]
     },
     ods: {
@@ -122,26 +97,6 @@ export function KimunDashboardShowcase() {
         { label: locale === "en" ? "Prosperity Dimension" : "Dimensión Prosperidad", value: "29%", detail: locale === "en" ? "38 initiatives in decent work & innovation" : "38 iniciativas en trabajo decente e innovación" },
         { label: locale === "en" ? "Planet Dimension" : "Dimensión Planeta", value: "19%", detail: locale === "en" ? "25 projects in climate action & ecosystems" : "25 proyectos en acción climática y biosfera" },
         { label: locale === "en" ? "Specific Targets" : "Metas Específicas", value: "+15", detail: locale === "en" ? "Granular targets tracked (10.2, 9.5, 1.5, 4.6...)" : "Metas desagregadas con ranking de impacto" },
-      ],
-      highlights: [
-        {
-          title: locale === "en" ? "5P Dimensional Classification" : "Clasificación 5P Canónica",
-          desc: locale === "en"
-            ? "Automatic grouping of the 17 SDGs into the 5 core UN sustainability dimensions with color-coded badges."
-            : "Agrupación automática de los 17 ODS en las 5 dimensiones clave con paleta oficial de la ONU."
-        },
-        {
-          title: locale === "en" ? "Sub-target Granular Auditing" : "Auditoría de Sub-Metas",
-          desc: locale === "en"
-            ? "Direct query tracking on specific indicators (social inclusion, research capacity, community resilience)."
-            : "Monitoreo de metas específicas (inclusión social, investigación aplicada, resiliencia comunitaria)."
-        },
-        {
-          title: locale === "en" ? "Proportional Donut Visualizer" : "Análisis Proporcional",
-          desc: locale === "en"
-            ? "Interactive Chart.js donut chart with animated percentage breakdown and dynamic legends."
-            : "Gráfico de donut interactivo con cálculo automático de cuotas relativas por pilar."
-        }
       ]
     },
     academico: {
@@ -163,26 +118,6 @@ export function KimunDashboardShowcase() {
         { label: locale === "en" ? "Technology School" : "Área Tecnológica", value: "34%", detail: locale === "en" ? "13 initiatives driven by IT and Software careers" : "13 iniciativas impulsadas por carreras tecnológicas" },
         { label: locale === "en" ? "Lines of Action" : "Líneas de Acción", value: "Top 10", detail: locale === "en" ? "Technical pertinence & community collaboration" : "Pertinencia técnica y colaboración territorial" },
         { label: locale === "en" ? "Leading Subjects" : "Asignaturas Clave", value: "5 Líderes", detail: locale === "en" ? "Irrigation, Communication, OOP Design..." : "Técnicas de Riego, Comunicación, Diseño POO..." },
-      ],
-      highlights: [
-        {
-          title: locale === "en" ? "Executing Units & Macro Programs" : "Unidades Ejecutoras & Programas",
-          desc: locale === "en"
-            ? "Cross-referencing vicerectories, departments and academic schools with Eloquent aggregations."
-            : "Cruce relacional de vicerrectorías, direcciones y programas con agregaciones Eloquent en PostgreSQL."
-        },
-        {
-          title: locale === "en" ? "Coursework Integration Ranking" : "Impacto en Asignaturas",
-          desc: locale === "en"
-            ? "Identifies exact academic modules whose students apply hands-on skills in local community projects."
-            : "Identifica los módulos formativos cuyos estudiantes aplican competencias prácticas en el territorio."
-        },
-        {
-          title: locale === "en" ? "Legal Agreement Tracking" : "Convenios Marco & Adendum",
-          desc: locale === "en"
-            ? "Bar breakdown classifying activities under signed institutional covenants vs. independent projects."
-            : "Desglose que clasifica actividades amparadas en convenios formales vs. ejecución directa."
-        }
       ]
     },
     recursos: {
@@ -204,26 +139,6 @@ export function KimunDashboardShowcase() {
         { label: locale === "en" ? "Human Capital" : "Recurso Humano", value: "$3.794.000", detail: locale === "en" ? "58.5% allocated to faculty & specialist hours" : "58.5% correspondiente a horas docente y especialistas" },
         { label: locale === "en" ? "Infrastructure" : "Infraestructura", value: "$1.620.000", detail: locale === "en" ? "25% in technical labs and campus facilities" : "25% en laboratorios, talleres y equipamiento" },
         { label: locale === "en" ? "Institutional Funds" : "Fondos Propios", value: "$5.804.000", detail: locale === "en" ? "89.5% direct CFT funding vs. $680K external" : "89.5% financiamiento CFT vs. $680K externos" },
-      ],
-      highlights: [
-        {
-          title: locale === "en" ? "Tangible Deliverables Catalog" : "Catálogo de Entregables",
-          desc: locale === "en"
-            ? "Tracking 10 applied research documents, 7 final reports, prototypes, technical manuals, and workshops."
-            : "Conteo de 10 investigaciones aplicadas, 7 informes técnicos, prototipos, manuales y capacitaciones."
-        },
-        {
-          title: locale === "en" ? "Campus Budget Valuation" : "Valorización por Sede",
-          desc: locale === "en"
-            ? "Detailed expenditure breakdown: Central ($2.54M), Linares ($1.91M), Curicó, Cauquenes, and Talca."
-            : "Desglose del gasto por campus (Casa Central $2.54M, Linares $1.91M, Curicó, Cauquenes y Talca)."
-        },
-        {
-          title: locale === "en" ? "Internal vs. External Split" : "Auditoría de Financiamiento",
-          desc: locale === "en"
-            ? "Automated pie comparison confirming transparency in institutional vs. partner-funded capital."
-            : "Comparativa que audita la proporción de fondos institucionales frente a apalancamiento de terceros."
-        }
       ]
     },
     participantes: {
@@ -245,26 +160,6 @@ export function KimunDashboardShowcase() {
         { label: locale === "en" ? "Community Attendees" : "Asistentes Comunidad", value: "932", detail: locale === "en" ? "Audience in technical fairs, seminars & workshops" : "Público en ferias, charlas y talleres territoriales" },
         { label: locale === "en" ? "External Partners" : "Socios Comunitarios", value: "16+", detail: locale === "en" ? "Enterprises (16%), Community groups, OMIL" : "Empresas (16%), Agrupaciones, OMIL, territorio" },
         { label: locale === "en" ? "Impact Ratio" : "Ratio de Impacto", value: "1 : 7.2", detail: locale === "en" ? "7.2 community beneficiaries per internal member" : "7.2 beneficiarios comunitarios por integrante interno" },
-      ],
-      highlights: [
-        {
-          title: locale === "en" ? "Academic Profile Segmentation" : "Segmentación por Perfil",
-          desc: locale === "en"
-            ? "Granular breakdown: Students (40%), Teachers (34%), Alumni (5%), Program coordinators, and leadership."
-            : "Segmentación: Estudiantes (40%), Docentes (34%), Titulados (5%), Coordinadores y Directivos."
-        },
-        {
-          title: locale === "en" ? "Geographic Attendance Reach" : "Asistencia por Sede",
-          desc: locale === "en"
-            ? "Community footprint leader: Curicó (461 attendees), Cauquenes (160), Linares (130), Talca (100)."
-            : "Impacto territorial líder: Curicó (461 asistentes), Cauquenes (160), Linares (130), Talca (100)."
-        },
-        {
-          title: locale === "en" ? "Dual Impact Frequencies" : "Impacto Interno vs. Externo",
-          desc: locale === "en"
-            ? "Dual horizontal bar charts contrasting curricular updates against socio-economic improvements."
-            : "Evaluación en paralelo de mejoras formativas pedagógicas vs. beneficios económicos directos."
-        }
       ]
     },
     mapa: {
@@ -286,26 +181,6 @@ export function KimunDashboardShowcase() {
         { label: locale === "en" ? "Provincial Scope" : "Alcance Provincial", value: "4", detail: locale === "en" ? "Extended impact across Talca, Curicó & Linares" : "Impacto extendido en Provincias de Talca, Curicó y Linares" },
         { label: locale === "en" ? "Regional Scope" : "Alcance Regional", value: "3", detail: locale === "en" ? "Cross-regional deployment throughout the VII Region" : "Cobertura global en toda la VII Región del Maule" },
         { label: locale === "en" ? "Leading Commune" : "Comuna Líder", value: "Constitución (3)", detail: locale === "en" ? "Followed by Curicó, Talca, Empedrado e Iquique" : "Seguida por Curicó, Talca, Empedrado e Iquique" },
-      ],
-      highlights: [
-        {
-          title: locale === "en" ? "Interactive GIS Map Layer" : "Capa Cartográfica Leaflet",
-          desc: locale === "en"
-            ? "Custom Leaflet map layer with circle markers scaled to initiative density and interactive popups."
-            : "Capa cartográfica con marcadores proporcionales a la densidad de iniciativas y popups interactivos."
-        },
-        {
-          title: locale === "en" ? "Hierarchical Aggregation Switcher" : "Resumen Jerárquico Territorial",
-          desc: locale === "en"
-            ? "Real-time switcher filtering between Communes, Provinces, and Regional boundaries."
-            : "Conmutador que agrupa datos por Comunas, Provincias y límites regionales oficiales de Chile."
-        },
-        {
-          title: locale === "en" ? "Decentralization Audit" : "Descentralización Institucional",
-          desc: locale === "en"
-            ? "Monitors ratio of activities in urban capitals vs. remote coastal or Andean rural communities."
-            : "Monitorea el equilibrio entre capitales provinciales y comunidades costeras o andinas vulnerables."
-        }
       ]
     }
   };
@@ -321,14 +196,6 @@ export function KimunDashboardShowcase() {
             <Sparkles className="w-3.5 h-3.5 mr-1.5" />
             {locale === "en" ? "Executive Analytics Suite" : "Suite Analítica Ejecutiva"}
           </Badge>
-          <Badge variant="outline" className="border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5">
-            <Database className="w-3 h-3 mr-1" />
-            {locale === "en" ? "100% Real Institutional Data" : "100% Datos Reales Institucionales"}
-          </Badge>
-          <Badge variant="outline" className="border-blue-500/40 text-blue-600 dark:text-blue-400 bg-blue-500/5">
-            <BarChart3 className="w-3 h-3 mr-1" />
-            Chart.js + Leaflet GIS
-          </Badge>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
           {locale === "en" ? "Interactive Analytics & Impact Dashboard" : "Dashboard Analítico & Inteligencia Institucional"}
@@ -340,82 +207,13 @@ export function KimunDashboardShowcase() {
         </p>
       </div>
 
-      {/* Global Top KPI Ribbon */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <Card className="bg-card/70 backdrop-blur-xs border-primary/20 hover:border-primary/40 transition-all shadow-xs">
-          <CardContent className="p-3.5">
-            <div className="flex items-center gap-2 text-primary mb-1">
-              <BarChart3 className="w-4 h-4" />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === "en" ? "Total Activities" : "Actividades Totales"}
-              </span>
-            </div>
-            <div className="text-2xl font-extrabold text-foreground tracking-tight">52</div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              43 Inic. (83%) · 9 Prop. (17%)
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/70 backdrop-blur-xs border-blue-500/20 hover:border-blue-500/40 transition-all shadow-xs">
-          <CardContent className="p-3.5">
-            <div className="flex items-center gap-2 text-blue-500 mb-1">
-              <Users className="w-4 h-4" />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === "en" ? "Impact Reach" : "Impacto Estimado"}
-              </span>
-            </div>
-            <div className="text-2xl font-extrabold text-blue-500 tracking-tight">1.062</div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              130 Internos · 932 Comunidad
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/70 backdrop-blur-xs border-emerald-500/20 hover:border-emerald-500/40 transition-all shadow-xs">
-          <CardContent className="p-3.5">
-            <div className="flex items-center gap-2 text-emerald-500 mb-1">
-              <Globe className="w-4 h-4" />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === "en" ? "UN SDGs Linked" : "Compromiso ODS"}
-              </span>
-            </div>
-            <div className="text-2xl font-extrabold text-emerald-500 tracking-tight">17 / 17</div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "100% 2030 Agenda covered" : "100% Agenda 2030 cubierta"}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/70 backdrop-blur-xs border-amber-500/20 hover:border-amber-500/40 transition-all shadow-xs">
-          <CardContent className="p-3.5">
-            <div className="flex items-center gap-2 text-amber-500 mb-1">
-              <Briefcase className="w-4 h-4" />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === "en" ? "Valued Budget" : "Presupuesto Total"}
-              </span>
-            </div>
-            <div className="text-2xl font-extrabold text-amber-500 tracking-tight">$6.48M</div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              CLP Directo + Infraestructura
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/70 backdrop-blur-xs border-purple-500/20 hover:border-purple-500/40 transition-all shadow-xs col-span-2 sm:col-span-1">
-          <CardContent className="p-3.5">
-            <div className="flex items-center gap-2 text-purple-500 mb-1">
-              <TrendingUp className="w-4 h-4" />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {locale === "en" ? "Conversion Rate" : "Tasa Conversión"}
-              </span>
-            </div>
-            <div className="text-2xl font-extrabold text-purple-500 tracking-tight">40%</div>
-            <div className="text-[10px] text-muted-foreground mt-0.5 truncate">
-              {locale === "en" ? "0.5 days avg. maturation" : "0.5 días maduración promedio"}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Real KPIs Banner from Kimün */}
+      <div className="rounded-xl border border-border/80 bg-card/60 p-2 sm:p-3 shadow-xs overflow-hidden flex items-center justify-center">
+        <img
+          src="/images/kimun/kpis.png"
+          alt="KPIs Institucionales Kimün"
+          className="w-full max-h-[140px] object-contain"
+        />
       </div>
 
       {/* Interactive Tabs Selector */}
@@ -473,51 +271,25 @@ export function KimunDashboardShowcase() {
               transition={{ duration: 0.25 }}
               className="space-y-6"
             >
-              {/* View Context Header */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-border/50">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Badge variant="secondary" className="text-xs py-0.5 px-2.5 bg-primary/10 text-primary font-semibold">
-                      {currentView.badge}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground font-mono">
-                      Módulo {currentView.tabLabel.split(".")[0]}
-                    </span>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-foreground">
-                    {currentView.title}
-                  </h3>
-                  <p className="text-xs md:text-sm text-primary font-medium mt-0.5">
-                    {currentView.subtitle}
-                  </p>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-2 leading-relaxed max-w-3xl">
-                    {currentView.desc}
-                  </p>
+              {/* View Context Header - Full Width for Title, Subtitle and Description */}
+              <div className="space-y-2 pb-2 border-b border-border/50">
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="text-xs py-0.5 px-2.5 bg-primary/10 text-primary font-semibold">
+                    {currentView.badge}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground font-mono">
+                    Módulo {currentView.tabLabel.split(".")[0]}
+                  </span>
                 </div>
-
-                {/* Quick Action Buttons */}
-                <div className="flex items-center gap-2 shrink-0">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => setIsZoomOpen(true)}
-                    className="flex items-center gap-1.5 shadow-sm"
-                  >
-                    <Maximize2 className="w-3.5 h-3.5" />
-                    {locale === "en" ? "Inspect Fullscreen" : "Inspeccionar Pantalla Completa"}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                    className="flex items-center gap-1.5"
-                  >
-                    <a href={currentView.image} target="_blank" rel="noopener noreferrer" download>
-                      <Download className="w-3.5 h-3.5" />
-                      {locale === "en" ? "Download HD" : "Descargar HD"}
-                    </a>
-                  </Button>
-                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-foreground">
+                  {currentView.title}
+                </h3>
+                <p className="text-xs md:text-sm text-primary font-medium">
+                  {currentView.subtitle}
+                </p>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  {currentView.desc}
+                </p>
               </div>
 
               {/* Specific View Metrics Strip */}
@@ -539,21 +311,38 @@ export function KimunDashboardShowcase() {
 
               {/* Interactive Window Mockup Frame */}
               <div className="rounded-xl border border-border/80 overflow-hidden shadow-lg bg-card">
-                {/* Browser-like Header Bar */}
-                <div className="bg-muted/80 border-b border-border/70 px-4 py-2.5 flex items-center justify-between gap-4">
+                {/* Browser-like Header Bar with Action Buttons on Top Right */}
+                <div className="bg-muted/80 border-b border-border/70 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
                     <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
                     <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
-                    <div className="hidden sm:flex items-center ml-2 px-3 py-1 rounded-md bg-background/80 text-[11px] font-mono text-muted-foreground border border-border/50">
-                      <span>http://kimun.cftsanagustin.cl/kimun/dashboard#{currentView.id}</span>
+                    <div className="flex items-center ml-2 px-3 py-1 rounded-md bg-background/80 text-[11px] font-mono text-muted-foreground border border-border/50">
+                      <span>http://cftsanagustin.cl/kimun/dashboard#{currentView.id}</span>
                     </div>
                   </div>
+                  {/* Action Buttons: Inspeccionar Pantalla Completa y Descargar HD */}
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      {locale === "en" ? "Live Production Capture" : "Captura en Producción Real"}
-                    </Badge>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => setIsZoomOpen(true)}
+                      className="h-8 text-xs flex items-center gap-1.5 shadow-sm"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5" />
+                      {locale === "en" ? "Inspect Fullscreen" : "Inspeccionar Pantalla Completa"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      asChild
+                      className="h-8 text-xs flex items-center gap-1.5"
+                    >
+                      <a href={currentView.image} target="_blank" rel="noopener noreferrer" download>
+                        <Download className="w-3.5 h-3.5" />
+                        {locale === "en" ? "Download HD" : "Descargar HD"}
+                      </a>
+                    </Button>
                   </div>
                 </div>
 
@@ -575,27 +364,6 @@ export function KimunDashboardShowcase() {
                       {locale === "en" ? "Click to view full image in lightbox" : "Clic para ampliar y explorar en detalle"}
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Technical Highlights / Engineering Points */}
-              <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-amber-500" />
-                  {locale === "en" ? "Technical Highlights & Implementation" : "Puntos Clave de Ingeniería & Analítica"}
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {currentView.highlights.map((h, i) => (
-                    <div key={i} className="p-3.5 rounded-lg bg-muted/30 border border-border/60 hover:bg-muted/50 transition-colors">
-                      <div className="flex items-center gap-2 text-foreground font-semibold text-xs mb-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                        <span>{h.title}</span>
-                      </div>
-                      <p className="text-[11px] text-muted-foreground leading-relaxed pl-5">
-                        {h.desc}
-                      </p>
-                    </div>
-                  ))}
                 </div>
               </div>
             </motion.div>
