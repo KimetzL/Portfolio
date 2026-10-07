@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { getProjectById } from "@/data/projects";
 import { ProjectImage } from "@/components/project-image";
+import { KimunDashboardShowcase } from "@/components/kimun-dashboard-showcase";
 import { useLanguage } from "@/context/language-context";
 
 
@@ -1691,75 +1692,10 @@ export default function ProjectPage() {
               <KimunShowcaseSection />
             )}
 
-            {/* Capturas del Formulario Wizard - Only for Project 4 */}
+            {/* Interactive Analytics Dashboard Showcase - Only for Project 4 (Kimün) */}
             {projectId === "4" && (
-              <div>
-                <h2 className="text-3xl font-bold mb-2">Capturas del Formulario Wizard</h2>
-                <p className="text-muted-foreground mb-6">
-                  Vista paso a paso del formulario de formulación de iniciativas, con cada etapa del proceso.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {[
-                    { paso: "Paso 1", titulo: "Datos Generales" },
-                    { paso: "Paso 2", titulo: "Datos Adicionales" },
-                    { paso: "Paso 3", titulo: "ODS" },
-                    { paso: "Paso 4", titulo: "Participantes, Asistentes y Productos" },
-                    { paso: "Paso 5", titulo: "Recursos" },
-                    { paso: "Paso 6", titulo: "Evidencias" },
-                  ].map((step) => (
-                    <div
-                      key={step.paso}
-                      className="rounded-xl border border-dashed border-border/60 bg-muted/30 aspect-video flex flex-col items-center justify-center gap-2 text-center p-4 hover:bg-muted/50 transition-colors"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Layers className="w-5 h-5 text-primary/60" />
-                      </div>
-                      <span className="text-xs font-mono text-muted-foreground/70 uppercase tracking-wider">{step.paso}</span>
-                      <span className="text-sm font-semibold text-muted-foreground">{step.titulo}</span>
-                      <span className="text-xs text-muted-foreground/50 italic">Captura pendiente</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <KimunDashboardShowcase />
             )}
-
-            {/* Análisis de Datos - Only for Project 4 */}
-            {projectId === "4" && (
-              <div>
-                <h2 className="text-3xl font-bold mb-2">Análisis de Datos</h2>
-                <p className="text-muted-foreground mb-6">
-                  Dashboards analíticos, gráficas de impacto y exportaciones de reportes generados por la plataforma Kimün.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {/* Placeholder grande — dashboard principal */}
-                  <div className="md:col-span-2 rounded-xl border border-dashed border-border/60 bg-muted/30 h-56 flex flex-col items-center justify-center gap-3 text-center p-6 hover:bg-muted/50 transition-colors">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Database className="w-6 h-6 text-primary/60" />
-                    </div>
-                    <span className="text-sm font-semibold text-muted-foreground">Dashboard Analítico General</span>
-                    <span className="text-xs text-muted-foreground/50 italic">Captura / exportación pendiente</span>
-                  </div>
-                  {/* Placeholder gráfica 1 */}
-                  <div className="rounded-xl border border-dashed border-border/60 bg-muted/30 h-44 flex flex-col items-center justify-center gap-2 text-center p-4 hover:bg-muted/50 transition-colors">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Zap className="w-5 h-5 text-primary/60" />
-                    </div>
-                    <span className="text-sm font-semibold text-muted-foreground">Gráfica de Iniciativas por Estado</span>
-                    <span className="text-xs text-muted-foreground/50 italic">Captura pendiente</span>
-                  </div>
-                  {/* Placeholder gráfica 2 */}
-                  <div className="rounded-xl border border-dashed border-border/60 bg-muted/30 h-44 flex flex-col items-center justify-center gap-2 text-center p-4 hover:bg-muted/50 transition-colors">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Globe className="w-5 h-5 text-primary/60" />
-                    </div>
-                    <span className="text-sm font-semibold text-muted-foreground">Distribución Geográfica de Actividades</span>
-                    <span className="text-xs text-muted-foreground/50 italic">Captura pendiente</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-
 
           </motion.div>
         </div>
