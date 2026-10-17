@@ -6,8 +6,8 @@ Este documento registra los puntos clave acordados para retomar en la próxima s
 
 ## 🏛️ 1. Proyecto Kimün (ID: 4) — Sistema de Iniciativas y Vinculación
 
-- [ ] **Cambiar la foto principal del proyecto**:
-  - Sustituir la imagen actual de portada (`/images/iniciativas.png`) por una imagen moderna o más representativa en la ficha y listado del portfolio.
+- [x] **Cambiar la foto principal del proyecto**:
+  - Sustituir la imagen actual de portada (`/images/iniciativas.png`) por la nueva imagen de portada (`/images/kimun/Portada.jpeg`).
 - [x] **Meter capturas reales en los 6 pasos del Wizard (`KimunShowcaseSection`)**:
   - **Paso 1**: Datos Generales (Dirección VcM, modalidades, sedes).
   - **Paso 2**: Datos Adicionales & Cascada Geográfica (Región, Provincia, Comuna).
