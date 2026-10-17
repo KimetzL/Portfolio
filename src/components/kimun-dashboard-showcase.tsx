@@ -141,7 +141,7 @@ export function KimunDashboardShowcase() {
       image: "/images/kimun/dashboard-ods.jpg",
       metrics: [
         { label: locale === "en" ? "People Dimension" : "Dimensión Personas", value: "36%", detail: locale === "en" ? "48 activities in education, health & equity" : "48 actividades en educación, salud y equidad" },
-        { label: locale === "en" ? "Prosperity Dimension" : "Dimensión Prosperidad", value: "29%", detail: locale === "en" ? "38 initiatives in decent work & innovation" : "38 initiatives en trabajo decente e innovación" },
+        { label: locale === "en" ? "Prosperity Dimension" : "Dimensión Prosperidad", value: "29%", detail: locale === "en" ? "38 initiatives in decent work & innovation" : "38 iniciativas en trabajo decente e innovación" },
         { label: locale === "en" ? "Planet Dimension" : "Dimensión Planeta", value: "19%", detail: locale === "en" ? "25 projects in climate action & ecosystems" : "25 proyectos en acción climática y biosfera" },
         { label: locale === "en" ? "Partnerships & Peace" : "Alianzas & Paz", value: "16%", detail: locale === "en" ? "21 projects fostering territorial networks" : "21 proyectos tejiendo redes y justicia social" },
       ]
@@ -220,14 +220,14 @@ export function KimunDashboardShowcase() {
         ? "Interactive cartographic visualization mapping initiatives across the 30 municipalities of Maule Region"
         : "Visualización cartográfica interactiva de las 30 comunas de la Región del Maule",
       desc: locale === "en"
-        ? "Geographic Information System (GIS) component powered by Leaflet and OpenStreetMap. Geolocates initiatives with proportional proportional bubbles, auditing institutional presence across local communes, provincial zones, and remote rural districts."
+        ? "Geographic Information System (GIS) component powered by Leaflet and OpenStreetMap. Geolocates initiatives with proportional bubbles, auditing institutional presence across local communes, provincial zones, and remote rural districts."
         : "Sistema de información geográfica (GIS) implementado con Leaflet y OpenStreetMap. Georreferencia iniciativas con círculos proporcionales, auditando la presencia institucional en comunas rurales y cabeceras provinciales.",
       image: "/images/kimun/dashboard-mapa.jpg",
       metrics: [
         { label: locale === "en" ? "Local / Communal" : "Alcance Comunal", value: "12", detail: locale === "en" ? "Deployed directly across 10 specific municipalities" : "Desplegadas en 10 comunas específicas del Maule" },
         { label: locale === "en" ? "Provincial Scope" : "Alcance Provincial", value: "4", detail: locale === "en" ? "Extended impact across Talca, Curicó & Linares" : "Impacto extendido en Provincias de Talca, Curicó y Linares" },
         { label: locale === "en" ? "Regional Scope" : "Alcance Regional", value: "3", detail: locale === "en" ? "Cross-regional deployment throughout the VII Region" : "Cobertura global en toda la VII Región del Maule" },
-        { label: locale === "en" ? "Leading Commune" : "Comuna Líder", value: "Constitución (3)", detail: locale === "en" ? "Followed by Curicó, Talca, Empedrado e Iquique" : "Seguida por Curicó, Talca, Empedrado e Iquique" },
+        { label: locale === "en" ? "Leading Commune" : "Comuna Líder", value: "Constitución (3)", detail: locale === "en" ? "Followed by Curicó, Talca, Empedrado and Iquique" : "Seguida por Curicó, Talca, Empedrado e Iquique" },
       ]
     }
   };
@@ -262,11 +262,11 @@ export function KimunDashboardShowcase() {
       window.addEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
     }
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
     };
   }, [isZoomOpen, handlePrevView, handleNextView]);
 
@@ -530,7 +530,7 @@ export function KimunDashboardShowcase() {
                     {currentView.badge}
                   </Badge>
                   <span className="text-xs text-muted-foreground font-mono">
-                    Módulo {currentView.tabLabel.split(".")[0]}
+                    {locale === "en" ? "Module" : "Módulo"} {currentView.tabLabel.split(".")[0]}
                   </span>
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-foreground">

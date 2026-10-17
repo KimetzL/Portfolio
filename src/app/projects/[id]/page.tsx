@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,8 +25,13 @@ import {
   Terminal,
   Zap,
   CheckCircle2,
-Search,
-Layers
+  Search,
+  Layers,
+  Maximize2,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Download
 } from "lucide-react";
 import { getProjectById } from "@/data/projects";
 import { ProjectImage } from "@/components/project-image";
@@ -830,108 +836,233 @@ function PowerBIDashboardsSection() {
 }
 
 function KimunShowcaseSection() {
+  const { locale } = useLanguage();
   const [activeWizardStep, setActiveWizardStep] = useState(1);
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const zoomScrollRef = useRef<HTMLDivElement>(null);
 
   const wizardSteps: {
     [key: number]: {
       title: string;
       subtitle: string;
       desc: string;
+      image: string;
       highlights: string[];
       details: string[];
     };
   } = {
     1: {
-      title: "Paso 1: Datos Generales",
-      subtitle: "Identificación y configuración básica de la propuesta",
-      desc: "Registro del nombre oficial del proyecto, selección de Dirección Responsable (Vinculación con el Medio o Innovación), Modalidad de ejecución (Presencial, Online o Mixta), Sedes involucradas, Mecanismo y Unidad Ejecutora titular.",
-      highlights: [
-        "Dirección Responsable: VcM o Innovación",
-        "Modalidad: Presencial, Online o Mixta",
-        "Asignación de Sedes, Mecanismos y Unidad Ejecutora"
-      ],
-      details: [
-        "Control de campos obligatorios con validación en cliente y servidor",
-        "Asignación automática del usuario creador y ciclo de formulación",
-        "Definición clara del marco institucional y líneas estratégicas"
-      ]
+      title: locale === "en" ? "Step 1: General Information" : "Paso 1: Datos Generales",
+      subtitle: locale === "en" ? "Initiative identification and institutional setup" : "Identificación y configuración básica de la propuesta",
+      desc: locale === "en"
+        ? "Official project title registration, Lead Directorate (Community Engagement - VcM or Innovation), Delivery Mode (In-Person, Online or Hybrid), participating campuses, Mechanism, and Primary Executing Unit."
+        : "Registro del nombre oficial del proyecto, selección de Dirección Responsable (Vinculación con el Medio o Innovación), Modalidad de ejecución (Presencial, Online o Mixta), Sedes involucradas, Mecanismo y Unidad Ejecutora titular.",
+      image: "/images/kimun/Pasos/Kimun 1.jpeg",
+      highlights: locale === "en"
+        ? [
+            "Lead Directorate: VcM or Innovation",
+            "Delivery Mode: In-Person, Online, or Hybrid",
+            "Campus assignment, mechanisms & executing unit"
+          ]
+        : [
+            "Dirección Responsable: VcM o Innovación",
+            "Modalidad: Presencial, Online o Mixta",
+            "Asignación de Sedes, Mecanismos y Unidad Ejecutora"
+          ],
+      details: locale === "en"
+        ? [
+            "Required field control with client & server-side validation",
+            "Automatic creator attribution and formulation cycle tracking",
+            "Clear institutional framework & strategic line definition"
+          ]
+        : [
+            "Control de campos obligatorios con validación en cliente y servidor",
+            "Asignación automática del usuario creador y ciclo de formulación",
+            "Definición clara del marco institucional y líneas estratégicas"
+          ]
     },
     2: {
-      title: "Paso 2: Datos Adicionales",
-      subtitle: "Contribución temática y localización territorial oficial",
-      desc: "Selección del Programa institucional, Ámbitos de Acción, Líneas de Acción, categorización de Impacto Interno vs. Impacto Externo, y desglose de ubicación geográfica en cascada oficial de Chile (Región, Provincia y Comuna).",
-      highlights: [
-        "Cascada geográfica oficial de Chile (Región, Provincia y Comuna)",
-        "Doble evaluación: Impacto Interno (académico) e Impacto Externo (social)",
-        "Alineación con Programas y Ámbitos de Acción institucionales"
-      ],
-      details: [
-        "Carga dinámica de comunas mediante endpoints AJAX",
-        "Desglose de impacto medible en estudiantes y comunidad regional",
-        "Normalización geográfica para reportes territoriales"
-      ]
+      title: locale === "en" ? "Step 2: Additional Data & Cascade" : "Paso 2: Datos Adicionales",
+      subtitle: locale === "en" ? "Thematic contribution and territorial breakdown" : "Contribución temática y localización territorial oficial",
+      desc: locale === "en"
+        ? "Institutional Program selection, Action Areas, Strategic Lines, Internal vs External impact categorization, and territorial hierarchy across Chile's official administrative cascade (Region, Province, Commune)."
+        : "Selección del Programa institucional, Ámbitos de Acción, Líneas de Acción, categorización de Impacto Interno vs. Impacto Externo, y desglose de ubicación geográfica en cascada oficial de Chile (Región, Provincia y Comuna).",
+      image: "/images/kimun/Pasos/Kimun 2.jpeg",
+      highlights: locale === "en"
+        ? [
+            "Chile's official territorial cascade (Region, Province, Commune)",
+            "Dual impact assessment: Internal (academic) & External (social)",
+            "Institutional alignment with strategic programs and focus areas"
+          ]
+        : [
+            "Cascada geográfica oficial de Chile (Región, Provincia y Comuna)",
+            "Doble evaluación: Impacto Interno (académico) e Impacto Externo (social)",
+            "Alineación con Programas y Ámbitos de Acción institucionales"
+          ],
+      details: locale === "en"
+        ? [
+            "Dynamic commune loading via AJAX / REST endpoints",
+            "Quantifiable impact on students and regional communities",
+            "Geographic standardization for territorial auditing"
+          ]
+        : [
+            "Carga dinámica de comunas mediante endpoints AJAX",
+            "Desglose de impacto medible en estudiantes y comunidad regional",
+            "Normalización geográfica para reportes territoriales"
+          ]
     },
     3: {
-      title: "Paso 3: ODS (Agenda 2030 ONU)",
-      subtitle: "Vinculación directa con Objetivos de Desarrollo Sostenible",
-      desc: "Matriz interactiva con los 17 Objetivos de Desarrollo Sostenible (ODS) de las Naciones Unidas. Al seleccionar cada objetivo, se despliega un panel para marcar metas e indicadores cuantitativos específicos.",
-      highlights: [
-        "Matriz interactiva de los 17 Objetivos de Desarrollo Sostenible",
-        "Selección de metas e indicadores específicos por objetivo",
-        "Cuantificación del aporte institucional a la Agenda 2030"
-      ],
-      details: [
-        "Relaciones M2M persistidas en tablas pivot de PostgreSQL",
-        "Métricas de contribución global para memorias institucionales",
-        "Filtros de auditoría basados en objetivos globales"
-      ]
+      title: locale === "en" ? "Step 3: SDGs (UN 2030 Agenda)" : "Paso 3: ODS (Agenda 2030 ONU)",
+      subtitle: locale === "en" ? "Direct alignment with Sustainable Development Goals" : "Vinculación directa con Objetivos de Desarrollo Sostenible",
+      desc: locale === "en"
+        ? "Interactive matrix featuring the 17 United Nations Sustainable Development Goals (SDGs). Selecting each goal reveals a panel to assign specific quantitative targets and indicators."
+        : "Matriz interactiva con los 17 Objetivos de Desarrollo Sostenible (ODS) de las Naciones Unidas. Al seleccionar cada objetivo, se despliega un panel para marcar metas e indicadores cuantitativos específicos.",
+      image: "/images/kimun/Pasos/Kimun 3.jpeg",
+      highlights: locale === "en"
+        ? [
+            "Interactive 17 Sustainable Development Goals matrix",
+            "Goal-specific indicator & quantitative target selection",
+            "Institutional contribution metrics toward Agenda 2030"
+          ]
+        : [
+            "Matriz interactiva de los 17 Objetivos de Desarrollo Sostenible",
+            "Selección de metas e indicadores específicos por objetivo",
+            "Cuantificación del aporte institucional a la Agenda 2030"
+          ],
+      details: locale === "en"
+        ? [
+            "Many-to-Many relations persisted in PostgreSQL pivot tables",
+            "Aggregated impact metrics for institutional accountability",
+            "Audit filters categorized by global sustainability goals"
+          ]
+        : [
+            "Relaciones M2M persistidas en tablas pivot de PostgreSQL",
+            "Métricas de contribución global para memorias institucionales",
+            "Filtros de auditoría basados en objetivos globales"
+          ]
     },
     4: {
-      title: "Paso 4: Participantes, Asistentes y Productos",
-      subtitle: "Cuantificación del ecosistema humano y entregables",
-      desc: "Registro y conteo de participantes internos (estudiantes de carreras del CFT, directivos, docentes), socios comunitarios o empresariales externos, estimación de asistentes y definición de productos o entregables tangibles.",
-      highlights: [
-        "Estudiantes, docentes y directivos del CFT San Agustín",
-        "Socios comunitarios, empresas y beneficiarios externos",
-        "Definición y catálogo de productos tangibles esperados"
-      ],
-      details: [
-        "Seguimiento de horas y dedicación del personal",
-        "Registro nominal y agregado de beneficiarios",
-        "Vinculación curricular con carreras y módulos formativos"
-      ]
+      title: locale === "en" ? "Step 4: Participants & Deliverables" : "Paso 4: Participantes, Asistentes y Productos",
+      subtitle: locale === "en" ? "Quantifying human capital, stakeholders and deliverables" : "Cuantificación del ecosistema humano y entregables",
+      desc: locale === "en"
+        ? "Tracking and accounting for internal participants (CFT students, faculty, executives), external community and enterprise partners, estimated attendee volume, and tangible project deliverables."
+        : "Registro y conteo de participantes internos (estudiantes de carreras del CFT, directivos, docentes), socios comunitarios o empresariales externos, estimación de asistentes y definición de productos o entregables tangibles.",
+      image: "/images/kimun/Pasos/Kimun 4.jpeg",
+      highlights: locale === "en"
+        ? [
+            "CFT San Agustín students, faculty and academic staff",
+            "Community partners, local enterprises and beneficiaries",
+            "Catalog and definition of tangible expected deliverables"
+          ]
+        : [
+            "Estudiantes, docentes y directivos del CFT San Agustín",
+            "Socios comunitarios, empresas y beneficiarios externos",
+            "Definición y catálogo de productos tangibles esperados"
+          ],
+      details: locale === "en"
+        ? [
+            "Faculty hour tracking and workload dedication logs",
+            "Nominal and aggregate beneficiary record keeping",
+            "Curricular alignment with academic degrees and modules"
+          ]
+        : [
+            "Seguimiento de horas y dedicación del personal",
+            "Registro nominal y agregado de beneficiarios",
+            "Vinculación curricular con carreras y módulos formativos"
+          ]
     },
     5: {
-      title: "Paso 5: Recursos y Presupuesto",
-      subtitle: "Planificación económica y fuentes de financiamiento",
-      desc: "Desglose financiero detallado de costos estimados directos, financiamiento institucional interno, fondos de terceros o fuentes externas y valorización económica de recursos aportados.",
-      highlights: [
-        "Presupuesto estimado y costos operacionales",
-        "Financiamiento institucional vs. fondos externos",
-        "Valorización económica de recursos e infraestructura"
-      ],
-      details: [
-        "Cálculo automático de balances presupuestarios",
-        "Desglose por ítems de gasto y justificación financiera",
-        "Exportación estructurada a plantillas contables"
-      ]
+      title: locale === "en" ? "Step 5: Resources & Budget" : "Paso 5: Recursos y Presupuesto",
+      subtitle: locale === "en" ? "Economic planning and funding source breakdown" : "Planificación económica y fuentes de financiamiento",
+      desc: locale === "en"
+        ? "Granular financial breakdown of direct estimated costs, internal institutional funding, third-party and external grants, and economic valuation of contributed assets and infrastructure."
+        : "Desglose financiero detallado de costos estimados directos, financiamiento institucional interno, fondos de terceros o fuentes externas y valorización económica de recursos aportados.",
+      image: "/images/kimun/Pasos/Kimun 5.jpeg",
+      highlights: locale === "en"
+        ? [
+            "Estimated budget and operational cost breakdown",
+            "Institutional funding vs external grants & third parties",
+            "Economic valuation of institutional infrastructure & hours"
+          ]
+        : [
+            "Presupuesto estimado y costos operacionales",
+            "Financiamiento institucional vs. fondos externos",
+            "Valorización económica de recursos e infraestructura"
+          ],
+      details: locale === "en"
+        ? [
+            "Automated balance calculation preventing budget deficits",
+            "Itemized cost categories with financial justifications",
+            "Structured export for accounting and financial compliance"
+          ]
+        : [
+            "Cálculo automático de balances presupuestarios",
+            "Desglose por ítems de gasto y justificación financiera",
+            "Exportación estructurada a plantillas contables"
+          ]
     },
     6: {
-      title: "Paso 6: Evidencias y Guardado Final",
-      subtitle: "Almacenamiento, trazabilidad y gestión documental",
-      desc: "Cierre y persistencia de la propuesta en base de datos. Una vez almacenada, la plataforma permite gestionar el repositorio de evidencias documentales adjuntas (actas, convenios, listas de asistencia, certificados y fotografías).",
-      highlights: [
-        "Persistencia íntegra de la propuesta en PostgreSQL",
-        "Gestión documental de evidencias (PDF, actas, convenios)",
-        "Validación MIME y de tamaño de archivos para máxima seguridad"
-      ],
-      details: [
-        "Registro inmutable en el historial de trazabilidad (Logs)",
-        "Generación automática de ficha de la propuesta",
-        "Disponibilidad inmediata para el envío a revisión del supervisor"
-      ]
+      title: locale === "en" ? "Step 6: Evidences & Submission" : "Paso 6: Evidencias y Guardado Final",
+      subtitle: locale === "en" ? "Data persistence, traceability and document repository" : "Almacenamiento, trazabilidad y gestión documental",
+      desc: locale === "en"
+        ? "Final persistence of the initiative in the PostgreSQL database. Once registered, the platform enables uploading supporting documentation (minutes, agreements, attendance sheets, certificates, photos) and submission for supervisory approval."
+        : "Cierre y persistencia de la propuesta en base de datos. Una vez almacenada, la plataforma permite gestionar el repositorio de evidencias documentales adjuntas (actas, convenios, listas de asistencia, certificados y fotografías).",
+      image: "/images/kimun/Pasos/Kimun 6.jpeg",
+      highlights: locale === "en"
+        ? [
+            "Full initiative persistence in PostgreSQL 16 database",
+            "Document management for verifiable evidence (PDFs, logs)",
+            "MIME type and payload size validation for security"
+          ]
+        : [
+            "Persistencia íntegra de la propuesta en PostgreSQL",
+            "Gestión documental de evidencias (PDF, actas, convenios)",
+            "Validación MIME y de tamaño de archivos para máxima seguridad"
+          ],
+      details: locale === "en"
+        ? [
+            "Immutable event logging in audit trail history",
+            "Automatic generation of official initiative summary sheet",
+            "Instant dispatch to supervisor review and feedback cycle"
+          ]
+        : [
+            "Registro inmutable en el historial de trazabilidad (Logs)",
+            "Generación automática de ficha de la propuesta",
+            "Disponibilidad inmediata para el envío a revisión del supervisor"
+          ]
     }
   };
+
+  const handlePrevStep = useCallback(() => {
+    setActiveWizardStep((prev) => (prev === 1 ? 6 : prev - 1));
+  }, []);
+
+  const handleNextStep = useCallback(() => {
+    setActiveWizardStep((prev) => (prev === 6 ? 1 : prev + 1));
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsZoomOpen(false);
+      } else if (isZoomOpen && e.key === "ArrowLeft") {
+        handlePrevStep();
+      } else if (isZoomOpen && e.key === "ArrowRight") {
+        handleNextStep();
+      }
+    };
+
+    if (isZoomOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [isZoomOpen, handlePrevStep, handleNextStep]);
 
   const currentStep = wizardSteps[activeWizardStep];
 
@@ -999,14 +1130,18 @@ function KimunShowcaseSection() {
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-3xl font-bold">Formulario Wizard en 6 Pasos Oficiales</h2>
+            <h2 className="text-3xl font-bold">
+              {locale === "en" ? "Official 6-Step Wizard Form" : "Formulario Wizard en 6 Pasos Oficiales"}
+            </h2>
             <p className="text-muted-foreground text-sm mt-1">
-              Explora la secuencia interactiva con la que los colaboradores formulan propuestas en la plataforma.
+              {locale === "en"
+                ? "Explore the sequential workflow and real interface captures used by collaborators to submit initiatives."
+                : "Explora la secuencia interactiva y las capturas reales con las que los colaboradores formulan propuestas en la plataforma."}
             </p>
           </div>
         </div>
 
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border-border/80 shadow-md">
           <CardHeader className="bg-muted/30 border-b pb-4">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
               {[1, 2, 3, 4, 5, 6].map((stepNum) => (
@@ -1014,16 +1149,18 @@ function KimunShowcaseSection() {
                   key={stepNum}
                   variant={activeWizardStep === stepNum ? "default" : "outline"}
                   onClick={() => setActiveWizardStep(stepNum)}
-                  className="flex flex-col items-start h-auto py-2.5 px-3 text-left justify-start"
+                  className="flex flex-col items-start h-auto py-2.5 px-3 text-left justify-start transition-all"
                 >
-                  <span className="text-[10px] opacity-75 uppercase font-mono tracking-wider">Paso 0{stepNum}</span>
+                  <span className="text-[10px] opacity-75 uppercase font-mono tracking-wider">
+                    {locale === "en" ? `Step 0${stepNum}` : `Paso 0${stepNum}`}
+                  </span>
                   <span className="text-xs font-bold truncate w-full">
-                    {stepNum === 1 && "Datos Generales"}
-                    {stepNum === 2 && "Datos Adicionales"}
-                    {stepNum === 3 && "ODS"}
-                    {stepNum === 4 && "Participantes"}
-                    {stepNum === 5 && "Recursos"}
-                    {stepNum === 6 && "Evidencias"}
+                    {stepNum === 1 && (locale === "en" ? "General Data" : "Datos Generales")}
+                    {stepNum === 2 && (locale === "en" ? "Additional Data" : "Datos Adicionales")}
+                    {stepNum === 3 && (locale === "en" ? "SDGs (ODS)" : "ODS")}
+                    {stepNum === 4 && (locale === "en" ? "Participants" : "Participantes")}
+                    {stepNum === 5 && (locale === "en" ? "Resources" : "Recursos")}
+                    {stepNum === 6 && (locale === "en" ? "Evidences" : "Evidencias")}
                   </span>
                 </Button>
               ))}
@@ -1033,18 +1170,81 @@ function KimunShowcaseSection() {
             <div className="space-y-6">
               <div>
                 <div className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary mb-2">
-                  Etapa 0{activeWizardStep} de 06
+                  {locale === "en" ? `Stage 0${activeWizardStep} of 06` : `Etapa 0${activeWizardStep} de 06`}
                 </div>
                 <h3 className="text-xl font-bold text-foreground">{currentStep.title}</h3>
                 <p className="text-sm text-primary font-medium mt-0.5">{currentStep.subtitle}</p>
                 <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{currentStep.desc}</p>
               </div>
 
+              {/* Interactive Window Mockup Frame with Real Screenshot */}
+              <div className="rounded-xl border border-border/80 overflow-hidden shadow-lg bg-card">
+                {/* Browser-like Header Bar with Controls */}
+                <div className="bg-muted/80 border-b border-border/70 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
+                    <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
+                    <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
+                    <div className="flex items-center ml-2 px-3 py-1 rounded-md bg-background/80 text-[11px] font-mono text-muted-foreground border border-border/50">
+                      <span>cftsanagustin.cl/kimun/iniciativas/crear#paso-{activeWizardStep}</span>
+                    </div>
+                  </div>
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => setIsZoomOpen(true)}
+                      className="h-8 text-xs flex items-center gap-1.5 shadow-sm"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5" />
+                      {locale === "en" ? "Inspect Fullscreen" : "Inspeccionar Pantalla Completa"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      asChild
+                      className="h-8 text-xs flex items-center gap-1.5"
+                    >
+                      <a href={currentStep.image} target="_blank" rel="noopener noreferrer" download>
+                        <Download className="w-3.5 h-3.5" />
+                        {locale === "en" ? "Download HD" : "Descargar HD"}
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Screenshot Image Container with hover zoom prompt */}
+                <div
+                  className="relative group cursor-pointer overflow-hidden bg-muted/20"
+                  onClick={() => setIsZoomOpen(true)}
+                  title={locale === "en" ? "Click to expand image" : "Haz clic para ampliar la captura"}
+                >
+                  <div className="relative w-full max-h-[520px] overflow-hidden flex items-center justify-center bg-black/5 dark:bg-black/40">
+                    <Image
+                      src={currentStep.image}
+                      alt={currentStep.title}
+                      width={1763}
+                      height={1200}
+                      className="w-full h-auto object-cover object-top transition-transform duration-300 group-hover:scale-[1.01]"
+                      priority={activeWizardStep === 1}
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-background/0 group-hover:bg-background/25 transition-colors flex items-center justify-center pointer-events-none">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-background/90 text-foreground px-4 py-2 rounded-full text-xs font-medium shadow-xl backdrop-blur-xs flex items-center gap-2">
+                      <Maximize2 className="w-4 h-4 text-primary" />
+                      {locale === "en" ? "Click to view full screenshot" : "Haz clic para ver captura completa"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Highlights & Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-lg bg-muted/40 border border-border/50">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                    Puntos Clave del Paso
+                    {locale === "en" ? "Key Stage Highlights" : "Puntos Clave del Paso"}
                   </h4>
                   <ul className="space-y-2">
                     {currentStep.highlights.map((item, idx) => (
@@ -1059,7 +1259,7 @@ function KimunShowcaseSection() {
                 <div className="p-4 rounded-lg bg-muted/40 border border-border/50">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-1.5">
                     <Zap className="w-4 h-4 text-amber-500" />
-                    Lógica y Reglas de Negocio
+                    {locale === "en" ? "Business Logic & Rules" : "Lógica y Reglas de Negocio"}
                   </h4>
                   <ul className="space-y-2">
                     {currentStep.details.map((item, idx) => (
@@ -1075,6 +1275,143 @@ function KimunShowcaseSection() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Lightbox / Fullscreen Modal for Wizard Screenshots */}
+      <AnimatePresence>
+        {isZoomOpen && (
+          <div
+            className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md flex flex-col items-center justify-between p-3 sm:p-6 animate-in fade-in duration-200"
+            onClick={() => setIsZoomOpen(false)}
+          >
+            {/* Modal Header */}
+            <div
+              className="w-full max-w-6xl flex items-center justify-between gap-3 mb-2 px-2 shrink-0 z-30"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <Badge variant="secondary" className="text-xs py-0.5 px-2 bg-primary/10 text-primary shrink-0">
+                  {locale === "en" ? `Step 0${activeWizardStep}` : `Paso 0${activeWizardStep}`}
+                </Badge>
+                <span className="font-bold text-sm text-foreground truncate">
+                  {currentStep.title}
+                </span>
+                <span className="text-xs text-muted-foreground hidden md:inline truncate">
+                  ({currentStep.subtitle})
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={handlePrevStep}
+                  className="h-8 w-8 text-xs"
+                  title={locale === "en" ? "Previous step (←)" : "Paso anterior (←)"}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={handleNextStep}
+                  className="h-8 w-8 text-xs"
+                  title={locale === "en" ? "Next step (→)" : "Siguiente paso (→)"}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  asChild
+                  className="text-xs hidden md:inline-flex"
+                >
+                  <a href={currentStep.image} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                    {locale === "en" ? "Original HD" : "Original HD"}
+                  </a>
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setIsZoomOpen(false)}
+                  className="h-8 w-8 p-0 hover:bg-muted text-foreground"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Scrollable Zoom Image Container */}
+            <div
+              className="relative w-full max-w-6xl flex-1 min-h-0 rounded-xl border border-border/40 shadow-2xl bg-card/70 flex flex-col overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Floating Prev Button (Left) */}
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handlePrevStep}
+                className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-40 h-12 w-12 rounded-full bg-background/85 hover:bg-background text-foreground shadow-2xl border border-border/70 hidden sm:flex items-center justify-center transition-all hover:scale-110 backdrop-blur-md"
+                title={locale === "en" ? "Previous step (←)" : "Paso anterior (←)"}
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </Button>
+
+              {/* Floating Next Button (Right) */}
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handleNextStep}
+                className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 h-12 w-12 rounded-full bg-background/85 hover:bg-background text-foreground shadow-2xl border border-border/70 hidden sm:flex items-center justify-center transition-all hover:scale-110 backdrop-blur-md"
+                title={locale === "en" ? "Next step (→)" : "Siguiente paso (→)"}
+              >
+                <ChevronRight className="w-6 h-6" />
+              </Button>
+
+              {/* Scrollable View for full resolution */}
+              <div
+                ref={zoomScrollRef}
+                className="w-full h-full overflow-y-auto p-1.5 sm:p-2 scroll-smooth"
+              >
+                <Image
+                  key={activeWizardStep}
+                  src={currentStep.image}
+                  alt={currentStep.title}
+                  width={1763}
+                  height={1500}
+                  priority
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                  className="w-full h-auto object-cover object-top rounded-lg shadow-sm"
+                />
+              </div>
+            </div>
+
+            {/* Bottom Controls: Step Selectors & Shortcuts */}
+            <div
+              className="flex flex-col items-center gap-1 mt-2 shrink-0 z-30"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-wrap items-center justify-center gap-1.5 bg-background/80 backdrop-blur-xs p-1.5 rounded-full border border-border/60 shadow-lg">
+                {[1, 2, 3, 4, 5, 6].map((stepNum) => (
+                  <Button
+                    key={stepNum}
+                    size="sm"
+                    variant={activeWizardStep === stepNum ? "default" : "ghost"}
+                    onClick={() => setActiveWizardStep(stepNum)}
+                    className="h-7 text-xs px-2.5 rounded-full"
+                  >
+                    {locale === "en" ? `Step 0${stepNum}` : `Paso 0${stepNum}`}
+                  </Button>
+                ))}
+              </div>
+              <span className="text-[11px] text-muted-foreground/80 font-mono hidden sm:inline">
+                {locale === "en"
+                  ? "← → arrow keys to switch steps · Esc to close · scroll to inspect full height"
+                  : "Flechas ← → para cambiar de paso · Esc para cerrar · scroll para recorrer toda la altura"}
+              </span>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Workflow Cycle (Flujo de Aprobación Institucional) */}
       <div>
