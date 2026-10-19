@@ -404,27 +404,27 @@ export const projectsEn: ProjectDetail[] = [
       "Comprehensive hands-on experience across SecOps and DevSecOps",
     ],
   },
-  // Project 4 (Kimün) se mantiene 100% en Español a petición del usuario
+  // Project 4 (Kimün) - English version
   {
     id: 4,
-    title: "Kimün: Gestión de Vinculación con el Medio e Innovación",
+    title: "Kimün: Community Engagement & Innovation Management",
     description:
-      "Plataforma integral desarrollada en Laravel y PostgreSQL para la formulación, auditoría, trazabilidad y evaluación de impacto de iniciativas y propuestas de Vinculación con el Medio e Innovación en el CFT San Agustín.",
+      "Comprehensive platform built with Laravel and PostgreSQL for formulating, auditing, tracking, and assessing the impact of Community Engagement and Innovation initiatives at CFT San Agustín.",
     longDescription: `
-      Kimün es una plataforma institucional desarrollada para el Centro de Formación Técnica San Agustín, orientada a centralizar y dinamizar la gestión de iniciativas y propuestas de Vinculación con el Medio e Innovación.
+      Kimün is an institutional platform developed for CFT San Agustín (Technical Training Centre), designed to centralise and streamline the management of Community Engagement (VcM) and Innovation initiatives.
 
-      Integrada directamente en la intranet institucional del CFT San Agustín para facilitar el acceso unificado y sin fricción de docentes, directivos y personal administrativo, el sistema implementa un ciclo de vida colaborativo completo: los colaboradores formulan propuestas a través de un formulario wizard interactivo estructurado en 6 etapas:
+      Integrated directly into the CFT San Agustín institutional intranet, it provides unified, frictionless access for faculty, management, and administrative staff. The system implements a complete collaborative lifecycle: contributors formulate proposals through an interactive 6-step wizard:
 
-      • Paso 1: Datos Generales
-      • Paso 2: Datos Adicionales
-      • Paso 3: ODS
-      • Paso 4: Participantes, Asistentes y Productos
-      • Paso 5: Recursos
-      • Paso 6: Evidencias
+      • Step 1: General Information
+      • Step 2: Additional Data & Geographic Cascade
+      • Step 3: SDGs (UN 2030 Agenda)
+      • Step 4: Participants, Attendees & Deliverables
+      • Step 5: Resources & Budget
+      • Step 6: Evidence & Final Submission
 
-      Posteriormente, los supervisores y administradores revisan, solicitan ajustes mediante observaciones («Falta información») o aprueban formalmente las propuestas para convertirlas en iniciativas institucionales activas.
+      Supervisors and administrators then review proposals, request targeted corrections via observations ("Missing information"), or formally approve them — converting proposals into active institutional initiatives.
 
-      En el apartado técnico, la arquitectura se diseñó bajo altos estándares de rendimiento y ciberseguridad: implementación de un sistema RBAC con caché interna en memoria para optimizar las consultas y reducir drásticamente la carga sobre la base de datos, protección contra Mass Assignment mediante Form Requests tipados, saneamiento de credenciales en logs de auditoría y cabeceras HTTP de seguridad reforzadas (CSP, anti-clickjacking). Además, cuenta con un dashboard analítico con exportación de reportes en Excel/PDF y tours guiados paso a paso mediante Shepherd.js.
+      On the technical side, the architecture was engineered to the highest standards of performance and cybersecurity: an RBAC system with in-memory service caching to dramatically reduce database load; Mass Assignment protection via typed Form Requests; sanitised credentials in audit logs; and hardened HTTP security headers (CSP, anti-clickjacking). The platform also features an analytics dashboard with HD chart exports and Excel/PDF reporting, plus step-by-step guided tours powered by Shepherd.js.
     `,
     image: "/images/kimun/portada-mockup-3d.png",
     bannerPosition: "object-top",
@@ -440,32 +440,32 @@ export const projectsEn: ProjectDetail[] = [
     githubUrl: "",
     demoUrl: "https://www.youtube.com/watch?v=p0ptiThtMYI",
     featured: true,
-    statusBadge: "En Producción · Intranet CFT",
-    confidentialNotice: "Desplegado en la intranet privada del CFT San Agustín con usuarios activos y datos institucionales.",
-    startDate: "Febrero 2026",
-    endDate: "Agosto 2026",
+    statusBadge: "In Production · Institutional Intranet",
+    confidentialNotice: "Deployed on the private intranet of CFT San Agustín with active institutional users and sensitive records.",
+    startDate: "February 2026",
+    endDate: "August 2026",
     client: "CFT San Agustín",
-    category: "Desarrollo Web & Gestión Institucional",
+    category: "Web Development & Institutional Systems",
     features: [
-      "Integración directa en la intranet del CFT San Agustín para un acceso ágil y unificado de todo el personal",
-      "Ciclo de vida completo: Formulación, revisión con observaciones y aprobación de iniciativas",
-      "Wizard interactivo en 6 pasos oficiales (Datos Generales, Datos Adicionales, ODS, Participantes/Productos, Recursos y Evidencias)",
-      "Control de acceso basado en roles (RBAC: Admin, Supervisor, Digitador, Colaborador)",
-      "Centro de ayuda interactivo con tours guiados paso a paso (Shepherd.js)",
-      "Dashboards analíticos de impacto con descarga de gráficas HD y exportación a Excel/PDF",
-      "Entorno contenerizado con Docker Compose (PHP 8.3 FPM, Nginx y PostgreSQL 16)",
+      "Direct integration into the CFT San Agustín intranet for unified, seamless access across all staff",
+      "Full proposal lifecycle: formulation, supervisor review with observations, and formal approval",
+      "Interactive 6-step official wizard (General Info, Additional Data, SDGs, Participants/Deliverables, Resources, Evidence)",
+      "Role-based access control (RBAC: Admin, Supervisor, Data Entry, Contributor)",
+      "Interactive help centre with step-by-step guided onboarding tours (Shepherd.js)",
+      "Impact analytics dashboards with HD chart downloads and Excel/PDF export",
+      "Containerised environment with Docker Compose (PHP 8.3 FPM, Nginx and PostgreSQL 16)",
     ],
     challenges: [
-      "Optimización de rendimiento y mitigación de consultas repetitivas a la base de datos mediante almacenamiento en caché en servicios",
-      "Modelado de datos complejo con +21 modelos relacionales (geografía chilena, unidades ejecutoras, ODS y evidencias)",
-      "Implementación de políticas estrictas de ciberseguridad (SecurityHeaders, logs saneados y validación MIME de archivos)",
-      "Diseño de una experiencia de onboarding intuitiva para personal académico y administrativo no técnico",
-      "Despliegue e integración segura dentro de la infraestructura y gobierno de datos de la intranet institucional",
+      "Performance optimisation and elimination of N+1 queries via in-memory service-layer caching",
+      "Complex data modelling across 21+ relational models (Chilean geography, executing units, SDGs and evidence)",
+      "Implementation of strict cybersecurity policies (SecurityHeaders, sanitised audit logs, MIME file validation)",
+      "Designing an intuitive onboarding experience for non-technical academic and administrative staff",
+      "Secure deployment and integration within the institutional intranet infrastructure and data governance framework",
     ],
     outcomes: [
-      "Centralización del 100% de las iniciativas y propuestas de vinculación del CFT San Agustín",
-      "Reducción drástica en los tiempos de revisión y aprobación administrativa",
-      "Trazabilidad y auditoría total de cambios con registro de evidencias y exportaciones ejecutivas",
+      "100% centralisation of all Community Engagement and Innovation initiatives across CFT San Agustín",
+      "Dramatic reduction in administrative review and approval turnaround times",
+      "Full audit trail and traceability with evidence management and executive-ready exports",
     ],
   },
   {

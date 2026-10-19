@@ -15,7 +15,7 @@ Este documento registra los puntos clave acordados para retomar en la próxima s
   - **Paso 4**: Ecosistema Humano (Estudiantes, docentes, socios comunitarios, productos).
   - **Paso 5**: Presupuesto y Recursos (Horas docente, infraestructura, fuentes de financiamiento).
   - **Paso 6**: Resumen y Emisión PDF Oficial.
-- [ ] **Traducir exhaustivamente al inglés**:
+- [x] **Traducir exhaustivamente al inglés**:
   - Revisar y completar la traducción en `KimunShowcaseSection` (títulos, subtítulos, descripciones, badges y viñetas de highlights/details).
 
 ---

@@ -1070,17 +1070,17 @@ function KimunShowcaseSection() {
     <div className="space-y-12 mb-12">
       {/* Metric Stat Cards Grid */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Métricas e Indicadores Técnicos de Kimün</h2>
+        <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Kimün Technical Metrics & Indicators" : "Métricas e Indicadores Técnicos de Kimün"}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card/80 border-primary/20 hover:border-primary/40 transition-colors overflow-hidden">
             <CardContent className="p-4 flex items-center gap-3 min-w-0">
               <div className="p-2.5 bg-primary/10 rounded-lg text-primary shrink-0">
                 <Shield className="w-5 h-5" />
               </div>
-              <div className="min-w-0 flex-1 overflow-hidden" title="4 Roles RBAC - Admin, Supervisor, Digitador y Colaborador">
+              <div className="min-w-0 flex-1 overflow-hidden" title={locale === "en" ? "4 RBAC Roles - Admin, Supervisor, Data Entry and Contributor" : "4 Roles RBAC - Admin, Supervisor, Digitador y Colaborador"}>
                 <div className="text-sm sm:text-base xl:text-lg font-bold text-primary leading-tight truncate">4 Roles RBAC</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Control de Acceso</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Caché en memoria (1 query/req)</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Access Control" : "Control de Acceso"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "In-memory cache (1 query/req)" : "Caché en memoria (1 query/req)"}</div>
               </div>
             </CardContent>
           </Card>
@@ -1090,10 +1090,10 @@ function KimunShowcaseSection() {
               <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-500 shrink-0">
                 <Layers className="w-5 h-5" />
               </div>
-              <div className="min-w-0 flex-1 overflow-hidden" title="Wizard en 6 Pasos - Formulación Estructurada con Validación">
-                <div className="text-sm sm:text-base xl:text-lg font-bold text-blue-500 leading-tight truncate">6 Pasos Wizard</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Formulación Guiada</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">ODS, Comunas y Evidencias</div>
+              <div className="min-w-0 flex-1 overflow-hidden" title={locale === "en" ? "6-Step Wizard - Structured Formulation with Validation" : "Wizard en 6 Pasos - Formulación Estructurada con Validación"}>
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-blue-500 leading-tight truncate">{locale === "en" ? "6-Step Wizard" : "6 Pasos Wizard"}</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Guided Formulation" : "Formulación Guiada"}</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "SDGs, Communes & Evidence" : "ODS, Comunas y Evidencias"}</div>
               </div>
             </CardContent>
           </Card>
@@ -1103,10 +1103,10 @@ function KimunShowcaseSection() {
               <div className="p-2.5 bg-purple-500/10 rounded-lg text-purple-500 shrink-0">
                 <Database className="w-5 h-5" />
               </div>
-              <div className="min-w-0 flex-1 overflow-hidden" title="+21 Modelos Relacionales - PostgreSQL 16 & Eloquent Scopes">
-                <div className="text-sm sm:text-base xl:text-lg font-bold text-purple-500 leading-tight truncate">+21 Modelos</div>
+              <div className="min-w-0 flex-1 overflow-hidden" title={locale === "en" ? "21+ Relational Models - PostgreSQL 16 & Eloquent Scopes" : "+21 Modelos Relacionales - PostgreSQL 16 & Eloquent Scopes"}>
+                <div className="text-sm sm:text-base xl:text-lg font-bold text-purple-500 leading-tight truncate">+21 {locale === "en" ? "Models" : "Modelos"}</div>
                 <div className="text-xs text-muted-foreground font-medium truncate">PostgreSQL 16</div>
-                <div className="text-[10px] text-muted-foreground/70 truncate">Geografía Chile & Metas ODS</div>
+                <div className="text-[10px] text-muted-foreground/70 truncate">{locale === "en" ? "Chilean Geography & SDG Targets" : "Geografía Chile & Metas ODS"}</div>
               </div>
             </CardContent>
           </Card>
@@ -1116,15 +1116,16 @@ function KimunShowcaseSection() {
               <div className="p-2.5 bg-emerald-500/10 rounded-lg text-emerald-500 shrink-0">
                 <Server className="w-5 h-5" />
               </div>
-              <div className="min-w-0 flex-1 overflow-hidden" title="Docker Compose - PHP 8.3 FPM, Nginx y PostgreSQL">
+              <div className="min-w-0 flex-1 overflow-hidden" title={locale === "en" ? "Docker Compose - PHP 8.3 FPM, Nginx and PostgreSQL" : "Docker Compose - PHP 8.3 FPM, Nginx y PostgreSQL"}>
                 <div className="text-sm sm:text-base xl:text-lg font-bold text-emerald-500 leading-tight truncate">Docker Stack</div>
-                <div className="text-xs text-muted-foreground font-medium truncate">Intranet CFT</div>
+                <div className="text-xs text-muted-foreground font-medium truncate">{locale === "en" ? "Institutional Intranet" : "Intranet CFT"}</div>
                 <div className="text-[10px] text-muted-foreground/70 truncate">PHP 8.3 + Nginx + Postgres</div>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
+
 
       {/* Interactive 6-Step Wizard Stepper */}
       <div>
@@ -1415,48 +1416,59 @@ function KimunShowcaseSection() {
 
       {/* Workflow Cycle (Flujo de Aprobación Institucional) */}
       <div>
-        <h2 className="text-3xl font-bold mb-4">Ciclo de Vida y Flujo de Aprobación</h2>
+        <h2 className="text-3xl font-bold mb-4">{locale === "en" ? "Initiative Lifecycle & Approval Workflow" : "Ciclo de Vida y Flujo de Aprobación"}</h2>
         <Card className="overflow-hidden">
           <CardContent className="p-6">
             <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-              Las iniciativas no se publican directamente: atraviesan un riguroso ciclo de revisión colaborativa en la intranet para garantizar el cumplimiento de normativas institucionales.
+              {locale === "en"
+                ? "Initiatives are not published directly — they go through a rigorous collaborative review cycle on the intranet to ensure compliance with institutional regulations."
+                : "Las iniciativas no se publican directamente: atraviesan un riguroso ciclo de revisión colaborativa en la intranet para garantizar el cumplimiento de normativas institucionales."}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="p-4 rounded-lg bg-muted/30 border border-border/60 relative">
-                <div className="text-xs font-mono text-primary font-semibold mb-1">FASE 01</div>
-                <h4 className="font-bold text-sm text-foreground mb-1">Colaborador: Borrador</h4>
+                <div className="text-xs font-mono text-primary font-semibold mb-1">PHASE 01</div>
+                <h4 className="font-bold text-sm text-foreground mb-1">{locale === "en" ? "Contributor: Draft" : "Colaborador: Borrador"}</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  El docente o el encargado de Vinculación completa el wizard en 6 pasos y guarda su avance de forma segura.
+                  {locale === "en"
+                    ? "The faculty member or Community Engagement coordinator completes the 6-step wizard and saves progress securely."
+                    : "El docente o el encargado de Vinculación completa el wizard en 6 pasos y guarda su avance de forma segura."}
                 </p>
               </div>
 
               <div className="p-4 rounded-lg bg-muted/30 border border-border/60 relative">
-                <div className="text-xs font-mono text-blue-500 font-semibold mb-1">FASE 02</div>
-                <h4 className="font-bold text-sm text-foreground mb-1">Pendiente de Revisión</h4>
+                <div className="text-xs font-mono text-blue-500 font-semibold mb-1">PHASE 02</div>
+                <h4 className="font-bold text-sm text-foreground mb-1">{locale === "en" ? "Pending Review" : "Pendiente de Revisión"}</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Envío formal al equipo directivo. El registro se bloquea para edición mientras se evalúa.
+                  {locale === "en"
+                    ? "Formal submission to the management team. The record is locked for editing while under evaluation."
+                    : "Envío formal al equipo directivo. El registro se bloquea para edición mientras se evalúa."}
                 </p>
               </div>
 
               <div className="p-4 rounded-lg bg-muted/30 border border-border/60 relative">
-                <div className="text-xs font-mono text-amber-500 font-semibold mb-1">FASE 03</div>
-                <h4 className="font-bold text-sm text-foreground mb-1">Observaciones / Ajustes</h4>
+                <div className="text-xs font-mono text-amber-500 font-semibold mb-1">PHASE 03</div>
+                <h4 className="font-bold text-sm text-foreground mb-1">{locale === "en" ? "Observations / Revisions" : "Observaciones / Ajustes"}</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Si falta información, el supervisor emite observaciones puntuales y reabre la edición.
+                  {locale === "en"
+                    ? "If information is missing, the supervisor issues targeted observations and reopens the proposal for editing."
+                    : "Si falta información, el supervisor emite observaciones puntuales y reabre la edición."}
                 </p>
               </div>
 
               <div className="p-4 rounded-lg bg-muted/30 border border-emerald-500/40 bg-emerald-500/5 relative">
-                <div className="text-xs font-mono text-emerald-500 font-semibold mb-1">FASE 04</div>
-                <h4 className="font-bold text-sm text-emerald-500 mb-1">Aprobación e Iniciativa Activa</h4>
+                <div className="text-xs font-mono text-emerald-500 font-semibold mb-1">PHASE 04</div>
+                <h4 className="font-bold text-sm text-emerald-500 mb-1">{locale === "en" ? "Approved & Initiative Active" : "Aprobación e Iniciativa Activa"}</h4>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Conversión automática a Iniciativa activa en el catálogo general con métricas en dashboards.
+                  {locale === "en"
+                    ? "Automatic conversion to an active Initiative in the general catalogue, with metrics visible across dashboards."
+                    : "Conversión automática a Iniciativa activa en el catálogo general con métricas en dashboards."}
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
+
     </div>
   );
 }
@@ -1651,12 +1663,14 @@ export default function ProjectPage() {
             {/* Video Teaser Section - Only for Project 4 - right after overview */}
             {projectId === "4" && (
               <div>
-                <h2 className="text-3xl font-bold mb-6">Tráiler de Kimün</h2>
+                <h2 className="text-3xl font-bold mb-6">{locale === "en" ? "Kimün Trailer" : "Tráiler de Kimün"}</h2>
                 <Card>
                   <CardContent className="p-6">
                     <div className="space-y-4">
                       <p className="text-muted-foreground">
-                        Teaser audiovisual de presentación de la plataforma Kimün desarrollada para el CFT San Agustín.
+                        {locale === "en"
+                          ? "Audiovisual presentation teaser for the Kimün platform developed for CFT San Agustín."
+                          : "Teaser audiovisual de presentación de la plataforma Kimün desarrollada para el CFT San Agustín."}
                       </p>
                       {/* YouTube Video Player */}
                       <div className="relative w-full overflow-hidden rounded-lg shadow-xl bg-black">
@@ -1664,7 +1678,7 @@ export default function ProjectPage() {
                           <iframe
                             className="absolute top-0 left-0 w-full h-full"
                             src="https://www.youtube.com/embed/p0ptiThtMYI"
-                            title="Tráiler de la plataforma Kimün"
+                            title={locale === "en" ? "Kimün Platform Trailer" : "Tráiler de la plataforma Kimün"}
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerPolicy="strict-origin-when-cross-origin"
@@ -1681,8 +1695,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Integrado en la Intranet</h4>
-                            <p className="text-sm text-muted-foreground">Acceso ágil y unificado para empleados y docentes institucionales</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "Intranet-Integrated" : "Integrado en la Intranet"}</h4>
+                            <p className="text-sm text-muted-foreground">{locale === "en" ? "Seamless unified access for all institutional staff and faculty" : "Acceso ágil y unificado para empleados y docentes institucionales"}</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
@@ -1692,8 +1706,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Wizard Guiado en 6 Fases</h4>
-                            <p className="text-sm text-muted-foreground">Formulación paso a paso con vinculación a metas ODS</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "6-Phase Guided Wizard" : "Wizard Guiado en 6 Fases"}</h4>
+                            <p className="text-sm text-muted-foreground">{locale === "en" ? "Step-by-step formulation linked to UN SDG targets" : "Formulación paso a paso con vinculación a metas ODS"}</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
@@ -1703,8 +1717,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Ciclo de Aprobación & Roles</h4>
-                            <p className="text-sm text-muted-foreground">Control de acceso RBAC y flujo de supervisión con observaciones</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "Approval Cycle & Roles" : "Ciclo de Aprobación & Roles"}</h4>
+                            <p className="text-sm text-muted-foreground">{locale === "en" ? "RBAC access control and supervisory workflow with observation feedback" : "Control de acceso RBAC y flujo de supervisión con observaciones"}</p>
                           </div>
                         </div>
                         <div className="flex items-start space-x-3">
@@ -1715,8 +1729,8 @@ export default function ProjectPage() {
                             </svg>
                           </div>
                           <div>
-                            <h4 className="font-semibold text-foreground">Analítica y Tours Guiados</h4>
-                            <p className="text-sm text-muted-foreground">Dashboards de impacto y tours interactivos con Shepherd.js</p>
+                            <h4 className="font-semibold text-foreground">{locale === "en" ? "Analytics & Guided Tours" : "Analítica y Tours Guiados"}</h4>
+                            <p className="text-sm text-muted-foreground">{locale === "en" ? "Impact dashboards and interactive onboarding tours with Shepherd.js" : "Dashboards de impacto y tours interactivos con Shepherd.js"}</p>
                           </div>
                         </div>
                       </div>
@@ -1725,6 +1739,7 @@ export default function ProjectPage() {
                 </Card>
               </div>
             )}
+
 
             {/* Interactive Showcase Section - Only for Project 5 */}
             {projectId === "5" && (
