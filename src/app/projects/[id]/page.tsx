@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Navigation } from "@/components/navigation";
 import { 
   ArrowLeft, 
+  ArrowRight,
   Github, 
   ExternalLink, 
   Calendar,
@@ -33,7 +34,7 @@ import {
   ChevronRight,
   Download
 } from "lucide-react";
-import { getProjectById } from "@/data/projects";
+import { getProjectById, getProjects } from "@/data/projects";
 import { ProjectImage } from "@/components/project-image";
 import { KimunDashboardShowcase } from "@/components/kimun-dashboard-showcase";
 import { useLanguage } from "@/context/language-context";
@@ -76,25 +77,39 @@ function JobEngineShowcaseSection() {
   const [comunaFilter, setComunaFilter] = useState("all");
   const [modalidadFilter, setModalidadFilter] = useState("all");
 
-  const sampleOffers = [
-    { id: "EP-98231", titulo: "Analista Programador / Desarrollador Backend", portal: "Empleos Públicos", empresa: "Hospital Regional de Talca", comuna: "Talca", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$1.450.000 Líquido", fecha: "2026-07-27" },
-    { id: "BNE-44120", titulo: "Ingeniero Agroindustrial / Jefe de Planta", portal: "BNE", empresa: "Agroindustrial El Aconcagua S.A.", comuna: "Curicó", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$1.800.000", fecha: "2026-07-26" },
-    { id: "GOB-1092", titulo: "Fullstack Developer Python & React", portal: "Get on Board", empresa: "TechTalent Chile", comuna: "Remoto", modalidad: "Remoto", jornada: "Jornada Completa", sueldo: "$2.200.000 - $2.600.000", fecha: "2026-07-28" },
-    { id: "LAB-77612", titulo: "Enfermero/a Clínico Turno 4T", portal: "Laborum", empresa: "Clínica San Francisco", comuna: "Linares", modalidad: "Presencial", jornada: "Por Turnos", sueldo: "$1.100.000", fecha: "2026-07-25" },
-    { id: "TRAB-5531", titulo: "Contador Auditor Senior", portal: "Trabajando.cl", empresa: "Agrícola Maule Sur Ltda.", comuna: "San Javier", modalidad: "Híbrido", jornada: "Jornada Completa", sueldo: "$1.300.000", fecha: "2026-07-26" },
-    { id: "CT-88912", titulo: "Técnico Mecánico de Mantenimiento", portal: "ChileTrabajos", empresa: "CMPC Celulosa", comuna: "Constitución", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$850.000 Líquido", fecha: "2026-07-27" },
-    { id: "TEE-3011", titulo: "Administrativo de Finanzas y Presupuesto", portal: "Trabaja en el Estado", empresa: "Servicio de Salud Maule", comuna: "Talca", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$950.000", fecha: "2026-07-24" },
-    { id: "BNE-88219", titulo: "Prevencionista de Riesgos (Sernageomin B)", portal: "BNE", empresa: "Constructora del Centro", comuna: "Cauquenes", modalidad: "Presencial", jornada: "Jornada Completa", sueldo: "$1.250.000", fecha: "2026-07-27" },
+  const sampleOffersEs = [
+    { id: "EP-98231", titulo: "Analista Programador / Desarrollador Backend", portal: "Empleos Públicos", empresa: "Hospital Regional de Talca", comuna: "Talca", comunaKey: "talca", modalidad: "Presencial", modalidadKey: "presencial", jornada: "Jornada Completa", sueldo: "$1.450.000 Líquido", fecha: "2026-07-27" },
+    { id: "BNE-44120", titulo: "Ingeniero Agroindustrial / Jefe de Planta", portal: "BNE", empresa: "Agroindustrial El Aconcagua S.A.", comuna: "Curicó", comunaKey: "curico", modalidad: "Presencial", modalidadKey: "presencial", jornada: "Jornada Completa", sueldo: "$1.800.000", fecha: "2026-07-26" },
+    { id: "GOB-1092", titulo: "Fullstack Developer Python & React", portal: "Get on Board", empresa: "TechTalent Chile", comuna: "Remoto", comunaKey: "remoto", modalidad: "Remoto", modalidadKey: "remoto", jornada: "Jornada Completa", sueldo: "$2.200.000 - $2.600.000", fecha: "2026-07-28" },
+    { id: "LAB-77612", titulo: "Enfermero/a Clínico Turno 4T", portal: "Laborum", empresa: "Clínica San Francisco", comuna: "Linares", comunaKey: "linares", modalidad: "Presencial", modalidadKey: "presencial", jornada: "Por Turnos", sueldo: "$1.100.000", fecha: "2026-07-25" },
+    { id: "TRAB-5531", titulo: "Contador Auditor Senior", portal: "Trabajando.cl", empresa: "Agrícola Maule Sur Ltda.", comuna: "San Javier", comunaKey: "sanjavier", modalidad: "Híbrido", modalidadKey: "hibrido", jornada: "Jornada Completa", sueldo: "$1.300.000", fecha: "2026-07-26" },
+    { id: "CT-88912", titulo: "Técnico Mecánico de Mantenimiento", portal: "ChileTrabajos", empresa: "CMPC Celulosa", comuna: "Constitución", comunaKey: "constitucion", modalidad: "Presencial", modalidadKey: "presencial", jornada: "Jornada Completa", sueldo: "$850.000 Líquido", fecha: "2026-07-27" },
+    { id: "TEE-3011", titulo: "Administrativo de Finanzas y Presupuesto", portal: "Trabaja en el Estado", empresa: "Servicio de Salud Maule", comuna: "Talca", comunaKey: "talca", modalidad: "Presencial", modalidadKey: "presencial", jornada: "Jornada Completa", sueldo: "$950.000", fecha: "2026-07-24" },
+    { id: "BNE-88219", titulo: "Prevencionista de Riesgos (Sernageomin B)", portal: "BNE", empresa: "Constructora del Centro", comuna: "Cauquenes", comunaKey: "cauquenes", modalidad: "Presencial", modalidadKey: "presencial", jornada: "Jornada Completa", sueldo: "$1.250.000", fecha: "2026-07-27" },
   ];
+
+  const sampleOffersEn = [
+    { id: "EP-98231", titulo: "Analyst Programmer / Backend Developer", portal: "Empleos Públicos", empresa: "Hospital Regional de Talca", comuna: "Talca", comunaKey: "talca", modalidad: "On-site", modalidadKey: "presencial", jornada: "Full-Time", sueldo: "$1,450,000 Net CLP", fecha: "2026-07-27" },
+    { id: "BNE-44120", titulo: "Agro-industrial Engineer / Plant Manager", portal: "BNE", empresa: "Agroindustrial El Aconcagua S.A.", comuna: "Curicó", comunaKey: "curico", modalidad: "On-site", modalidadKey: "presencial", jornada: "Full-Time", sueldo: "$1,800,000 CLP", fecha: "2026-07-26" },
+    { id: "GOB-1092", titulo: "Fullstack Developer Python & React", portal: "Get on Board", empresa: "TechTalent Chile", comuna: "Remote", comunaKey: "remoto", modalidad: "Remote", modalidadKey: "remoto", jornada: "Full-Time", sueldo: "$2,200,000 - $2,600,000 CLP", fecha: "2026-07-28" },
+    { id: "LAB-77612", titulo: "Clinical Nurse (Rotational 4T Shift)", portal: "Laborum", empresa: "Clínica San Francisco", comuna: "Linares", comunaKey: "linares", modalidad: "On-site", modalidadKey: "presencial", jornada: "Shift-Based", sueldo: "$1,100,000 CLP", fecha: "2026-07-25" },
+    { id: "TRAB-5531", titulo: "Senior Auditor Accountant", portal: "Trabajando.cl", empresa: "Agrícola Maule Sur Ltda.", comuna: "San Javier", comunaKey: "sanjavier", modalidad: "Hybrid", modalidadKey: "hibrido", jornada: "Full-Time", sueldo: "$1,300,000 CLP", fecha: "2026-07-26" },
+    { id: "CT-88912", titulo: "Maintenance Mechanical Technician", portal: "ChileTrabajos", empresa: "CMPC Celulosa", comuna: "Constitución", comunaKey: "constitucion", modalidad: "On-site", modalidadKey: "presencial", jornada: "Full-Time", sueldo: "$850,000 Net CLP", fecha: "2026-07-27" },
+    { id: "TEE-3011", titulo: "Finance & Budget Administrative Officer", portal: "Trabaja en el Estado", empresa: "Servicio de Salud Maule", comuna: "Talca", comunaKey: "talca", modalidad: "On-site", modalidadKey: "presencial", jornada: "Full-Time", sueldo: "$950,000 CLP", fecha: "2026-07-24" },
+    { id: "BNE-88219", titulo: "Occupational Safety Specialist (Sernageomin B)", portal: "BNE", empresa: "Constructora del Centro", comuna: "Cauquenes", comunaKey: "cauquenes", modalidad: "On-site", modalidadKey: "presencial", jornada: "Full-Time", sueldo: "$1,250,000 CLP", fecha: "2026-07-27" },
+  ];
+
+  const sampleOffers = locale === "en" ? sampleOffersEn : sampleOffersEs;
 
   const filteredOffers = sampleOffers.filter((o) => {
     const matchesSearch = !searchQuery || 
       o.titulo.toLowerCase().includes(searchQuery.toLowerCase()) || 
       o.empresa.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      o.comuna.toLowerCase().includes(searchQuery.toLowerCase());
+      o.comuna.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      o.portal.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesPortal = portalFilter === "all" || o.portal === portalFilter;
-    const matchesComuna = comunaFilter === "all" || o.comuna === comunaFilter;
-    const matchesModalidad = modalidadFilter === "all" || o.modalidad === modalidadFilter;
+    const matchesComuna = comunaFilter === "all" || o.comunaKey === comunaFilter || o.comuna === comunaFilter;
+    const matchesModalidad = modalidadFilter === "all" || o.modalidadKey === modalidadFilter || o.modalidad === modalidadFilter;
     return matchesSearch && matchesPortal && matchesComuna && matchesModalidad;
   });
 
@@ -178,7 +193,7 @@ function JobEngineShowcaseSection() {
 
   const pipelineSteps = locale === "en" ? pipelineStepsEn : pipelineStepsEs;
 
-  const portalMatrix = [
+  const portalMatrixEs = [
     // 7 Portales Activos
     { name: "BNE", motor: "API REST", status: "active", note: "API pública oficial autorizada" },
     { name: "Empleos Públicos", motor: "HTTP / lxml", status: "active", note: "Portal gubernamental público estatal" },
@@ -195,6 +210,26 @@ function JobEngineShowcaseSection() {
     { name: "Computrabajo", motor: "—", status: "excluded", note: "AWS WAF bloquea User-Agent institucional; violaría transparencia suplantar navegador (Reglas 2 y 6)." },
     { name: "Indeed", motor: "—", status: "excluded", note: "Cloudflare + Captchas exigen bypasses no permitidos (Regla 6). Exclusión voluntaria." }
   ];
+
+  const portalMatrixEn = [
+    // 7 Active Portals
+    { name: "BNE", motor: "REST API", status: "active", note: "Authorized official public REST API" },
+    { name: "Empleos Públicos", motor: "HTTP / lxml", status: "active", note: "Official state public employment portal" },
+    { name: "Trabaja en el Estado", motor: "ElasticSearch POST", status: "active", note: "Optimized public POST endpoint without JS rendering overhead" },
+    { name: "Trabajando.cl", motor: "Playwright", status: "active", note: "Headless browser automation strictly complying with robots.txt" },
+    { name: "Laborum.cl", motor: "Playwright", status: "active", note: "Responsible scraping with ethical delays between 1s and 3s" },
+    { name: "ChileTrabajos", motor: "HTTP / BS4", status: "active", note: "Structured JSON-LD metadata parsing via HTTP" },
+    { name: "Get on Board", motor: "REST API v0", status: "active", note: "Official public REST API consumption" },
+    // 3 Disabled Portals (Redundancy)
+    { name: "Buscojobs", motor: "—", status: "disabled", note: "Meta-search engine disabled to eliminate duplicate postings from covered sources." },
+    { name: "Jooble", motor: "—", status: "disabled", note: "Disabled aggregator that scrapes third-party listings already captured." },
+    { name: "Opcionempleo", motor: "—", status: "disabled", note: "Careerjet API disabled due to duplicated job results." },
+    // 2 Excluded Portals (Technical / Ethical Constraint)
+    { name: "Computrabajo", motor: "—", status: "excluded", note: "AWS WAF blocks institutional User-Agent; spoofing browser fingerprint would violate transparency principles (Rules 2 & 6)." },
+    { name: "Indeed", motor: "—", status: "excluded", note: "Cloudflare + Captchas require unauthorized bypasses (Rule 6). Voluntary exclusion." }
+  ];
+
+  const portalMatrix = locale === "en" ? portalMatrixEn : portalMatrixEs;
 
   return (
     <div className="space-y-12 mt-12">
@@ -307,13 +342,17 @@ function JobEngineShowcaseSection() {
       <div>
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
           <div>
-            <h2 className="text-3xl font-bold">Explorador del Dataset Unificado</h2>
+            <h2 className="text-3xl font-bold">{locale === "en" ? "Unified Dataset Explorer" : "Explorador del Dataset Unificado"}</h2>
             <p className="text-muted-foreground text-sm mt-1">
-              Simulador interactivo del dataset consolidado (`ofertas_unificadas.csv`) para la Región del Maule.
+              {locale === "en"
+                ? "Interactive simulation of the consolidated dataset (ofertas_unificadas.csv) for the Maule Region."
+                : "Simulador interactivo del dataset consolidado (`ofertas_unificadas.csv`) para la Región del Maule."}
             </p>
           </div>
           <Badge variant="outline" className="w-fit">
-            Mostrando {filteredOffers.length} de {sampleOffers.length} ofertas representativas
+            {locale === "en"
+              ? `Showing ${filteredOffers.length} of ${sampleOffers.length} representative job postings`
+              : `Mostrando ${filteredOffers.length} de ${sampleOffers.length} ofertas representativas`}
           </Badge>
         </div>
 
@@ -324,7 +363,11 @@ function JobEngineShowcaseSection() {
               <Search className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Buscar por cargo, empresa o comuna (ej: Programador, Hospital, Talca)..."
+                placeholder={
+                  locale === "en"
+                    ? "Search by job title, company or commune (e.g., Developer, Hospital, Talca)..."
+                    : "Buscar por cargo, empresa o comuna (ej: Programador, Hospital, Talca)..."
+                }
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-background border rounded-md pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -332,15 +375,17 @@ function JobEngineShowcaseSection() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="text-xs text-muted-foreground font-medium block mb-1">Portal</label>
+                <label className="text-xs text-muted-foreground font-medium block mb-1">
+                  {locale === "en" ? "Portal" : "Portal"}
+                </label>
                 <select
                   value={portalFilter}
                   onChange={(e) => setPortalFilter(e.target.value)}
                   className="w-full bg-background border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <option value="all">Todos los portales</option>
+                  <option value="all">{locale === "en" ? "All portals" : "Todos los portales"}</option>
                   <option value="BNE">BNE (API)</option>
-                  <option value="Empleos Públicos">Empleos Públicos</option>
+                  <option value="Empleos Públicos">{locale === "en" ? "Public Employment (Empleos Públicos)" : "Empleos Públicos"}</option>
                   <option value="Trabajando.cl">Trabajando.cl</option>
                   <option value="Laborum">Laborum.cl</option>
                   <option value="ChileTrabajos">ChileTrabajos</option>
@@ -348,31 +393,37 @@ function JobEngineShowcaseSection() {
                 </select>
               </div>
               <div>
-                <label className="text-xs text-muted-foreground font-medium block mb-1">Comuna</label>
+                <label className="text-xs text-muted-foreground font-medium block mb-1">
+                  {locale === "en" ? "Commune / Location" : "Comuna"}
+                </label>
                 <select
                   value={comunaFilter}
                   onChange={(e) => setComunaFilter(e.target.value)}
                   className="w-full bg-background border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <option value="all">Todas las comunas</option>
-                  <option value="Talca">Talca</option>
-                  <option value="Curicó">Curicó</option>
-                  <option value="Linares">Linares</option>
-                  <option value="Constitución">Constitución</option>
-                  <option value="Remoto">Remoto</option>
+                  <option value="all">{locale === "en" ? "All communes" : "Todas las comunas"}</option>
+                  <option value="talca">Talca</option>
+                  <option value="curico">Curicó</option>
+                  <option value="linares">Linares</option>
+                  <option value="constitucion">Constitución</option>
+                  <option value="sanjavier">San Javier</option>
+                  <option value="cauquenes">Cauquenes</option>
+                  <option value="remoto">{locale === "en" ? "Remote" : "Remoto"}</option>
                 </select>
               </div>
               <div>
-                <label className="text-xs text-muted-foreground font-medium block mb-1">Modalidad</label>
+                <label className="text-xs text-muted-foreground font-medium block mb-1">
+                  {locale === "en" ? "Workplace Modality" : "Modalidad"}
+                </label>
                 <select
                   value={modalidadFilter}
                   onChange={(e) => setModalidadFilter(e.target.value)}
                   className="w-full bg-background border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <option value="all">Todas las modalidades</option>
-                  <option value="Presencial">Presencial</option>
-                  <option value="Remoto">Remoto</option>
-                  <option value="Híbrido">Híbrido</option>
+                  <option value="all">{locale === "en" ? "All modalities" : "Todas las modalidades"}</option>
+                  <option value="presencial">{locale === "en" ? "On-site" : "Presencial"}</option>
+                  <option value="remoto">{locale === "en" ? "Remote" : "Remoto"}</option>
+                  <option value="hibrido">{locale === "en" ? "Hybrid" : "Híbrido"}</option>
                 </select>
               </div>
             </div>
@@ -383,7 +434,9 @@ function JobEngineShowcaseSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredOffers.length === 0 ? (
             <div className="col-span-2 text-center py-12 text-muted-foreground border rounded-lg bg-card">
-              No se encontraron vacantes con los filtros seleccionados.
+              {locale === "en"
+                ? "No job postings found matching the selected filters."
+                : "No se encontraron vacantes con los filtros seleccionados."}
             </div>
           ) : (
             filteredOffers.map((offer) => (
@@ -418,25 +471,27 @@ function JobEngineShowcaseSection() {
 
       {/* Ethics & Governance Sources Matrix (All 12 Portals) */}
       <div>
-        <h2 className="text-3xl font-bold mb-6">Matriz de Scraping Ético y Fuentes (12 Portales)</h2>
+        <h2 className="text-3xl font-bold mb-6">
+          {locale === "en" ? "Ethical Scraping & Sources Matrix (12 Portals)" : "Matriz de Scraping Ético y Fuentes (12 Portales)"}
+        </h2>
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Shield className="w-5 h-5 text-emerald-500" />
-              Estado y Cumplimiento Normativo de Fuentes
+              {locale === "en" ? "Sources Status & Regulatory Compliance" : "Estado y Cumplimiento Normativo de Fuentes"}
             </CardTitle>
             <CardDescription>
-              User-Agent Transparente Obligatorio: <code>IES-CareerBot/1.0; (+http://www.cftsanagustin.cl)</code>
+              {locale === "en" ? "Mandatory Transparent User-Agent:" : "User-Agent Transparente Obligatorio:"} <code>IES-CareerBot/1.0; (+http://www.cftsanagustin.cl)</code>
             </CardDescription>
           </CardHeader>
           <CardContent className="p-0 overflow-x-auto">
             <table className="w-full text-xs text-left">
               <thead className="bg-muted/50 text-muted-foreground border-b">
                 <tr>
-                  <th className="p-3">Portal</th>
-                  <th className="p-3">Motor Técnico</th>
-                  <th className="p-3">Estado</th>
-                  <th className="p-3">Criterio Ético / Gobernanza de Datos</th>
+                  <th className="p-3">{locale === "en" ? "Portal" : "Portal"}</th>
+                  <th className="p-3">{locale === "en" ? "Technical Engine" : "Motor Técnico"}</th>
+                  <th className="p-3">{locale === "en" ? "Status" : "Estado"}</th>
+                  <th className="p-3">{locale === "en" ? "Ethical Criterion / Data Governance" : "Criterio Ético / Gobernanza de Datos"}</th>
                 </tr>
               </thead>
               <tbody className="divide-y">
@@ -456,17 +511,17 @@ function JobEngineShowcaseSection() {
                     <td className="p-3">
                       {item.status === "active" && (
                         <Badge className="bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/30 border-0 font-semibold">
-                          Activo
+                          {locale === "en" ? "Active" : "Activo"}
                         </Badge>
                       )}
                       {item.status === "excluded" && (
                         <Badge className="bg-rose-600 text-white dark:bg-rose-900/80 dark:text-rose-200 border-0 font-semibold">
-                          Excluido
+                          {locale === "en" ? "Excluded" : "Excluido"}
                         </Badge>
                       )}
                       {item.status === "disabled" && (
                         <Badge variant="outline" className="bg-amber-500/20 text-amber-900 dark:text-amber-300 border-amber-500/50 dark:border-amber-500/30 font-semibold">
-                          Deshabilitado
+                          {locale === "en" ? "Disabled" : "Deshabilitado"}
                         </Badge>
                       )}
                     </td>
@@ -1481,6 +1536,20 @@ export default function ProjectPage() {
   
   const project = getProjectById(Number(projectId), locale);
 
+  // Navegación cíclica entre proyectos anterior / siguiente
+  const allProjects = getProjects(locale);
+  const currentIndex = allProjects.findIndex((p) => p.id === Number(projectId));
+  const prevProject = currentIndex > 0 ? allProjects[currentIndex - 1] : allProjects[allProjects.length - 1];
+  const nextProject = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : allProjects[0];
+
+  // Barra de progreso de lectura suave con aceleración por resorte (Spring physics)
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   // Función para manejar la vista previa del PDF de Ciberseguridad
   const handlePreviewCybersecurityPDF = () => {
     const pdfUrl = "/documents/Informe Ciberseguridad DeiviGo.pdf";
@@ -1532,6 +1601,12 @@ export default function ProjectPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Reading Progress Bar (Fixed Top) */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-blue-500 to-emerald-400 origin-left z-[60]"
+        style={{ scaleX }}
+      />
+
       {/* Navigation */}
       <Navigation />
 
@@ -2048,6 +2123,79 @@ export default function ProjectPage() {
             )}
 
           </motion.div>
+        </div>
+      </section>
+
+      {/* Previous / Next Project Navigation Bar */}
+      <section className="py-12 px-4 border-t border-border/40 bg-card/40 backdrop-blur-sm">
+        <div className="container mx-auto max-w-6xl">
+          <div className="flex items-center justify-between mb-6">
+            <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">
+              {locale === "en" ? "Explore More Projects" : "Explorar Más Proyectos"}
+            </span>
+            <Button variant="ghost" size="sm" onClick={() => router.push('/#projects')} className="text-xs text-muted-foreground hover:text-foreground">
+              {locale === "en" ? "View all projects" : "Ver todos los proyectos"}
+              <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Previous Project Card */}
+            {prevProject && (
+              <a
+                href={`/projects/${prevProject.id}`}
+                className="group relative flex items-center gap-4 p-4 rounded-xl border border-border/60 bg-card hover:border-primary/50 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="w-20 h-16 rounded-lg overflow-hidden relative shrink-0 bg-muted border border-border/40">
+                  <ProjectImage
+                    src={prevProject.image}
+                    alt={prevProject.title}
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium mb-1">
+                    <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+                    <span>{locale === "en" ? "Previous Project" : "Proyecto Anterior"}</span>
+                  </div>
+                  <h4 className="font-bold text-sm text-foreground truncate group-hover:text-primary transition-colors">
+                    {prevProject.title}
+                  </h4>
+                  <p className="text-[11px] text-muted-foreground/80 truncate mt-0.5">
+                    {prevProject.category}
+                  </p>
+                </div>
+              </a>
+            )}
+
+            {/* Next Project Card */}
+            {nextProject && (
+              <a
+                href={`/projects/${nextProject.id}`}
+                className="group relative flex items-center justify-between gap-4 p-4 rounded-xl border border-border/60 bg-card hover:border-primary/50 hover:shadow-lg transition-all duration-300 text-right md:flex-row-reverse"
+              >
+                <div className="w-20 h-16 rounded-lg overflow-hidden relative shrink-0 bg-muted border border-border/40">
+                  <ProjectImage
+                    src={nextProject.image}
+                    alt={nextProject.title}
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-end gap-1.5 text-xs text-muted-foreground font-medium mb-1">
+                    <span>{locale === "en" ? "Next Project" : "Siguiente Proyecto"}</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  <h4 className="font-bold text-sm text-foreground truncate group-hover:text-primary transition-colors">
+                    {nextProject.title}
+                  </h4>
+                  <p className="text-[11px] text-muted-foreground/80 truncate mt-0.5">
+                    {nextProject.category}
+                  </p>
+                </div>
+              </a>
+            )}
+          </div>
         </div>
       </section>
 

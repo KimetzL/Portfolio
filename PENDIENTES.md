@@ -22,10 +22,11 @@ Este documento registra los puntos clave acordados para retomar en la próxima s
 
 ## 🕷️ 2. Proyecto Web Scraping & ETL (ID: 5) — Motor de Vacantes Maule
 
-- [ ] **Traducir bien al inglés la Demo Interactiva (`JobEngineShowcaseSection`)**:
+- [x] **Traducir bien al inglés la Demo Interactiva (`JobEngineShowcaseSection`)**:
   - Textos de los 4 pasos del pipeline ETL (Extracción multi-fuente, Persistencia incremental, Motor NLP/RegEx, Deduplicación difusa).
-  - Filtros interactivos (búsqueda, portales, comunas, modalidad).
-  - Campos de las tarjetas de ofertas de empleo de demostración (`sampleOffers`).
+  - Filtros interactivos (búsqueda, portales, comunas, modalidad) y títulos/subtítulos.
+  - Campos de las tarjetas de ofertas de empleo de demostración (`sampleOffersEn`).
+  - Matriz de scraping ético y gobernanza de los 12 portales con criterios normativos traducidos.
 - [ ] **Añadir capturas reales y/o vídeo**:
   - Incorporar imágenes del bot en ejecución, terminal Playwright, o visualizador de vídeo similar al del Chatbot de Bizkaia.
 - [x] **Actualizar foto principal**:
