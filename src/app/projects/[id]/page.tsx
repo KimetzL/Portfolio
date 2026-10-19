@@ -1538,7 +1538,7 @@ export default function ProjectPage() {
                 alt={project.title}
                 priority
                 sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                className={`object-cover ${project.bannerPosition ?? "object-center"} group-hover:scale-105 transition-transform duration-500`}
               />
             </div>
 
