@@ -1543,8 +1543,8 @@ export default function ProjectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Compact Banner Image First */}
-            <div className="w-full h-[260px] md:h-[320px] relative bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-8">
+            {/* Responsive Banner Image First */}
+            <div className="w-full h-[260px] sm:h-[340px] md:h-[400px] lg:h-[440px] relative bg-muted rounded-2xl overflow-hidden shadow-xl border border-border/60 group mb-8">
               <ProjectImage 
                 src={bannerImage} 
                 alt={project.title}

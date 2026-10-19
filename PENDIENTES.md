@@ -28,8 +28,8 @@ Este documento registra los puntos clave acordados para retomar en la próxima s
   - Campos de las tarjetas de ofertas de empleo de demostración (`sampleOffers`).
 - [ ] **Añadir capturas reales y/o vídeo**:
   - Incorporar imágenes del bot en ejecución, terminal Playwright, o visualizador de vídeo similar al del Chatbot de Bizkaia.
-- [ ] **Actualizar foto principal si se encuentra una mejor**:
-  - Evaluar sustituir o renovar `scraping.png` / `scraping_wide.png` por una imagen de portada de mayor impacto visual.
+- [x] **Actualizar foto principal**:
+  - Sustituida la portada por el mockup híbrido moderno (`/images/scraping_hybrid.jpg`) con terminal Python + dashboard de métricas del Maule, y banner responsive optimizado para evitar recortes.
 
 ---
 
