@@ -179,7 +179,7 @@ export const projectsEs: ProjectDetail[] = [
 
       En el apartado técnico, la arquitectura se diseñó bajo altos estándares de rendimiento y ciberseguridad: implementación de un sistema RBAC con caché interna en memoria para optimizar las consultas y reducir drásticamente la carga sobre la base de datos, protección contra Mass Assignment mediante Form Requests tipados, saneamiento de credenciales en logs de auditoría y cabeceras HTTP de seguridad reforzadas (CSP, anti-clickjacking). Además, cuenta con un dashboard analítico con exportación de reportes en Excel/PDF y tours guiados paso a paso mediante Shepherd.js.
     `,
-    image: "/images/kimun/Portada.jpeg",
+    image: "/images/kimun/portada-mockup-3d.png",
     technologies: [
       "PHP",
       "Laravel",
@@ -423,7 +423,7 @@ export const projectsEn: ProjectDetail[] = [
 
       En el apartado técnico, la arquitectura se diseñó bajo altos estándares de rendimiento y ciberseguridad: implementación de un sistema RBAC con caché interna en memoria para optimizar las consultas y reducir drásticamente la carga sobre la base de datos, protección contra Mass Assignment mediante Form Requests tipados, saneamiento de credenciales en logs de auditoría y cabeceras HTTP de seguridad reforzadas (CSP, anti-clickjacking). Además, cuenta con un dashboard analítico con exportación de reportes en Excel/PDF y tours guiados paso a paso mediante Shepherd.js.
     `,
-    image: "/images/kimun/Portada.jpeg",
+    image: "/images/kimun/portada-mockup-3d.png",
     technologies: [
       "PHP",
       "Laravel",
